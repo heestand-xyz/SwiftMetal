@@ -10,6 +10,8 @@
 		3A99C601239A4B20005BE419 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
 		3A99C606239A4B20005BE419 /* SwiftMetalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C605239A4B20005BE419 /* SwiftMetalTests.swift */; };
 		3A99C608239A4B20005BE419 /* SwiftMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A99C5FA239A4B20005BE419 /* SwiftMetal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A99C613239A4B61005BE419 /* SMFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C612239A4B61005BE419 /* SMFunc.swift */; };
+		3A99C616239A4B8E005BE419 /* SMFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C615239A4B8E005BE419 /* SMFloat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,8 @@
 		3A99C600239A4B20005BE419 /* SwiftMetalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftMetalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A99C605239A4B20005BE419 /* SwiftMetalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMetalTests.swift; sourceTree = "<group>"; };
 		3A99C607239A4B20005BE419 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A99C612239A4B61005BE419 /* SMFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFunc.swift; sourceTree = "<group>"; };
+		3A99C615239A4B8E005BE419 /* SMFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFloat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +57,8 @@
 		3A99C5ED239A4B20005BE419 = {
 			isa = PBXGroup;
 			children = (
-				3A99C5F9239A4B20005BE419 /* SwiftMetal */,
+				3A99C5F9239A4B20005BE419 /* Sources */,
+				3A99C611239A4B37005BE419 /* Resources */,
 				3A99C604239A4B20005BE419 /* SwiftMetalTests */,
 				3A99C5F8239A4B20005BE419 /* Products */,
 			);
@@ -68,13 +73,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3A99C5F9239A4B20005BE419 /* SwiftMetal */ = {
+		3A99C5F9239A4B20005BE419 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				3A99C5FA239A4B20005BE419 /* SwiftMetal.h */,
-				3A99C5FB239A4B20005BE419 /* Info.plist */,
+				3A99C612239A4B61005BE419 /* SMFunc.swift */,
+				3A99C614239A4B81005BE419 /* Types */,
 			);
-			path = SwiftMetal;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		3A99C604239A4B20005BE419 /* SwiftMetalTests */ = {
@@ -84,6 +90,22 @@
 				3A99C607239A4B20005BE419 /* Info.plist */,
 			);
 			path = SwiftMetalTests;
+			sourceTree = "<group>";
+		};
+		3A99C611239A4B37005BE419 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3A99C5FB239A4B20005BE419 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3A99C614239A4B81005BE419 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				3A99C615239A4B8E005BE419 /* SMFloat.swift */,
+			);
+			path = Types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +170,7 @@
 				TargetAttributes = {
 					3A99C5F6239A4B20005BE419 = {
 						CreatedOnToolsVersion = 11.2.1;
+						LastSwiftMigration = 1120;
 					};
 					3A99C5FF239A4B20005BE419 = {
 						CreatedOnToolsVersion = 11.2.1;
@@ -195,6 +218,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A99C616239A4B8E005BE419 /* SMFloat.swift in Sources */,
+				3A99C613239A4B61005BE419 /* SMFunc.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,13 +365,14 @@
 		3A99C60C239A4B20005BE419 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2QHTY6FMW2;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SwiftMetal/Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -356,6 +382,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.SwiftMetal;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -364,13 +391,14 @@
 		3A99C60D239A4B20005BE419 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2QHTY6FMW2;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SwiftMetal/Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -388,6 +416,7 @@
 		3A99C60F239A4B20005BE419 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2QHTY6FMW2;
 				INFOPLIST_FILE = SwiftMetalTests/Info.plist;
@@ -406,6 +435,7 @@
 		3A99C610239A4B20005BE419 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2QHTY6FMW2;
 				INFOPLIST_FILE = SwiftMetalTests/Info.plist;
