@@ -7,11 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A670671239A518800E23C87 /* SMAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670670239A518800E23C87 /* SMAdd.swift */; };
+		3A670674239A51C300E23C87 /* SMValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670673239A51C300E23C87 /* SMValue.swift */; };
+		3A670677239A52C300E23C87 /* SMInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670675239A52C300E23C87 /* SMInt.swift */; };
+		3A670678239A52C300E23C87 /* SMInt4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670676239A52C300E23C87 /* SMInt4.swift */; };
+		3A67067C239A55CF00E23C87 /* SMOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67067B239A55CF00E23C87 /* SMOperator.swift */; };
+		3A67067E239A59B400E23C87 /* SMCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67067D239A59B400E23C87 /* SMCode.swift */; };
 		3A99C601239A4B20005BE419 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
 		3A99C606239A4B20005BE419 /* SwiftMetalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C605239A4B20005BE419 /* SwiftMetalTests.swift */; };
 		3A99C608239A4B20005BE419 /* SwiftMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A99C5FA239A4B20005BE419 /* SwiftMetal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3A99C613239A4B61005BE419 /* SMFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C612239A4B61005BE419 /* SMFunc.swift */; };
 		3A99C616239A4B8E005BE419 /* SMFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C615239A4B8E005BE419 /* SMFloat.swift */; };
+		3A99C618239A4C46005BE419 /* SMFloat4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C617239A4C46005BE419 /* SMFloat4.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,6 +32,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A670670239A518800E23C87 /* SMAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMAdd.swift; sourceTree = "<group>"; };
+		3A670673239A51C300E23C87 /* SMValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMValue.swift; sourceTree = "<group>"; };
+		3A670675239A52C300E23C87 /* SMInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMInt.swift; sourceTree = "<group>"; };
+		3A670676239A52C300E23C87 /* SMInt4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMInt4.swift; sourceTree = "<group>"; };
+		3A67067B239A55CF00E23C87 /* SMOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMOperator.swift; sourceTree = "<group>"; };
+		3A67067D239A59B400E23C87 /* SMCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCode.swift; sourceTree = "<group>"; };
 		3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMetal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A99C5FA239A4B20005BE419 /* SwiftMetal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal.h; sourceTree = "<group>"; };
 		3A99C5FB239A4B20005BE419 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -33,6 +46,7 @@
 		3A99C607239A4B20005BE419 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A99C612239A4B61005BE419 /* SMFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFunc.swift; sourceTree = "<group>"; };
 		3A99C615239A4B8E005BE419 /* SMFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFloat.swift; sourceTree = "<group>"; };
+		3A99C617239A4C46005BE419 /* SMFloat4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFloat4.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +68,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A67066F239A517B00E23C87 /* Operators */ = {
+			isa = PBXGroup;
+			children = (
+				3A670670239A518800E23C87 /* SMAdd.swift */,
+			);
+			path = Operators;
+			sourceTree = "<group>";
+		};
+		3A670672239A51AD00E23C87 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3A67067D239A59B400E23C87 /* SMCode.swift */,
+				3A670673239A51C300E23C87 /* SMValue.swift */,
+				3A67067B239A55CF00E23C87 /* SMOperator.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		3A99C5ED239A4B20005BE419 = {
 			isa = PBXGroup;
 			children = (
@@ -78,7 +110,9 @@
 			children = (
 				3A99C5FA239A4B20005BE419 /* SwiftMetal.h */,
 				3A99C612239A4B61005BE419 /* SMFunc.swift */,
-				3A99C614239A4B81005BE419 /* Types */,
+				3A670672239A51AD00E23C87 /* Protocols */,
+				3A99C614239A4B81005BE419 /* Values */,
+				3A67066F239A517B00E23C87 /* Operators */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -100,12 +134,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		3A99C614239A4B81005BE419 /* Types */ = {
+		3A99C614239A4B81005BE419 /* Values */ = {
 			isa = PBXGroup;
 			children = (
 				3A99C615239A4B8E005BE419 /* SMFloat.swift */,
+				3A99C617239A4C46005BE419 /* SMFloat4.swift */,
+				3A670675239A52C300E23C87 /* SMInt.swift */,
+				3A670676239A52C300E23C87 /* SMInt4.swift */,
 			);
-			path = Types;
+			path = Values;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,7 +255,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A99C618239A4C46005BE419 /* SMFloat4.swift in Sources */,
+				3A670671239A518800E23C87 /* SMAdd.swift in Sources */,
+				3A67067E239A59B400E23C87 /* SMCode.swift in Sources */,
 				3A99C616239A4B8E005BE419 /* SMFloat.swift in Sources */,
+				3A670674239A51C300E23C87 /* SMValue.swift in Sources */,
+				3A670677239A52C300E23C87 /* SMInt.swift in Sources */,
+				3A67067C239A55CF00E23C87 /* SMOperator.swift in Sources */,
+				3A670678239A52C300E23C87 /* SMInt4.swift in Sources */,
 				3A99C613239A4B61005BE419 /* SMFunc.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

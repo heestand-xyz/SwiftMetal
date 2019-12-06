@@ -19,9 +19,14 @@ class SwiftMetalTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testFunc() {
+        let float4a = SMFloat4((SMFloat(1.0), SMFloat(0.5), SMFloat(0.0), SMFloat(1.0)))
+        let float4b = SMFloat4((SMFloat(0.0), SMFloat(0.5), SMFloat(1.0), SMFloat(1.0)))
+        let add = SMAdd<SMFloat4>(float4a, float4b)
+        let function = SMFunc(add)
+        print("> > > > > > >")
+        print(function.make())
+        print("< < < < < < <")
     }
 
     func testPerformanceExample() {
