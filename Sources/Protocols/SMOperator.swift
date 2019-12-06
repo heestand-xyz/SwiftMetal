@@ -12,8 +12,8 @@ protocol SMOperator: SMCode {
     
     associatedtype V
     
-    var value0: V { get }
-    var value1: V { get }
+    var lhs: V { get }
+    var rhs: V { get }
 
-    init(_ value0: V, _ value1: V)
+    init(lhs: V, rhs: V)
 }

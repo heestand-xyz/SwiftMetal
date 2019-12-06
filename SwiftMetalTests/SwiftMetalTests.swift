@@ -20,9 +20,9 @@ class SwiftMetalTests: XCTestCase {
     }
 
     func testFunc() {
-        let float4a = SMFloat4((SMFloat(1.0), SMFloat(0.5), SMFloat(0.0), SMFloat(1.0)))
-        let float4b = SMFloat4((SMFloat(0.0), SMFloat(0.5), SMFloat(1.0), SMFloat(1.0)))
-        let add = SMAdd<SMFloat4>(float4a, float4b)
+        let float4a: SMAdd = float4(1.0, 0.5, 0.0, 1.0) + 1.0
+        let float4b: SMFloat4 = float4(0.0, 0.5, 1.0, 1.0)
+        let add: SMAdd = float4a + float4b
         let function = SMFunc(add)
         print("> > > > > > >")
         print(function.make())
