@@ -12,8 +12,17 @@
 		3A670677239A52C300E23C87 /* SMInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670675239A52C300E23C87 /* SMInt.swift */; };
 		3A670678239A52C300E23C87 /* SMInt4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670676239A52C300E23C87 /* SMInt4.swift */; };
 		3A67067C239A55CF00E23C87 /* SMOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67067B239A55CF00E23C87 /* SMOperator.swift */; };
-		3A67067E239A59B400E23C87 /* SMCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67067D239A59B400E23C87 /* SMCode.swift */; };
+		3A67067E239A59B400E23C87 /* SMBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67067D239A59B400E23C87 /* SMBuild.swift */; };
 		3A670681239A61BB00E23C87 /* SMType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670680239A61BB00E23C87 /* SMType.swift */; };
+		3A670685239A648000E23C87 /* SMDivide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670682239A648000E23C87 /* SMDivide.swift */; };
+		3A670686239A648000E23C87 /* SMSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670683239A648000E23C87 /* SMSubtract.swift */; };
+		3A670687239A648000E23C87 /* SMMultiply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670684239A648000E23C87 /* SMMultiply.swift */; };
+		3A670689239A666300E23C87 /* SMTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670688239A666300E23C87 /* SMTexture.swift */; };
+		3A67068B239A687E00E23C87 /* SMBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068A239A687E00E23C87 /* SMBuilder.swift */; };
+		3A67068D239A6CCB00E23C87 /* SMCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068C239A6CCB00E23C87 /* SMCode.swift */; };
+		3A67068F239A801200E23C87 /* SMVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068E239A801200E23C87 /* SMVariable.swift */; };
+		3A670691239A93D400E23C87 /* SMRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670690239A93D400E23C87 /* SMRenderer.swift */; };
+		3A670695239A9D9600E23C87 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
 		3A99C601239A4B20005BE419 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
 		3A99C606239A4B20005BE419 /* SwiftMetalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C605239A4B20005BE419 /* SwiftMetalTests.swift */; };
 		3A99C608239A4B20005BE419 /* SwiftMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A99C5FA239A4B20005BE419 /* SwiftMetal.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -38,8 +47,17 @@
 		3A670675239A52C300E23C87 /* SMInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMInt.swift; sourceTree = "<group>"; };
 		3A670676239A52C300E23C87 /* SMInt4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMInt4.swift; sourceTree = "<group>"; };
 		3A67067B239A55CF00E23C87 /* SMOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMOperator.swift; sourceTree = "<group>"; };
-		3A67067D239A59B400E23C87 /* SMCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCode.swift; sourceTree = "<group>"; };
+		3A67067D239A59B400E23C87 /* SMBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBuild.swift; sourceTree = "<group>"; };
 		3A670680239A61BB00E23C87 /* SMType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMType.swift; sourceTree = "<group>"; };
+		3A670682239A648000E23C87 /* SMDivide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMDivide.swift; sourceTree = "<group>"; };
+		3A670683239A648000E23C87 /* SMSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSubtract.swift; sourceTree = "<group>"; };
+		3A670684239A648000E23C87 /* SMMultiply.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMultiply.swift; sourceTree = "<group>"; };
+		3A670688239A666300E23C87 /* SMTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMTexture.swift; sourceTree = "<group>"; };
+		3A67068A239A687E00E23C87 /* SMBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBuilder.swift; sourceTree = "<group>"; };
+		3A67068C239A6CCB00E23C87 /* SMCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCode.swift; sourceTree = "<group>"; };
+		3A67068E239A801200E23C87 /* SMVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMVariable.swift; sourceTree = "<group>"; };
+		3A670690239A93D400E23C87 /* SMRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMRenderer.swift; sourceTree = "<group>"; };
+		3A670694239A9D9600E23C87 /* Template.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Template.metal; sourceTree = "<group>"; };
 		3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMetal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A99C5FA239A4B20005BE419 /* SwiftMetal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal.h; sourceTree = "<group>"; };
 		3A99C5FB239A4B20005BE419 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,6 +92,9 @@
 			isa = PBXGroup;
 			children = (
 				3A670670239A518800E23C87 /* SMAdd.swift */,
+				3A670683239A648000E23C87 /* SMSubtract.swift */,
+				3A670684239A648000E23C87 /* SMMultiply.swift */,
+				3A670682239A648000E23C87 /* SMDivide.swift */,
 			);
 			path = Operators;
 			sourceTree = "<group>";
@@ -81,7 +102,7 @@
 		3A670672239A51AD00E23C87 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				3A67067D239A59B400E23C87 /* SMCode.swift */,
+				3A67067D239A59B400E23C87 /* SMBuild.swift */,
 				3A670673239A51C300E23C87 /* SMValue.swift */,
 				3A67067B239A55CF00E23C87 /* SMOperator.swift */,
 			);
@@ -92,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				3A670680239A61BB00E23C87 /* SMType.swift */,
+				3A670688239A666300E23C87 /* SMTexture.swift */,
 				3A99C614239A4B81005BE419 /* Values */,
 				3A67066F239A517B00E23C87 /* Operators */,
 			);
@@ -121,7 +143,12 @@
 			isa = PBXGroup;
 			children = (
 				3A99C5FA239A4B20005BE419 /* SwiftMetal.h */,
+				3A670694239A9D9600E23C87 /* Template.metal */,
 				3A99C612239A4B61005BE419 /* SMFunc.swift */,
+				3A67068E239A801200E23C87 /* SMVariable.swift */,
+				3A67068C239A6CCB00E23C87 /* SMCode.swift */,
+				3A67068A239A687E00E23C87 /* SMBuilder.swift */,
+				3A670690239A93D400E23C87 /* SMRenderer.swift */,
 				3A670672239A51AD00E23C87 /* Protocols */,
 				3A67067F239A61A900E23C87 /* Types */,
 			);
@@ -268,14 +295,23 @@
 			files = (
 				3A99C618239A4C46005BE419 /* SMFloat4.swift in Sources */,
 				3A670671239A518800E23C87 /* SMAdd.swift in Sources */,
-				3A67067E239A59B400E23C87 /* SMCode.swift in Sources */,
+				3A67068D239A6CCB00E23C87 /* SMCode.swift in Sources */,
+				3A670687239A648000E23C87 /* SMMultiply.swift in Sources */,
+				3A67067E239A59B400E23C87 /* SMBuild.swift in Sources */,
+				3A67068B239A687E00E23C87 /* SMBuilder.swift in Sources */,
+				3A670691239A93D400E23C87 /* SMRenderer.swift in Sources */,
+				3A670686239A648000E23C87 /* SMSubtract.swift in Sources */,
 				3A99C616239A4B8E005BE419 /* SMFloat.swift in Sources */,
 				3A670674239A51C300E23C87 /* SMValue.swift in Sources */,
+				3A67068F239A801200E23C87 /* SMVariable.swift in Sources */,
+				3A670689239A666300E23C87 /* SMTexture.swift in Sources */,
 				3A670677239A52C300E23C87 /* SMInt.swift in Sources */,
 				3A67067C239A55CF00E23C87 /* SMOperator.swift in Sources */,
 				3A670678239A52C300E23C87 /* SMInt4.swift in Sources */,
 				3A99C613239A4B61005BE419 /* SMFunc.swift in Sources */,
 				3A670681239A61BB00E23C87 /* SMType.swift in Sources */,
+				3A670695239A9D9600E23C87 /* Template.metal in Sources */,
+				3A670685239A648000E23C87 /* SMDivide.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

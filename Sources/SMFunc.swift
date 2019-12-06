@@ -7,20 +7,100 @@
 //
 
 import Foundation
-//import Metal
+import Metal
 
 public struct SMFunc {
     
 //    public typealias V = SMFloat4
     
-    let code: SMCode
-    
-    public init(_ code: SMCode) {
-        self.code = code
+    enum FuncError: Error {
+        case shader
     }
     
-    public func make() -> String {
-        code.code()
+    var values: [Float] = []
+    
+    struct Line {
+        let indent: Int
+        let snippet: String
+        init(in indent: Int = 0, _ snippet: String) {
+            self.indent = indent
+            self.snippet = snippet
+        }
+    }
+    
+    let baseEntity: SMEntity
+    
+    public init(_ entity: SMEntity) {
+        baseEntity = entity
+    }
+    
+    public func code() -> String {
+        
+        var lines: [Line] = []
+        
+        lines.append(Line("#include <metal_stdlib>"))
+        lines.append(Line("using namespace metal;"))
+        
+        lines.append(Line(""))
+        
+        if !values.isEmpty {
+            lines.append(Line("struct Uniforms {"))
+            for i in 0..<values.count {
+                lines.append(Line(in: 1, "float var\(i);"))
+            }
+            lines.append(Line("};"))
+            lines.append(Line(""))
+        }
+        
+        lines.append(Line("kernel void swiftMetal("))
+        if !values.isEmpty {
+            lines.append(Line(in: 2, "const device Uniforms& vars [[ buffer(0) ]],"))
+        }
+        lines.append(Line(in: 2, "texture2d<float, access::write> tex [[ texture(0) ]],"))
+        lines.append(Line(in: 2, "uint2 pos [[ thread_position_in_grid ]],"))
+        lines.append(Line(in: 2, "sampler smp [[ sampler(0) ]]"))
+        lines.append(Line(in: 0, ") {"))
+
+        lines.append(Line(in: 1, ""))
+
+        lines.append(Line(in: 1, "if (pos.x >= tex.get_width() || pos.y >= tex.get_height()) { return; }"))
+
+        lines.append(Line(in: 1, ""))
+
+//        let code: SMCode = SMBuilder.build(for: baseEntity)
+//        var codeText: String = ""
+//        code.variables.forEach { variable in
+//            codeText += variable.code + "\n"
+//        }
+//        codeText += "return \(code.snippet);"
+//        return codeText
+        
+        lines.append(Line(in: 1, "float4 val = \(baseEntity.snippet());"))
+        
+        lines.append(Line(in: 1, ""))
+        
+        lines.append(Line(in: 1, "tex.write(val, pos);"))
+        
+        lines.append(Line(in: 1, ""))
+        
+        lines.append(Line("}"))
+        
+        return lines.map({ line -> String in
+            var row = ""
+            for _ in 0..<line.indent {
+                row += "    "
+            }
+            row += line.snippet;
+            return row
+        }).joined(separator: "\n") + "\n"
+    }
+    
+    public func make(with metalDevice: MTLDevice) throws -> MTLFunction {
+        let lib: MTLLibrary = try metalDevice.makeLibrary(source: code(), options: nil)
+        guard let shader: MTLFunction = lib.makeFunction(name: "swiftMetal") else {
+            throw FuncError.shader
+        }
+        return shader
     }
     
 }

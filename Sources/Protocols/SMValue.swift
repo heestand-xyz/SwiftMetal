@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol SMValue: SMCode {
+public protocol SMValue: SMBuild {
     
     associatedtype V
     

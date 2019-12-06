@@ -10,8 +10,14 @@ import XCTest
 @testable import SwiftMetal
 
 class SwiftMetalTests: XCTestCase {
-
+    
+    var renderer: SMRRenderer!
+    
     override func setUp() {
+        renderer = SMRRenderer()
+        if renderer == nil {
+            assertionFailure()
+        }
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
@@ -20,13 +26,18 @@ class SwiftMetalTests: XCTestCase {
     }
 
     func testFunc() {
-        let float4a: SMAdd = float4(1.0, 0.5, 0.0, 1.0) + 1.0
-        let float4b: SMFloat4 = float4(0.0, 0.5, 1.0, 1.0)
-        let add: SMAdd = float4a + float4b
-        let function = SMFunc(add)
+//        let tex = SMTexture(name: "image")
+        let a = float4(1.0, 0.5, 0.0, 1.0)// / 1
+//        let b = float4(0.0, 0.5, 1.0, 1.0)
+//        let x = (a + a) + (0.5 * a)
+        let function = SMFunc(a)
         print("> > > > > > >")
-        print(function.make())
+        print(function.code())
         print("< < < < < < <")
+        let render: SMTexture = try! renderer.render(function: function, at: CGSize(width: 1, height: 1), as: .rgba8Unorm)
+        let raw = try! render.raw()
+        print(raw)
+        print("= = = = = = =")
     }
 
     func testPerformanceExample() {

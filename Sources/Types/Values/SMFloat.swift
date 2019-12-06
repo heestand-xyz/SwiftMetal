@@ -8,24 +8,25 @@
 
 import Foundation
 
-public class SMFloat: SMType, SMValue, ExpressibleByFloatLiteral {
+public class SMFloat: SMEntity, SMValue, ExpressibleByFloatLiteral {
     
     public var value: Float
    
     required public init(_ value: Float) {
         self.value = value
+        super.init(type: "float")
     }
     
     required public init(floatLiteral value: Float) {
         self.value = value
+        super.init(type: "float")
     }
     
-    public override func code() -> String {
+//    public override func build() -> SMCode {
+//        SMCode(String(describing: value))
+//    }
+    public override func snippet() -> String {
         String(describing: value)
     }
-    
-//    public static func + (lhs: SMFloat, rhs: SMFloat) -> SMAdd {
-//        SMAdd(lhs: lhs, rhs: rhs)
-//    }
     
 }

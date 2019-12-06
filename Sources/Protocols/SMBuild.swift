@@ -8,8 +8,9 @@
 
 import Foundation
 
-public protocol SMCode {
+public protocol SMBuild {
     
-    func code() -> String
+//    func build() -> SMCode
+    func snippet() -> String
     
 }

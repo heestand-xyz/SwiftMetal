@@ -8,12 +8,10 @@
 
 import Foundation
 
-protocol SMOperator: SMCode {
+protocol SMOperator: SMBuild {
     
-    associatedtype V
-    
-    var lhs: V { get }
-    var rhs: V { get }
+    var lhs: SMEntity { get }
+    var rhs: SMEntity { get }
 
-    init(lhs: V, rhs: V)
+    init(lhs: SMEntity, rhs: SMEntity)
 }

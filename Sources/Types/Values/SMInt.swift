@@ -8,24 +8,25 @@
 
 import Foundation
 
-public class SMInt: SMType, SMValue, ExpressibleByIntegerLiteral {
+public class SMInt: SMEntity, SMValue, ExpressibleByIntegerLiteral {
         
     public var value: Int
     
     required public init(_ value: Int) {
         self.value = value
+        super.init(type: "int")
     }
     
     required public init(integerLiteral value: Int) {
         self.value = value
+        super.init(type: "int")
     }
     
-    public override func code() -> String {
+//    public override func build() -> SMCode {
+//        SMCode(String(describing: value))
+//    }
+    public override func snippet() -> String {
         String(describing: value)
     }
-    
-//    static func + (lhs: SMInt, rhs: SMInt) -> SMAdd {
-//        SMAdd(lhs: lhs, rhs: rhs)
-//    }
     
 }
