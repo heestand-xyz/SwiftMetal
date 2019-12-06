@@ -28,9 +28,9 @@ class SwiftMetalTests: XCTestCase {
     func testFunc() {
 //        let tex = SMTexture(name: "image")
         let a = float4(1.0, 0.5, 0.0, 1.0) / 3
-//        let b = float4(0.0, 0.5, 1.0, 1.0)
-//        let x = (a + a) + (0.5 * a)
-        let function = SMFunc(a)
+        let b = float4(0.0, 0.5, 1.0, 1.0)
+        let x = (a + a) + (0.5 * a) + b
+        let function = SMFunc(x)
         print("> > > > > > >")
         print(function.code())
         print("< < < < < < <")

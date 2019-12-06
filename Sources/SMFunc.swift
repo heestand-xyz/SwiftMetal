@@ -67,15 +67,14 @@ public struct SMFunc {
 
         lines.append(Line(in: 1, ""))
 
-//        let code: SMCode = SMBuilder.build(for: baseEntity)
-//        var codeText: String = ""
-//        code.variables.forEach { variable in
-//            codeText += variable.code + "\n"
-//        }
-//        codeText += "return \(code.snippet);"
-//        return codeText
-        
-        lines.append(Line(in: 1, "float4 val = \(baseEntity.snippet());"))
+        let code: SMCode = SMBuilder.build(for: baseEntity)
+        code.variables.forEach { variable in
+            lines.append(Line(in: 1, variable.code))
+        }
+        lines.append(Line(in: 1, ""))
+        lines.append(Line(in: 1, "float4 val = \(code.snippet);"))
+
+//        lines.append(Line(in: 1, "float4 val = \(baseEntity.snippet());"))
         
         lines.append(Line(in: 1, ""))
         

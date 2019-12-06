@@ -12,7 +12,7 @@ public struct SMVariable {
     let entity: SMEntity
     let index: Int
     var name: String {
-        return "var\(index)"
+        return "v\(index)"
     }
     var code: String {
         "\(entity.type) \(name) = \(entity.snippet());"
