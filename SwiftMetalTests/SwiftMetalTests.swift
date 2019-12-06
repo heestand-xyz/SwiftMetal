@@ -27,7 +27,7 @@ class SwiftMetalTests: XCTestCase {
 
     func testFunc() {
 //        let tex = SMTexture(name: "image")
-        let a = float4(1.0, 0.5, 0.0, 1.0)// / 1
+        let a = float4(1.0, 0.5, 0.0, 1.0) / 3
 //        let b = float4(0.0, 0.5, 1.0, 1.0)
 //        let x = (a + a) + (0.5 * a)
         let function = SMFunc(a)
@@ -36,8 +36,9 @@ class SwiftMetalTests: XCTestCase {
         print("< < < < < < <")
         let render: SMTexture = try! renderer.render(function: function, at: CGSize(width: 1, height: 1), as: .rgba8Unorm)
         let raw = try! render.raw()
-        print(raw)
+        print(raw.map({ CGFloat($0) / 255 }))
         print("= = = = = = =")
+        XCTAssertNotEqual(raw.first!, 0)
     }
 
     func testPerformanceExample() {

@@ -55,7 +55,7 @@ class SMRRenderer {
         commandEncoder.setTexture(drawableTexture, index: 0)
         
         var values: [Float] = function.values
-        if !values.isEmpty {        
+        if !values.isEmpty {
             let size: Int = MemoryLayout<Float>.size * values.count
             guard let uniformBuffer = metalDevice.makeBuffer(length: size, options: []) else {
                 commandEncoder.endEncoding()
@@ -79,10 +79,9 @@ class SMRRenderer {
         }
         commandEncoder.setSamplerState(sampler, index: 0)
 
-//        let threadsPerThreadgroup = MTLSize(width: 8, height: 8, depth: 8)
-//        let threadsPerGrid = MTLSize(width: width, height: height, depth: depth)
-//        #if !os(tvOS)
-//        (commandEncoder as! MTLComputeCommandEncoder).dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
+        let threadsPerThreadgroup = MTLSize(width: 8, height: 8, depth: 1)
+        let threadsPerGrid = MTLSize(width: Int(size.width), height: Int(size.height), depth: 1)
+        commandEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
     
         commandEncoder.endEncoding()
         
@@ -98,7 +97,7 @@ class SMRRenderer {
     func emptyTexture(at size: CGSize, as pixelFormat: MTLPixelFormat) throws -> MTLTexture {
         guard size.width > 0 && size.height > 0 else { throw RenderError.emptyTexture("Size is zero.") }
         let descriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat, width: Int(size.width), height: Int(size.height), mipmapped: true)
-        descriptor.usage = MTLTextureUsage(rawValue: MTLTextureUsage.shaderWrite.rawValue | MTLTextureUsage.shaderRead.rawValue)
+        descriptor.usage = MTLTextureUsage(rawValue: MTLTextureUsage.shaderWrite.rawValue)
         guard let texture = metalDevice.makeTexture(descriptor: descriptor) else {
             throw RenderError.emptyTexture("Make failed.")
         }
