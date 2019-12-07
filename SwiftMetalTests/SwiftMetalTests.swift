@@ -11,10 +11,10 @@ import XCTest
 
 class SwiftMetalTests: XCTestCase {
     
-    var renderer: SMRRenderer!
+    var renderer: SMRenderer!
     
     override func setUp() {
-        renderer = SMRRenderer()
+        renderer = SMRenderer()
         if renderer == nil {
             assertionFailure()
         }
@@ -26,18 +26,35 @@ class SwiftMetalTests: XCTestCase {
     }
 
     func testFunc() {
-//        let tex = SMTexture(name: "image")
-        let a = float4(1.0, 0.5, 0.0, 1.0) / 3
-        let b = float4(0.0, 0.5, 1.0, 1.0)
-        let x = (a + a) + (0.5 * a) + b
-        let function = SMFunc(x)
+        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
+        let tex = SMTexture(image: img)!
+        let a = float4(2.0, 0.5, 0.0, 1.0)
+        let c = tex * a
+        let function = SMFunc(c)
         print("> > > > > > >")
         print(function.code())
         print("< < < < < < <")
-        let render: SMTexture = try! renderer.render(function: function, at: CGSize(width: 1, height: 1), as: .rgba8Unorm)
+        let res = CGSize(width: 40, height: 20)
+        let render: SMTexture = try! renderer.render(function: function, at: res, as: .rgba8Unorm)
         let raw = try! render.raw()
-        print(raw.map({ CGFloat($0) / 255 }))
+        if raw.count == 4 {
+            print(raw.map({ CGFloat($0) / 255 }))
+        } else {
+            print("raw count:", raw.count)
+        }
         print("= = = = = = =")
+        var txt = ""
+        for (i, val) in raw.enumerated() {
+            if i % 4 == 0 {
+                if i > 0 && i % (Int(res.width) * 4) == 0 {
+                    print(txt)
+                    txt = ""
+                }
+                let c = CGFloat(val) / 255
+                txt += "\(Int(c * 10))"
+            }
+        }
+        print("~ ~ ~ ~ ~ ~ ~")
         XCTAssertNotEqual(raw.first!, 0)
     }
 

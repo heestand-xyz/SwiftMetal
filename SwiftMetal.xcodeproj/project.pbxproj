@@ -29,6 +29,8 @@
 		3A99C613239A4B61005BE419 /* SMFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C612239A4B61005BE419 /* SMFunc.swift */; };
 		3A99C616239A4B8E005BE419 /* SMFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C615239A4B8E005BE419 /* SMFloat.swift */; };
 		3A99C618239A4C46005BE419 /* SMFloat4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C617239A4C46005BE419 /* SMFloat4.swift */; };
+		74512F25239BE34D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
+		74512F26239BE39D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,7 @@
 		3A99C612239A4B61005BE419 /* SMFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFunc.swift; sourceTree = "<group>"; };
 		3A99C615239A4B8E005BE419 /* SMFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFloat.swift; sourceTree = "<group>"; };
 		3A99C617239A4C46005BE419 /* SMFloat4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFloat4.swift; sourceTree = "<group>"; };
+		74512F24239BE34D008F5FCE /* TestMedia.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TestMedia.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				3A99C5FB239A4B20005BE419 /* Info.plist */,
+				74512F24239BE34D008F5FCE /* TestMedia.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -276,6 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74512F25239BE34D008F5FCE /* TestMedia.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74512F26239BE39D008F5FCE /* TestMedia.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

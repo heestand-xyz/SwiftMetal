@@ -33,6 +33,24 @@ struct SMBuilder {
         }
     }
     
+    static func textures(for baseEntity: SMEntity) -> [SMTexture] {
+        
+        var textures: [SMTexture] = []
+        
+        let tree: Branch = Branch(entity: baseEntity)
+        
+        while let leafEntity = tree.leafEntity() {
+            if let texture = leafEntity as? SMTexture {
+                if !textures.contains(texture) {
+                    textures.append(texture)
+                }
+            }
+        }
+        
+        return textures
+        
+    }
+    
     static func build(for baseEntity: SMEntity) -> SMCode {
         
         let tree: Branch = Branch(entity: baseEntity)

@@ -8,12 +8,16 @@
 
 import Foundation
 import UIKit
-import Metal
+import MetalKit
 
 public class SMTexture: SMEntity {
-    
-    let name: String
+        
     let texture: MTLTexture
+    
+    var index: Int?
+    var name: String {
+        "tex\(index ?? -1)"
+    }
     
     var size: CGSize {
         CGSize(width: texture.width, height: texture.height)
@@ -23,13 +27,15 @@ public class SMTexture: SMEntity {
         case pixelFormat(MTLPixelFormat)
     }
     
-//    public init(name: String, image: UIImage) {
-//        self.name = name
-//        super.init(type: "float4")
-//    }
+    public init?(image: UIImage) {
+        guard let cgImage = image.cgImage else { return nil }
+        let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
+        guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: nil) else { return nil }
+        self.texture = texture
+        super.init(type: "float4")
+    }
     
-    public init(name: String, texture: MTLTexture) {
-        self.name = name
+    public init(texture: MTLTexture) {
         self.texture = texture
         super.init(type: "float4")
     }
@@ -38,7 +44,7 @@ public class SMTexture: SMEntity {
 //        SMCode(name)
 //    }
     override public func snippet() -> String {
-        name
+        "t\(index ?? -1)"
     }
     
     public func raw() throws -> [UInt8] {

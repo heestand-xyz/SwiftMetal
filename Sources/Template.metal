@@ -15,10 +15,13 @@ struct Uniforms {
 
 kernel void swiftMetal(const device Uniforms& vars [[ buffer(0) ]],
                        texture2d<float, access::write> tex [[ texture(0) ]],
+                       texture2d<float, access::read> tex0 [[ texture(1) ]],
                        uint2 pos [[ thread_position_in_grid ]],
                        sampler smp [[ sampler(0) ]]) {
     
     if (pos.x >= tex.get_width() || pos.y >= tex.get_height()) { return; }
+    
+    float4 t0 = tex0.read(pos);
     
     float4 val = float4(vars.x, 0.0, 0.0, 1.0);
     

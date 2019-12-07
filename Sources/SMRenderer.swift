@@ -10,9 +10,14 @@ import Foundation
 import CoreGraphics
 import Metal
 
-class SMRRenderer {
+class SMRenderer {
     
-    let metalDevice: MTLDevice
+    public static let metalDevice: MTLDevice = {
+        guard let metalDevice: MTLDevice = MTLCreateSystemDefaultDevice() else {
+            fatalError("Metal device not found.")
+        }
+        return metalDevice
+    }()
     let commandQueue: MTLCommandQueue
     
     var commandEncoder: MTLComputeCommandEncoder!
@@ -27,10 +32,10 @@ class SMRRenderer {
     
     init?() {
         
-        guard let metalDevice = MTLCreateSystemDefaultDevice() else { return nil }
-        self.metalDevice = metalDevice
+//        guard let metalDevice = MTLCreateSystemDefaultDevice() else { return nil }
+//        self.metalDevice = metalDevice
         
-        guard let commandQueue = metalDevice.makeCommandQueue() else { return nil }
+        guard let commandQueue = SMRenderer.metalDevice.makeCommandQueue() else { return nil }
         self.commandQueue = commandQueue
 
     }
@@ -47,17 +52,14 @@ class SMRRenderer {
             throw RenderError.commandEncoder
         }
 
-        let shader: MTLFunction = try function.make(with: metalDevice)
-        let pipelineState: MTLComputePipelineState = try metalDevice.makeComputePipelineState(function: shader)
+        let shader: MTLFunction = try function.make(with: SMRenderer.metalDevice)
+        let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: shader)
         commandEncoder.setComputePipelineState(pipelineState)
-        
-        let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
-        commandEncoder.setTexture(drawableTexture, index: 0)
         
         var values: [Float] = function.values
         if !values.isEmpty {
             let size: Int = MemoryLayout<Float>.size * values.count
-            guard let uniformBuffer = metalDevice.makeBuffer(length: size, options: []) else {
+            guard let uniformBuffer = SMRenderer.metalDevice.makeBuffer(length: size, options: []) else {
                 commandEncoder.endEncoding()
                 commandEncoder = nil
                 throw RenderError.uniformBuffer
@@ -74,15 +76,20 @@ class SMRRenderer {
         samplerDescriptor.sAddressMode = .clampToZero
         samplerDescriptor.tAddressMode = .clampToZero
         samplerDescriptor.compareFunction = .never
-        guard let sampler: MTLSamplerState = metalDevice.makeSamplerState(descriptor: samplerDescriptor) else {
+        guard let sampler: MTLSamplerState = SMRenderer.metalDevice.makeSamplerState(descriptor: samplerDescriptor) else {
             throw RenderError.sampler
         }
         commandEncoder.setSamplerState(sampler, index: 0)
+        
+        let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
+        commandEncoder.setTexture(drawableTexture, index: 0)
+        for (i, texture) in function.textures.enumerated() {
+            commandEncoder.setTexture(texture.texture, index: i + 1)
+        }
 
         let threadsPerThreadgroup = MTLSize(width: 8, height: 8, depth: 1)
         let threadsPerGrid = MTLSize(width: Int(size.width), height: Int(size.height), depth: 1)
         commandEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
-    
         commandEncoder.endEncoding()
         
 //        commandBuffer.addCompletedHandler { _ in }
@@ -91,14 +98,14 @@ class SMRRenderer {
 
         commandEncoder = nil
         
-        return SMTexture(name: "render", texture: drawableTexture)
+        return SMTexture(texture: drawableTexture)
     }
     
     func emptyTexture(at size: CGSize, as pixelFormat: MTLPixelFormat) throws -> MTLTexture {
         guard size.width > 0 && size.height > 0 else { throw RenderError.emptyTexture("Size is zero.") }
         let descriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat, width: Int(size.width), height: Int(size.height), mipmapped: true)
         descriptor.usage = MTLTextureUsage(rawValue: MTLTextureUsage.shaderWrite.rawValue)
-        guard let texture = metalDevice.makeTexture(descriptor: descriptor) else {
+        guard let texture = SMRenderer.metalDevice.makeTexture(descriptor: descriptor) else {
             throw RenderError.emptyTexture("Make failed.")
         }
         return texture

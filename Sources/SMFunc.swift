@@ -19,6 +19,8 @@ public struct SMFunc {
     
     var values: [Float] = []
     
+    let textures: [SMTexture]
+    
     struct Line {
         let indent: Int
         let snippet: String
@@ -32,15 +34,23 @@ public struct SMFunc {
     
     public init(_ entity: SMEntity) {
         baseEntity = entity
+        textures = SMBuilder.textures(for: baseEntity)
+        for (i, texture) in textures.enumerated() {
+            texture.index = i
+        }
     }
     
     public func code() -> String {
         
         var lines: [Line] = []
         
+        lines.append(Line("//"))
+        lines.append(Line("//  SwiftMetal"))
+        lines.append(Line("//"))
+        lines.append(Line(""))
+        
         lines.append(Line("#include <metal_stdlib>"))
         lines.append(Line("using namespace metal;"))
-        
         lines.append(Line(""))
         
         if !values.isEmpty {
@@ -57,29 +67,32 @@ public struct SMFunc {
             lines.append(Line(in: 2, "const device Uniforms& vars [[ buffer(0) ]],"))
         }
         lines.append(Line(in: 2, "texture2d<float, access::write> tex [[ texture(0) ]],"))
+        for (i, texture) in textures.enumerated() {
+            lines.append(Line(in: 2, "texture2d<float, access::read> \(texture.name) [[ texture(\(i + 1)) ]],"))
+        }
         lines.append(Line(in: 2, "uint2 pos [[ thread_position_in_grid ]],"))
         lines.append(Line(in: 2, "sampler smp [[ sampler(0) ]]"))
         lines.append(Line(in: 0, ") {"))
-
         lines.append(Line(in: 1, ""))
 
         lines.append(Line(in: 1, "if (pos.x >= tex.get_width() || pos.y >= tex.get_height()) { return; }"))
-
         lines.append(Line(in: 1, ""))
-
-        let code: SMCode = SMBuilder.build(for: baseEntity)
-        code.variables.forEach { variable in
-            lines.append(Line(in: 1, variable.code))
+        
+        for texture in textures {
+            lines.append(Line(in: 1, "float4 \(texture.snippet()) = \(texture.name).read(pos);"))
         }
         lines.append(Line(in: 1, ""))
-        lines.append(Line(in: 1, "float4 val = \(code.snippet);"))
 
-//        lines.append(Line(in: 1, "float4 val = \(baseEntity.snippet());"))
-        
+//        let code: SMCode = SMBuilder.build(for: baseEntity)
+//        code.variables.forEach { variable in
+//            lines.append(Line(in: 1, variable.code))
+//        }
+//        lines.append(Line(in: 1, ""))
+//        lines.append(Line(in: 1, "float4 val = \(code.snippet);"))
+        lines.append(Line(in: 1, "float4 val = \(baseEntity.snippet());"))
         lines.append(Line(in: 1, ""))
         
         lines.append(Line(in: 1, "tex.write(val, pos);"))
-        
         lines.append(Line(in: 1, ""))
         
         lines.append(Line("}"))
