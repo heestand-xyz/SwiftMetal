@@ -10,15 +10,23 @@ import Foundation
 
 public class SMFloat: SMEntity, SMValue, ExpressibleByFloatLiteral {
     
-    public var value: Float
-   
+    let futureValue: () -> (Float)
+    public var value: Float {
+        futureValue()
+    }
+    
     required public init(_ value: Float) {
-        self.value = value
+        self.futureValue = { value }
+        super.init(type: "float")
+    }
+    
+    public required init(_ futureValue: @escaping () -> (Float)) {
+        self.futureValue = futureValue
         super.init(type: "float")
     }
     
     required public init(floatLiteral value: Float) {
-        self.value = value
+        self.futureValue = { value }
         super.init(type: "float")
     }
     

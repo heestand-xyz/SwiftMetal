@@ -1,5 +1,5 @@
 //
-//  SMFunc.swift
+//  SMShader.swift
 //  SwiftMetal
 //
 //  Created by Anton Heestand on 2019-12-06.
@@ -9,7 +9,7 @@
 import Foundation
 import Metal
 
-public struct SMFunc {
+public struct SMShader {
     
 //    public typealias V = SMFloat4
     

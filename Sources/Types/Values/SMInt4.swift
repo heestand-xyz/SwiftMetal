@@ -10,16 +10,26 @@ import Foundation
 
 public class SMInt4: SMEntity, SMValue, ExpressibleByIntegerLiteral {
         
-    public var value: (SMInt, SMInt, SMInt, SMInt)
+    public typealias I4 = (SMInt, SMInt, SMInt, SMInt)
     
-    required public init(_ value: (SMInt, SMInt, SMInt, SMInt)) {
-        self.value = value
+    let futureValue: () -> (I4)
+    public var value: I4 {
+        futureValue()
+    }
+    
+    required public init(_ value: I4) {
+        self.futureValue = { value }
+        super.init(type: "int4")
+    }
+    
+    public required init(_ futureValue: @escaping () -> (I4)) {
+        self.futureValue = futureValue
         super.init(type: "int4")
     }
     
     required public init(integerLiteral value: Int) {
         let smInt = SMInt(value)
-        self.value = (smInt, smInt, smInt, smInt)
+        self.futureValue = { (smInt, smInt, smInt, smInt) }
         super.init(type: "int4")
     }
     

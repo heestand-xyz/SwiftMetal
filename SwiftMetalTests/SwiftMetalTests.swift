@@ -29,8 +29,11 @@ class SwiftMetalTests: XCTestCase {
         let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
         let tex = SMTexture(image: img)!
         let a = float4(2.0, 0.5, 0.0, 1.0)
+//        let f = SMFunction<SMFloat4, SMFloat4>({ f4 in
+//            f4 * 2
+//        })
         let c = tex * a
-        let function = SMFunc(c)
+        let function = SMShader(c)
         print("> > > > > > >")
         print(function.code())
         print("< < < < < < <")

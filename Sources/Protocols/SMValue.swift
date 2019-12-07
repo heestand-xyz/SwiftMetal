@@ -16,4 +16,6 @@ public protocol SMValue: SMBuild {
     
     init(_ value: V)
     
+    init(_ futureValue: @escaping () -> (V))
+    
 }

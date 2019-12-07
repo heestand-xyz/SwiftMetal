@@ -10,15 +10,23 @@ import Foundation
 
 public class SMInt: SMEntity, SMValue, ExpressibleByIntegerLiteral {
         
-    public var value: Int
+    let futureValue: () -> (Int)
+    public var value: Int {
+        futureValue()
+    }
     
     required public init(_ value: Int) {
-        self.value = value
+        self.futureValue = { value }
+        super.init(type: "int")
+    }
+    
+    public required init(_ futureValue: @escaping () -> (Int)) {
+        self.futureValue = futureValue
         super.init(type: "int")
     }
     
     required public init(integerLiteral value: Int) {
-        self.value = value
+        self.futureValue = { value }
         super.init(type: "int")
     }
     
