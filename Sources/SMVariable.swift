@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct SMVariable {
+struct SMVariable {
     let entity: SMEntity
     let index: Int
     var name: String {

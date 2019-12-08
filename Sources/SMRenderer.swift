@@ -40,7 +40,7 @@ class SMRenderer {
 
     }
 
-    func render(function: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat) throws -> SMTexture {
+    func render(shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = .rgba8Unorm) throws -> SMTexture {
 
         
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
@@ -52,11 +52,11 @@ class SMRenderer {
             throw RenderError.commandEncoder
         }
 
-        let shader: MTLFunction = try function.make(with: SMRenderer.metalDevice)
-        let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: shader)
+        let mtlFunction: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
+        let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: mtlFunction)
         commandEncoder.setComputePipelineState(pipelineState)
         
-        var values: [Float] = function.values
+        var values: [Float] = shader.values
         if !values.isEmpty {
             let size: Int = MemoryLayout<Float>.size * values.count
             guard let uniformBuffer = SMRenderer.metalDevice.makeBuffer(length: size, options: []) else {
@@ -83,7 +83,7 @@ class SMRenderer {
         
         let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
         commandEncoder.setTexture(drawableTexture, index: 0)
-        for (i, texture) in function.textures.enumerated() {
+        for (i, texture) in shader.textures.enumerated() {
             commandEncoder.setTexture(texture.texture, index: i + 1)
         }
 

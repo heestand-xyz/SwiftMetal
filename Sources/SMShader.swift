@@ -17,7 +17,7 @@ public struct SMShader {
     
     var values: [Float] = []
     
-    let functions: [SMRawFunction]
+    let rawFuncs: [SMRawFunc]
     
     let textures: [SMTexture]
     
@@ -32,10 +32,10 @@ public struct SMShader {
     
     let baseEntity: SMEntity
     
-    public init(_ entity: SMEntity, with functions: [SMRawFunction]) {
-        baseEntity = entity
+    public init(funcs rawFuncs: [SMRawFunc], _ entityCallback: () -> (SMEntity)) {
+        baseEntity = entityCallback()
         textures = SMBuilder.textures(for: baseEntity)
-        self.functions = functions
+        self.rawFuncs = rawFuncs
         for (i, texture) in textures.enumerated() {
             texture.index = i
         }
@@ -54,12 +54,12 @@ public struct SMShader {
         lines.append(Line("using namespace metal;"))
         lines.append(Line(""))
         
-        if !functions.isEmpty {
-            for function in functions {
-                lines.append(Line(""))
-            }
-            lines.append(Line(""))
-        }
+//        if !rawFuncs.isEmpty {
+//            for rawFunc in rawFuncs {
+//                lines.append(Line("f..."))
+//            }
+//            lines.append(Line(""))
+//        }
         
         if !values.isEmpty {
             lines.append(Line("struct Uniforms {"))

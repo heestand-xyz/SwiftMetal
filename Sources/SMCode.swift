@@ -8,24 +8,28 @@
 
 import Foundation
 
-public struct SMCode {
+struct SMCode {
     
-    public var variables: [SMVariable]
-    public var snippet: String
+    var snippet: String
+    var variables: [SMVariable]
+    var functions: [SMFunction]
     
-    public init(_ snippet: String, variables: [SMVariable] = []) {
-        self.variables = variables
+    init(_ snippet: String, variables: [SMVariable] = [], functions: [SMFunction] = []) {
         self.snippet = snippet
+        self.variables = variables
+        self.functions = functions
     }
     
-    public init(_ snippet: String) {
-        variables = []
+    init(_ snippet: String) {
         self.snippet = snippet
+        variables = []
+        functions = []
     }
     
     init() {
-        variables = []
         snippet = ""
+        variables = []
+        functions = []
     }
     
 }

@@ -33,13 +33,6 @@ struct SMBuilder {
         }
     }
     
-    static func functions(for baseEntity: SMEntity) -> [String] {
-        
-        // ...
-        return []
-        
-    }
-    
     static func textures(for baseEntity: SMEntity) -> [SMTexture] {
         
         var textures: [SMTexture] = []
@@ -58,13 +51,14 @@ struct SMBuilder {
         
     }
     
-    static func build(for baseEntity: SMEntity) -> SMCode {
+    static func build(for baseEntity: SMEntity, with rawFuncs: [SMRawFunc]) -> SMCode {
         
         let tree: Branch = Branch(entity: baseEntity)
         
         var entities: [SMEntity] = []
         
         var variables: [SMVariable] = []
+        var functions: [SMFunction] = []
         var lastSnippet: String = baseEntity.snippet()
         
         while let leafEntity = tree.leafEntity() {

@@ -8,39 +8,54 @@
 
 import Foundation
 
-public class SMRawFunction: Identifiable, Equatable {
+public struct SMArg {
+    public let entity: SMEntity
+}
+
+public struct SMReturn {
+    public let entity: SMEntity
+    public init(_ entity: SMEntity) {
+        self.entity = entity
+    }
+}
+
+public class SMRawFunc: Identifiable, Equatable {
     
     public let id: UUID
     
-    let function: ([SMEntity]) -> (SMEntity)
+    let function: ([SMArg]) -> (SMReturn)
     
-    public init(_ function: @escaping ([SMEntity]) -> (SMEntity)) {
+    init(function: @escaping ([SMArg]) -> (SMReturn)) {
         id = UUID()
         self.function = function
     }
     
-    public func call(_ arguments: SMEntity...) -> SMEntity {
-        function(arguments)
-    }
-    
-    public static func == (lhs: SMRawFunction, rhs: SMRawFunction) -> Bool {
+    public static func == (lhs: SMRawFunc, rhs: SMRawFunc) -> Bool {
         lhs.id == rhs.id
     }
     
 }
 
-public class SMFunction<R: SMEntity>: SMRawFunction {
+public class SMFunc<R: SMEntity>: SMRawFunc {
 
-    public init(_ function: @escaping ([SMEntity]) -> (R)) {
-        super.init(function)
+    public init(_ function: @escaping ([SMArg]) -> (SMReturn)) {
+        super.init(function: function)
     }
 
     public func call(_ arguments: SMEntity...) -> R {
-        function(arguments) as! R
+        function(arguments.map({ SMArg(entity: $0) })).entity as! R
     }
 
 }
 
-//struct SMArg {
-//    let entity: SMEntity
-//}
+struct SMFunction {
+    let argEntities: [SMEntity]
+    let returnEntity: SMEntity
+    let index: Int
+    var name: String {
+        return "f\(index)"
+    }
+    var code: String {
+        "..."
+    }
+}

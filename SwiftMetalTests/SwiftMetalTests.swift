@@ -28,22 +28,24 @@ class SwiftMetalTests: XCTestCase {
     func testFunc() {
 //        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
 //        let tex = SMTexture(image: img)!
-        let v0 = float4(0.0, 0.0, 0.0, 1.0)
-        let v1 = float4(0.1, 0.1, 0.1, 1.0)
-        let v2 = float4(0.2, 0.2, 0.2, 1.0)
-//        func f(a: SMFloat4, b: SMFloat4) -> SMFloat4 {
-//            a + b
-//        }
-        let f = SMFunction { args in
-            (args[0] as! SMFloat4) + (args[1] as! SMFloat4)
+        let f = SMFunc<SMFloat4> { args in
+            SMReturn(
+                (args[0].entity as! SMFloat4) +
+                (args[1].entity as! SMFloat4)
+            )
         }
-        let c: SMFloat4 = f.call(v0, v1) + f.call(v0, v1) * v2
-        let function = SMShader(c, with: [f])
+        let shader = SMShader(funcs: [f]) {
+            let v0 = float4(0.0, 0.0, 0.0, 1.0)
+            let v1 = float4(0.1, 0.1, 0.1, 1.0)
+            let v2 = float4(0.2, 0.2, 0.2, 1.0)
+            let c: SMFloat4 = f.call(v0, v1) + f.call(v0, v1) * v2
+            return c
+        }
         print("> > > > > > >")
-        print(function.code())
+        print(shader.code())
         print("< < < < < < <")
         let res = CGSize(width: 1, height: 1)
-        let render: SMTexture = try! renderer.render(function: function, at: res, as: .rgba8Unorm)
+        let render: SMTexture = try! renderer.render(shader: shader, at: res)
         let raw = try! render.raw()
         if raw.count == 4 {
             print(raw.map({ CGFloat($0) / 255 }))
