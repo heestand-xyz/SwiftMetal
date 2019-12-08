@@ -21,17 +21,17 @@ public class SMValue<V>: SMEntity {
         self.snippet = snippet ?? { "#" }
     }
     
-    public static func + (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
-        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" }, type: lhs.type)
-    }
-    public static func - (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
-        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" }, type: lhs.type)
-    }
-    public static func * (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
-        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" }, type: lhs.type)
-    }
-    public static func / (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
-        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" }, type: lhs.type)
-    }
+//    public static func + (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
+//        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" }, type: lhs.type)
+//    }
+//    public static func - (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
+//        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" }, type: lhs.type)
+//    }
+//    public static func * (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
+//        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" }, type: lhs.type)
+//    }
+//    public static func / (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
+//        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" }, type: lhs.type)
+//    }
 
 }

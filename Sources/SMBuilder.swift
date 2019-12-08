@@ -33,6 +33,13 @@ struct SMBuilder {
         }
     }
     
+    static func functions(for baseEntity: SMEntity) -> [String] {
+        
+        // ...
+        return []
+        
+    }
+    
     static func textures(for baseEntity: SMEntity) -> [SMTexture] {
         
         var textures: [SMTexture] = []

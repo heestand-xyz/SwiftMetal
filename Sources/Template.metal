@@ -9,6 +9,10 @@
 #include <metal_stdlib>
 using namespace metal;
 
+float4 f0(float4 input) {
+    return input + input;
+}
+
 struct Uniforms {
     float x;
 };
@@ -23,7 +27,7 @@ kernel void swiftMetal(const device Uniforms& vars [[ buffer(0) ]],
     
     float4 t0 = tex0.read(pos);
     
-    float4 val = float4(vars.x, 0.0, 0.0, 1.0);
+    float4 val = f0(t0) + float4(vars.x, 0.0, 0.0, 1.0);
     
     tex.write(val, pos);
     

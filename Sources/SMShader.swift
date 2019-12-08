@@ -10,14 +10,14 @@ import Foundation
 import Metal
 
 public struct SMShader {
-    
-//    public typealias V = SMFloat4
-    
+        
     enum FuncError: Error {
         case shader
     }
     
     var values: [Float] = []
+    
+    let functions: [SMFunction<SMEntity>]
     
     let textures: [SMTexture]
     
@@ -32,9 +32,10 @@ public struct SMShader {
     
     let baseEntity: SMEntity
     
-    public init(_ entity: SMEntity) {
+    public init(_ entity: SMEntity, with functions: [SMFunction<SMEntity>]) {
         baseEntity = entity
         textures = SMBuilder.textures(for: baseEntity)
+        self.functions = functions
         for (i, texture) in textures.enumerated() {
             texture.index = i
         }
@@ -52,6 +53,13 @@ public struct SMShader {
         lines.append(Line("#include <metal_stdlib>"))
         lines.append(Line("using namespace metal;"))
         lines.append(Line(""))
+        
+        if !functions.isEmpty {
+            for function in functions {
+                lines.append(Line(""))
+            }
+            lines.append(Line(""))
+        }
         
         if !values.isEmpty {
             lines.append(Line("struct Uniforms {"))

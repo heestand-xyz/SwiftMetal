@@ -73,6 +73,23 @@ public class SMFloat4: SMValue<(SMFloat, SMFloat, SMFloat, SMFloat)>, Expressibl
     required public convenience init(floatLiteral value: Float) {
         self.init({ (SMFloat(value), SMFloat(value), SMFloat(value), SMFloat(value)) })
     }
+    
+    init(operation: SMOperation, snippet: @escaping () -> (String)) {
+        super.init(nil, operation: operation, snippet: snippet, type: "float4")
+    }
+    
+    public static func + (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
+        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" })
+    }
+    public static func - (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
+        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+    }
+    public static func * (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
+        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+    }
+    public static func / (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
+        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+    }
         
 }
 

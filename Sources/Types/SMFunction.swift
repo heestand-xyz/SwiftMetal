@@ -8,10 +8,16 @@
 
 import Foundation
 
-class SMFunction<OUT: SMEntity, IN>: SMEntity {
+public class SMFunction<OUT: SMEntity> {
     
-    init(_ function: (IN) -> (OUT)) {
-        super.init(type: "xyz")
+    let function: ([SMEntity]) -> (OUT)
+    
+    public init(_ function: @escaping ([SMEntity]) -> (OUT)) {
+        self.function = function
+    }
+    
+    public func call(_ arguments: SMEntity...) -> OUT {
+        function(arguments)
     }
     
 }

@@ -28,10 +28,17 @@ class SwiftMetalTests: XCTestCase {
     func testFunc() {
 //        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
 //        let tex = SMTexture(image: img)!
-        let a = float4(2.0, 0.5, 0.0, 1.0)
-//        let f x
-        let c = a * a
-        let function = SMShader(c)
+        let v0 = float4(0.0, 0.0, 0.0, 1.0)
+        let v1 = float4(0.1, 0.1, 0.1, 1.0)
+        let v2 = float4(0.2, 0.2, 0.2, 1.0)
+        func f(a: SMFloat4, b: SMFloat4) -> SMFloat4 {
+            a + b
+        }
+//        let f = SMFunction<SMFloat4> { args in
+//            ((args[0] as! SMFloat4) + (args[1] as! SMFloat4)) as! SMFloat4
+//        }
+        let c = f(a: v0, b: v1) + f(a: v0, b: v1) * v2
+        let function = SMShader(c, with: [])
         print("> > > > > > >")
         print(function.code())
         print("< < < < < < <")
