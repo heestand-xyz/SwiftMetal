@@ -59,8 +59,8 @@ public class SMFunc<R: SMEntity>: SMRawFunc {
 }
 
 struct SMFunction {
-    let argTypes: [String]
-    let returnType: String
+    let argEntities: [SMEntity]
+    let returnEntity: SMEntity
     let index: Int
     var name: String {
         return "f\(index)"
@@ -68,17 +68,33 @@ struct SMFunction {
     var code: String {
         var lines: [Line] = []
         var declaration = ""
-        declaration += "\(returnType) \(name)("
-        for (i, argType) in argTypes.enumerated() {
+        declaration += "\(returnEntity.type) \(name)("
+        for (i, argEntity) in argEntities.enumerated() {
             if i > 0 {
                 declaration += ", "
             }
-            declaration += "\(argType) a\(i)"
+            declaration += "\(argEntity.type) a\(i)"
         }
         declaration += ") {"
         lines.append(Line(declaration))
-        lines.append(Line(in: 1, "return 0;"))
+        var snippet: String = returnEntity.snippet()
+        for (i, argEntity) in argEntities.enumerated() {
+            snippet = snippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
+        }
+        lines.append(Line(in: 1, "return \(snippet);"))
         lines.append(Line("}"))
         return Line.merge(lines)
+    }
+    func snippet(with args: [SMEntity]) -> String {
+        var call = ""
+        call += "\(name)("
+        for (i, arg) in args.enumerated() {
+            if i > 0 {
+                call += ", "
+            }
+            call += "\(arg.snippet())"
+        }
+        call += ")"
+        return call
     }
 }

@@ -85,12 +85,12 @@ public struct SMShader {
             lines.append(Line(in: 1))
         }
         
-//        code.variables.forEach { variable in
-//            lines.append(Line(in: 1, variable.code))
-//        }
-//        lines.append(Line(in: 1))
-//        lines.append(Line(in: 1, "float4 val = \(code.snippet);"))
-        lines.append(Line(in: 1, "\(baseEntity.type) val = \(baseEntity.snippet());"))
+        code.variables.forEach { variable in
+            lines.append(Line(in: 1, variable.code))
+        }
+        lines.append(Line(in: 1))
+        
+        lines.append(Line(in: 1, "\(baseEntity.type) val = \(code.snippet);"))
         lines.append(Line(in: 1))
         
         lines.append(Line(in: 1, "tex.write(val, pos);"))

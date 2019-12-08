@@ -26,25 +26,24 @@ class SwiftMetalTests: XCTestCase {
     }
 
     func testFunc() {
-//        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
-//        let tex = SMTexture(image: img)!
+        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
         let f = SMFunc<SMFloat4> { args in
             (args[0] as! SMFloat4) +
             (args[1] as! SMFloat4)
         }
         let shader = SMShader {
-            let v1 = float4(0.1, 0.0, 0.0, 1.0)
-            let v2 = float4(0.2, 0.0, 0.0, 1.0)
-            let v3 = float4(0.3, 0.0, 0.0, 1.0)
-            let v4 = float4(0.4, 0.0, 0.0, 1.0)
-            let c: SMFloat4 = f.call(v1, v2) * f.call(v3, v4)
+            let a = float4(0.1, 0.0, 0.0, 1.0)
+            let b = float4(0.2, 0.0, 0.0, 1.0)
+            let tex = SMTexture(image: img)!
+            let c: SMFloat4 = f.call(a, a) * f.call(b, b) + tex
             return c
         }
         print("> > > > > > >")
         print(shader.code())
         print("< < < < < < <")
-        let res = CGSize(width: 1, height: 1)
+        let res = CGSize(width: 1024, height: 1024)
         let render: SMTexture = try! renderer.render(shader: shader, at: res)
+        let texture: MTLTexture = render.texture
         let raw = try! render.raw()
         if raw.count == 4 {
             print(raw.map({ CGFloat($0) / 255 }))
@@ -52,20 +51,7 @@ class SwiftMetalTests: XCTestCase {
             print("raw count:", raw.count)
         }
         print("= = = = = = =")
-//        var txt = ""
-//        for (i, val) in raw.enumerated() {
-//            if i % 4 == 0 {
-//                if i > 0 && i % (Int(res.width) * 4) == 0 {
-//                    print(txt)
-//                    txt = ""
-//                }
-//                let c = CGFloat(val) / 255
-//                txt += "\(Int(c * 10))"
-//            }
-//        }
-//        print("~ ~ ~ ~ ~ ~ ~")
         XCTAssertNotEqual(raw.first!, 0)
-        XCTAssertEqual(CGFloat(raw.first!) / 255, 0.21176470588235294)
     }
 
     func testPerformanceExample() {

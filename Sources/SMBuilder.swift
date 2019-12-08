@@ -48,8 +48,8 @@ struct SMBuilder {
             return funcLeafBranch()
         }
         func funcLeafBranch() -> Branch? {
-            guard !entity.isArg else { return nil }
             let root = Branch(entity: entity)
+            guard !entity.isArg else { return root }
             var leafs: [Branch] = []
             for branch in self.branches {
                 if let leaf = branch.funcLeafBranch() {
@@ -111,28 +111,9 @@ struct SMBuilder {
     static func build(for baseEntity: SMEntity) -> SMCode {
         
         let tree: Branch = Branch(entity: baseEntity)
-        
-        var entities: [SMEntity] = []
-        
-        var variables: [SMVariable] = []
         var lastSnippet: String = baseEntity.snippet()
-        
-        while let leafEntity = tree.leafEntity() {
-            if entities.contains(leafEntity) {
-                if !variables.contains(where: { variable -> Bool in
-                    variable.entity == leafEntity
-                }) {
-                    let variable = SMVariable(entity: leafEntity, index: variables.count)
-                    variables.append(variable)
-                    lastSnippet = lastSnippet.replacingOccurrences(of: leafEntity.snippet(), with: variable.name)
-                }
-            } else {
-                entities.append(leafEntity)
-            }
-        }
-        
+
         var functions: [SMFunction] = []
-        
         let funcBranchs: [Branch] = tree.funcBranches()
         var uniqueFuncBranchs: [Branch] = []
         for funcBranch in funcBranchs {
@@ -149,10 +130,39 @@ struct SMBuilder {
         }
         for uniqueFuncBranch in uniqueFuncBranchs {
             let leafs = uniqueFuncBranch.leafs()
-            let argTypes = leafs.map({ $0.entity.type })
-            let returnType = uniqueFuncBranch.entity.type
-            let function = SMFunction(argTypes: argTypes, returnType: returnType, index: functions.count)
+            let argEntities = leafs.map({ $0.entity })
+            let returnEntity = uniqueFuncBranch.entity
+            let function = SMFunction(argEntities: argEntities, returnEntity: returnEntity, index: functions.count)
             functions.append(function)
+        }
+        for funcBranch in funcBranchs {
+            var function: SMFunction!
+            for (i, uniqueFuncBranch) in uniqueFuncBranchs.enumerated() {
+                if Branch.sameSignature(lhs: funcBranch, rhs: uniqueFuncBranch) {
+                    function = functions[i]
+                    break
+                }
+            }
+            let leafs = funcBranch.leafs()
+            let argEntities = leafs.map({ $0.entity })
+            let returnEntity = funcBranch.entity
+            lastSnippet = lastSnippet.replacingOccurrences(of: returnEntity.snippet(), with: function.snippet(with: argEntities))
+        }
+        
+        var entities: [SMEntity] = []
+        var variables: [SMVariable] = []
+        while let leafEntity = tree.leafEntity() {
+            if entities.contains(leafEntity) {
+                if !variables.contains(where: { variable -> Bool in
+                    variable.entity == leafEntity
+                }) {
+                    let variable = SMVariable(entity: leafEntity, index: variables.count)
+                    variables.append(variable)
+                    lastSnippet = lastSnippet.replacingOccurrences(of: leafEntity.snippet(), with: variable.name)
+                }
+            } else {
+                entities.append(leafEntity)
+            }
         }
         
         return SMCode(lastSnippet, variables: variables, functions: functions)
