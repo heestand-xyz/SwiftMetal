@@ -11,5 +11,4 @@ import Foundation
 struct SMOperation {
     let lhs: SMEntity
     let rhs: SMEntity
-    let snippet: () -> (String)
 }

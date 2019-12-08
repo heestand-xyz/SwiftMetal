@@ -78,10 +78,12 @@ public struct SMShader {
         lines.append(Line(in: 1, "if (pos.x >= tex.get_width() || pos.y >= tex.get_height()) { return; }"))
         lines.append(Line(in: 1, ""))
         
-        for texture in textures {
-            lines.append(Line(in: 1, "float4 \(texture.snippet()) = \(texture.name).read(pos);"))
+        if !textures.isEmpty {
+            for texture in textures {
+                lines.append(Line(in: 1, "float4 \(texture.snippet()) = \(texture.name).read(pos);"))
+            }
+            lines.append(Line(in: 1, ""))
         }
-        lines.append(Line(in: 1, ""))
 
 //        let code: SMCode = SMBuilder.build(for: baseEntity)
 //        code.variables.forEach { variable in

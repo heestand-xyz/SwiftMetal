@@ -26,29 +26,24 @@ class SwiftMetalTests: XCTestCase {
     }
 
     func testFunc() {
-        let x: SMFloatConstant = 0.5
-        let y: SMFloatConstant = 1.0
-        let z: SMFloat = x + y
-        print(z.snippet())
-        
 //        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
 //        let tex = SMTexture(image: img)!
-//        let a = float4(2.0, 0.5, 0.0, 1.0)
-////        let f x
-//        let c = tex * a
-//        let function = SMShader(c)
-//        print("> > > > > > >")
-//        print(function.code())
-//        print("< < < < < < <")
-//        let res = CGSize(width: 40, height: 20)
-//        let render: SMTexture = try! renderer.render(function: function, at: res, as: .rgba8Unorm)
-//        let raw = try! render.raw()
-//        if raw.count == 4 {
-//            print(raw.map({ CGFloat($0) / 255 }))
-//        } else {
-//            print("raw count:", raw.count)
-//        }
-//        print("= = = = = = =")
+        let a = float4(2.0, 0.5, 0.0, 1.0)
+//        let f x
+        let c = a * a
+        let function = SMShader(c)
+        print("> > > > > > >")
+        print(function.code())
+        print("< < < < < < <")
+        let res = CGSize(width: 1, height: 1)
+        let render: SMTexture = try! renderer.render(function: function, at: res, as: .rgba8Unorm)
+        let raw = try! render.raw()
+        if raw.count == 4 {
+            print(raw.map({ CGFloat($0) / 255 }))
+        } else {
+            print("raw count:", raw.count)
+        }
+        print("= = = = = = =")
 //        var txt = ""
 //        for (i, val) in raw.enumerated() {
 //            if i % 4 == 0 {
@@ -61,7 +56,7 @@ class SwiftMetalTests: XCTestCase {
 //            }
 //        }
 //        print("~ ~ ~ ~ ~ ~ ~")
-//        XCTAssertNotEqual(raw.first!, 0)
+        XCTAssertNotEqual(raw.first!, 0)
     }
 
     func testPerformanceExample() {

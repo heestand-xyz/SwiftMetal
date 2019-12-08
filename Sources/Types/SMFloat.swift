@@ -16,6 +16,7 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral {
     
     public init(_ futureValue: @escaping () -> (Float)) {
         super.init(futureValue, type: "float")
+        snippet = { String(describing: self.value) }
     }
     
     required public convenience init(floatLiteral value: Float) {
@@ -32,6 +33,7 @@ public class SMFloat2: SMValue<(SMFloat, SMFloat)>, ExpressibleByFloatLiteral {
     
     public init(_ futureValue: @escaping () -> ((SMFloat, SMFloat))) {
         super.init(futureValue, type: "float2")
+        snippet = { "float2(\(self.value?.0.value ?? -1), \(self.value?.1.value ?? -1))" }
     }
     
     required public convenience init(floatLiteral value: Float) {
@@ -48,6 +50,7 @@ public class SMFloat3: SMValue<(SMFloat, SMFloat, SMFloat)>, ExpressibleByFloatL
     
     public init(_ futureValue: @escaping () -> ((SMFloat, SMFloat, SMFloat))) {
         super.init(futureValue, type: "float3")
+        snippet = { "float3(\(self.value?.0.value ?? -1), \(self.value?.1.value ?? -1), \(self.value?.2.value ?? -1))" }
     }
     
     required public convenience init(floatLiteral value: Float) {
@@ -64,6 +67,7 @@ public class SMFloat4: SMValue<(SMFloat, SMFloat, SMFloat, SMFloat)>, Expressibl
     
     public init(_ futureValue: @escaping () -> ((SMFloat, SMFloat, SMFloat, SMFloat))) {
         super.init(futureValue, type: "float4")
+        snippet = { "float4(\(self.value?.0.value ?? -1), \(self.value?.1.value ?? -1), \(self.value?.2.value ?? -1), \(self.value?.3.value ?? -1))" }
     }
     
     required public convenience init(floatLiteral value: Float) {
