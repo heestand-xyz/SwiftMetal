@@ -16,9 +16,9 @@ struct SMBuilder {
         var branches: [Branch] = []
         init(entity: SMEntity) {
             self.entity = entity
-            if let entityOperator = entity as? SMOperator {
-                branches.append(Branch(entity: entityOperator.lhs))
-                branches.append(Branch(entity: entityOperator.rhs))
+            if let operation = entity.operation {
+                branches.append(Branch(entity: operation.lhs))
+                branches.append(Branch(entity: operation.rhs))
             }
         }
         func leafEntity() -> SMEntity? {

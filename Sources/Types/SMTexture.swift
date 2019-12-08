@@ -27,19 +27,21 @@ public class SMTexture: SMFloat4 {
         case pixelFormat(MTLPixelFormat)
     }
     
-    public init?(image: UIImage) {
+    public convenience init?(image: UIImage) {
         guard let cgImage = image.cgImage else { return nil }
         let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
         guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: nil) else { return nil }
-        self.texture = texture
+        self.init(texture: texture)
     }
     
     public init(texture: MTLTexture) {
         self.texture = texture
+        super.init({ (SMFloat(0.0), SMFloat(0.0), SMFloat(0.0), SMFloat(0.0)) })
+        self.snippet = { "t\(self.index ?? -1)" }
     }
     
-    override public func snippet() -> String {
-        "t\(index ?? -1)"
+    required public convenience init(floatLiteral value: Float) {
+        fatalError("init(floatLiteral:) has not been implemented")
     }
     
     public func raw() throws -> [UInt8] {
