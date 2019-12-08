@@ -17,25 +17,16 @@ public struct SMShader {
     
     var values: [Float] = []
     
-    let rawFuncs: [SMRawFunc]
+//    let rawFuncs: [SMRawFunc]
     
     let textures: [SMTexture]
     
-    struct Line {
-        let indent: Int
-        let snippet: String
-        init(in indent: Int = 0, _ snippet: String) {
-            self.indent = indent
-            self.snippet = snippet
-        }
-    }
-    
     let baseEntity: SMEntity
     
-    public init(funcs rawFuncs: [SMRawFunc], _ entityCallback: () -> (SMEntity)) {
+    public init(/*funcs rawFuncs: [SMRawFunc], */_ entityCallback: () -> (SMEntity)) {
         baseEntity = entityCallback()
         textures = SMBuilder.textures(for: baseEntity)
-        self.rawFuncs = rawFuncs
+//        self.rawFuncs = rawFuncs
         for (i, texture) in textures.enumerated() {
             texture.index = i
         }
@@ -43,23 +34,24 @@ public struct SMShader {
     
     public func code() -> String {
         
+        let code: SMCode = SMBuilder.build(for: baseEntity)
+        
         var lines: [Line] = []
         
         lines.append(Line("//"))
         lines.append(Line("//  SwiftMetal"))
         lines.append(Line("//"))
-        lines.append(Line(""))
+        lines.append(Line())
         
         lines.append(Line("#include <metal_stdlib>"))
         lines.append(Line("using namespace metal;"))
-        lines.append(Line(""))
+        lines.append(Line())
         
-//        if !rawFuncs.isEmpty {
-//            for rawFunc in rawFuncs {
-//                lines.append(Line("f..."))
-//            }
-//            lines.append(Line(""))
-//        }
+        if !code.functions.isEmpty {
+            for function in code.functions {
+                lines.append(Line(function.code))
+            }
+        }
         
         if !values.isEmpty {
             lines.append(Line("struct Uniforms {"))
@@ -67,7 +59,7 @@ public struct SMShader {
                 lines.append(Line(in: 1, "float var\(i);"))
             }
             lines.append(Line("};"))
-            lines.append(Line(""))
+            lines.append(Line())
         }
         
         lines.append(Line("kernel void swiftMetal("))
@@ -81,40 +73,32 @@ public struct SMShader {
         lines.append(Line(in: 2, "uint2 pos [[ thread_position_in_grid ]],"))
         lines.append(Line(in: 2, "sampler smp [[ sampler(0) ]]"))
         lines.append(Line(in: 0, ") {"))
-        lines.append(Line(in: 1, ""))
+        lines.append(Line(in: 1))
 
         lines.append(Line(in: 1, "if (pos.x >= tex.get_width() || pos.y >= tex.get_height()) { return; }"))
-        lines.append(Line(in: 1, ""))
+        lines.append(Line(in: 1))
         
         if !textures.isEmpty {
             for texture in textures {
                 lines.append(Line(in: 1, "float4 \(texture.snippet()) = \(texture.name).read(pos);"))
             }
-            lines.append(Line(in: 1, ""))
+            lines.append(Line(in: 1))
         }
-
-//        let code: SMCode = SMBuilder.build(for: baseEntity)
+        
 //        code.variables.forEach { variable in
 //            lines.append(Line(in: 1, variable.code))
 //        }
-//        lines.append(Line(in: 1, ""))
+//        lines.append(Line(in: 1))
 //        lines.append(Line(in: 1, "float4 val = \(code.snippet);"))
-        lines.append(Line(in: 1, "float4 val = \(baseEntity.snippet());"))
-        lines.append(Line(in: 1, ""))
+        lines.append(Line(in: 1, "\(baseEntity.type) val = \(baseEntity.snippet());"))
+        lines.append(Line(in: 1))
         
         lines.append(Line(in: 1, "tex.write(val, pos);"))
-        lines.append(Line(in: 1, ""))
+        lines.append(Line(in: 1))
         
         lines.append(Line("}"))
         
-        return lines.map({ line -> String in
-            var row = ""
-            for _ in 0..<line.indent {
-                row += "    "
-            }
-            row += line.snippet;
-            return row
-        }).joined(separator: "\n") + "\n"
+        return Line.merge(lines)
     }
     
     public func make(with metalDevice: MTLDevice) throws -> MTLFunction {

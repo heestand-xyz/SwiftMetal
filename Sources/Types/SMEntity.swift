@@ -17,6 +17,8 @@ public class SMEntity: Identifiable, Equatable {
     public var snippet: () -> (String) = { "#" }
     
     let operation: SMOperation?
+    var isArg: Bool = false
+    var isReturn: Bool = false
     
     init(type: String, operation: SMOperation? = nil) {
         id = UUID()

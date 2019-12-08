@@ -29,16 +29,15 @@ class SwiftMetalTests: XCTestCase {
 //        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
 //        let tex = SMTexture(image: img)!
         let f = SMFunc<SMFloat4> { args in
-            SMReturn(
-                (args[0].entity as! SMFloat4) +
-                (args[1].entity as! SMFloat4)
-            )
+            (args[0] as! SMFloat4) +
+            (args[1] as! SMFloat4)
         }
-        let shader = SMShader(funcs: [f]) {
-            let v0 = float4(0.0, 0.0, 0.0, 1.0)
-            let v1 = float4(0.1, 0.1, 0.1, 1.0)
-            let v2 = float4(0.2, 0.2, 0.2, 1.0)
-            let c: SMFloat4 = f.call(v0, v1) + f.call(v0, v1) * v2
+        let shader = SMShader {
+            let v1 = float4(0.1, 0.0, 0.0, 1.0)
+            let v2 = float4(0.2, 0.0, 0.0, 1.0)
+            let v3 = float4(0.3, 0.0, 0.0, 1.0)
+            let v4 = float4(0.4, 0.0, 0.0, 1.0)
+            let c: SMFloat4 = f.call(v1, v2) * f.call(v3, v4)
             return c
         }
         print("> > > > > > >")
@@ -66,6 +65,7 @@ class SwiftMetalTests: XCTestCase {
 //        }
 //        print("~ ~ ~ ~ ~ ~ ~")
         XCTAssertNotEqual(raw.first!, 0)
+        XCTAssertEqual(CGFloat(raw.first!) / 255, 0.21176470588235294)
     }
 
     func testPerformanceExample() {

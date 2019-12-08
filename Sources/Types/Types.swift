@@ -55,3 +55,22 @@ public class SMTuple4<T: SMRaw>: SMTuple {
         self.value3 = value3
     }
 }
+
+struct Line {
+    let indent: Int
+    let snippet: String
+    init(in indent: Int = 0, _ snippet: String = "") {
+        self.indent = indent
+        self.snippet = snippet
+    }
+    static func merge(_ lines: [Line]) -> String {
+        lines.map({ line -> String in
+            var row = ""
+            for _ in 0..<line.indent {
+                row += "    "
+            }
+            row += line.snippet;
+            return row
+        }).joined(separator: "\n") + "\n"
+    }
+}

@@ -31,6 +31,63 @@ struct SMBuilder {
             hit = true
             return entity
         }
+        func funcBranches() -> [Branch] {
+            var funcBranches: [Branch] = []
+            if let branch = funcRootBranch() {
+                funcBranches.append(branch)
+                return funcBranches
+            }
+            for branch in self.branches {
+                let subBranches = branch.funcBranches()
+                funcBranches.append(contentsOf: subBranches)
+            }
+            return funcBranches
+        }
+        func funcRootBranch() -> Branch? {
+            guard entity.isReturn else { return nil }
+            return funcLeafBranch()
+        }
+        func funcLeafBranch() -> Branch? {
+            guard !entity.isArg else { return nil }
+            let root = Branch(entity: entity)
+            var leafs: [Branch] = []
+            for branch in self.branches {
+                if let leaf = branch.funcLeafBranch() {
+                    leafs.append(leaf)
+                }
+            }
+            root.branches = leafs
+            return root
+        }
+        func leafs() -> [Branch] {
+            guard !isLeaf() else {
+                return [self]
+            }
+            var leafs: [Branch] = []
+            for branch in self.branches {
+                if branch.isLeaf() {
+                    leafs.append(branch)
+                } else {
+                    let subLeafs = branch.leafs()
+                    leafs.append(contentsOf: subLeafs)
+                }
+            }
+            return leafs
+        }
+        func isLeaf() -> Bool {
+            branches.isEmpty
+        }
+        static func sameSignature(lhs: Branch, rhs: Branch) -> Bool {
+            guard lhs.entity.type == rhs.entity.type else { return false }
+            let lhsLeafs = lhs.leafs()
+            let rhsLeafs = rhs.leafs()
+            guard lhsLeafs.count == rhsLeafs.count else { return false }
+            guard zip(lhs.leafs(), rhs.leafs()).filter({ arg -> Bool in
+                let (lhsLeaf, rhsLeaf) = arg
+                return lhsLeaf.entity.type == rhsLeaf.entity.type
+            }).count == lhsLeafs.count else { return false }
+            return true
+        }
     }
     
     static func textures(for baseEntity: SMEntity) -> [SMTexture] {
@@ -51,14 +108,13 @@ struct SMBuilder {
         
     }
     
-    static func build(for baseEntity: SMEntity, with rawFuncs: [SMRawFunc]) -> SMCode {
+    static func build(for baseEntity: SMEntity) -> SMCode {
         
         let tree: Branch = Branch(entity: baseEntity)
         
         var entities: [SMEntity] = []
         
         var variables: [SMVariable] = []
-        var functions: [SMFunction] = []
         var lastSnippet: String = baseEntity.snippet()
         
         while let leafEntity = tree.leafEntity() {
@@ -75,7 +131,31 @@ struct SMBuilder {
             }
         }
         
-        return SMCode(lastSnippet, variables: variables)
+        var functions: [SMFunction] = []
+        
+        let funcBranchs: [Branch] = tree.funcBranches()
+        var uniqueFuncBranchs: [Branch] = []
+        for funcBranch in funcBranchs {
+            var exists = false
+            for uniqueFuncBranch in uniqueFuncBranchs {
+                if Branch.sameSignature(lhs: funcBranch, rhs: uniqueFuncBranch) {
+                    exists = true
+                    break
+                }
+            }
+            if !exists {
+                uniqueFuncBranchs.append(funcBranch)
+            }
+        }
+        for uniqueFuncBranch in uniqueFuncBranchs {
+            let leafs = uniqueFuncBranch.leafs()
+            let argTypes = leafs.map({ $0.entity.type })
+            let returnType = uniqueFuncBranch.entity.type
+            let function = SMFunction(argTypes: argTypes, returnType: returnType, index: functions.count)
+            functions.append(function)
+        }
+        
+        return SMCode(lastSnippet, variables: variables, functions: functions)
         
     }
     

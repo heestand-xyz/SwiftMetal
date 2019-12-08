@@ -85,7 +85,6 @@
 				3A99C615239A4B8E005BE419 /* SMValue.swift */,
 				7422A263239D31F0003FEA65 /* SMFloat.swift */,
 				3A670688239A666300E23C87 /* SMTexture.swift */,
-				74E5B8FC239C547E00492280 /* SMFunction.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -119,6 +118,7 @@
 				3A67068C239A6CCB00E23C87 /* SMCode.swift */,
 				3A67068A239A687E00E23C87 /* SMBuilder.swift */,
 				3A670690239A93D400E23C87 /* SMRenderer.swift */,
+				74E5B8FC239C547E00492280 /* SMFunction.swift */,
 				3A67067F239A61A900E23C87 /* Types */,
 			);
 			path = Sources;
