@@ -8,33 +8,48 @@
 
 import Foundation
 
-public class SMFloat: SMEntity, SMValue, ExpressibleByFloatLiteral {
+public class SMFloat: SMEntity, SMValue {
     
-    let futureValue: () -> (Float)
-    public var value: Float {
-        futureValue()
-    }
+    public typealias V = Float
     
-    required public init(_ value: Float) {
-        self.futureValue = { value }
+    public var value: V { 0.0 }
+    
+    init() {
         super.init(type: "float")
     }
     
-    public required init(_ futureValue: @escaping () -> (Float)) {
-        self.futureValue = futureValue
-        super.init(type: "float")
+    public override func snippet() -> String {
+        String(describing: value)
+    }
+
+}
+
+
+public class SMFloatConstant: SMFloat, SMValueConstant, ExpressibleByFloatLiteral {
+    
+    public let _value: V
+    public override var value: V { _value }
+    
+    required public init(_ value: V) {
+        _value = value
     }
     
     required public init(floatLiteral value: Float) {
-        self.futureValue = { value }
-        super.init(type: "float")
+        _value = value
     }
     
-//    public override func build() -> SMCode {
-//        SMCode(String(describing: value))
-//    }
-    public override func snippet() -> String {
-        String(describing: value)
+}
+
+
+public class SMFloatVaraible: SMFloat, SMValueVaraible {
+    
+    let futureValue: () -> (V)
+    public override var value: V {
+        futureValue()
+    }
+    
+    public required init(_ futureValue: @escaping () -> (V)) {
+        self.futureValue = futureValue
     }
     
 }

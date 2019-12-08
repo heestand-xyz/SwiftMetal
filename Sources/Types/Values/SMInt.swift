@@ -8,33 +8,48 @@
 
 import Foundation
 
-public class SMInt: SMEntity, SMValue, ExpressibleByIntegerLiteral {
-        
-    let futureValue: () -> (Int)
-    public var value: Int {
-        futureValue()
-    }
+public class SMInt: SMEntity, SMValue {
     
-    required public init(_ value: Int) {
-        self.futureValue = { value }
+    public typealias V = Int
+    
+    public var value: V { 0 }
+    
+    init() {
         super.init(type: "int")
     }
     
-    public required init(_ futureValue: @escaping () -> (Int)) {
-        self.futureValue = futureValue
-        super.init(type: "int")
+    public override func snippet() -> String {
+        String(describing: value)
+    }
+
+}
+
+
+public class SMIntConstant: SMInt, SMValueConstant, ExpressibleByIntegerLiteral {
+    
+    public let _value: V
+    public override var value: V { _value }
+    
+    required public init(_ value: V) {
+        _value = value
     }
     
     required public init(integerLiteral value: Int) {
-        self.futureValue = { value }
-        super.init(type: "int")
+        _value = value
     }
     
-//    public override func build() -> SMCode {
-//        SMCode(String(describing: value))
-//    }
-    public override func snippet() -> String {
-        String(describing: value)
+}
+
+
+public class SMIntVaraible: SMInt, SMValueVaraible {
+    
+    let futureValue: () -> (V)
+    public override var value: V {
+        futureValue()
+    }
+    
+    public required init(_ futureValue: @escaping () -> (V)) {
+        self.futureValue = futureValue
     }
     
 }

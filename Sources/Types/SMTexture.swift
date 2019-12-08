@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MetalKit
 
-public class SMTexture: SMEntity {
+public class SMTexture: SMFloat4 {
         
     let texture: MTLTexture
     
@@ -32,17 +32,12 @@ public class SMTexture: SMEntity {
         let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
         guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: nil) else { return nil }
         self.texture = texture
-        super.init(type: "float4")
     }
     
     public init(texture: MTLTexture) {
         self.texture = texture
-        super.init(type: "float4")
     }
     
-//    override public func build() -> SMCode {
-//        SMCode(name)
-//    }
     override public func snippet() -> String {
         "t\(index ?? -1)"
     }

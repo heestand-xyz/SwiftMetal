@@ -8,40 +8,52 @@
 
 import Foundation
 
-public class SMFloat4: SMEntity, SMValue, ExpressibleByFloatLiteral {
+public class SMFloat4: SMEntity, SMValue {
     
-    public typealias F4 = (SMFloat, SMFloat, SMFloat, SMFloat)
+    public typealias V = (SMFloat, SMFloat, SMFloat, SMFloat)
     
-    let futureValue: () -> (F4)
-    public var value: F4 {
-        futureValue()
-    }
+    public var value: V { (SMFloat(), SMFloat(), SMFloat(), SMFloat()) }
     
-    required public init(_ value: F4) {
-        self.futureValue = { value }
+    init() {
         super.init(type: "float4")
     }
     
-    public required init(_ futureValue: @escaping () -> (F4)) {
-        self.futureValue = futureValue
-        super.init(type: "float4")
+    public override func snippet() -> String {
+        "float4(\(value.0.value), \(value.1.value), \(value.2.value), \(value.3.value))"
+    }
+
+}
+
+
+public class SMFloat4Constant: SMFloat4, SMValueConstant, ExpressibleByFloatLiteral {
+    
+    public let _value: V
+    public override var value: V { _value }
+    
+    required public init(_ value: V) {
+        _value = value
     }
     
     required public init(floatLiteral value: Float) {
-        let smFloat = SMFloat(value)
-        self.futureValue = { (smFloat, smFloat, smFloat, smFloat) }
-        super.init(type: "float4")
-    }
-    
-//    public override func build() -> SMCode {
-//        SMCode("float4(\(value.0.value), \(value.1.value), \(value.2.value), \(value.3.value))")
-//    }
-    public override func snippet() -> String {
-        "float4(\(value.0.value), \(value.1.value), \(value.2.value), \(value.3.value))"
+        _value = (SMFloatConstant(value), SMFloatConstant(value), SMFloatConstant(value), SMFloatConstant(value))
     }
     
 }
 
-func float4(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat, _ value3: SMFloat) -> SMFloat4 {
-    SMFloat4((value0, value1, value2, value3))
+
+public class SMFloat4Varaible: SMFloat4, SMValueVaraible {
+    
+    let futureValue: () -> (V)
+    public override var value: V {
+        futureValue()
+    }
+    
+    public required init(_ futureValue: @escaping () -> (V)) {
+        self.futureValue = futureValue
+    }
+    
+}
+
+func float4(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat, _ value3: SMFloat) -> SMFloat4Constant {
+    SMFloat4Constant((value0, value1, value2, value3))
 }

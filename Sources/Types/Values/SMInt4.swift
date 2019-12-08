@@ -8,40 +8,52 @@
 
 import Foundation
 
-public class SMInt4: SMEntity, SMValue, ExpressibleByIntegerLiteral {
-        
-    public typealias I4 = (SMInt, SMInt, SMInt, SMInt)
+public class SMInt4: SMEntity, SMValue {
     
-    let futureValue: () -> (I4)
-    public var value: I4 {
-        futureValue()
-    }
+    public typealias V = (SMInt, SMInt, SMInt, SMInt)
     
-    required public init(_ value: I4) {
-        self.futureValue = { value }
+    public var value: V { (SMInt(), SMInt(), SMInt(), SMInt()) }
+    
+    init() {
         super.init(type: "int4")
     }
     
-    public required init(_ futureValue: @escaping () -> (I4)) {
-        self.futureValue = futureValue
-        super.init(type: "int4")
+    public override func snippet() -> String {
+        "int4(\(value.0.value), \(value.1.value), \(value.2.value), \(value.3.value))"
+    }
+
+}
+
+
+public class SMInt4Constant: SMInt4, SMValueConstant, ExpressibleByIntegerLiteral {
+    
+    public let _value: V
+    public override var value: V { _value }
+    
+    required public init(_ value: V) {
+        _value = value
     }
     
     required public init(integerLiteral value: Int) {
-        let smInt = SMInt(value)
-        self.futureValue = { (smInt, smInt, smInt, smInt) }
-        super.init(type: "int4")
-    }
-    
-//    public override func build() -> SMCode {
-//        SMCode("int4(\(value.0.value), \(value.1.value), \(value.2.value), \(value.3.value))")
-//    }
-    public override func snippet() -> String {
-        "int4(\(value.0.value), \(value.1.value), \(value.2.value), \(value.3.value))"
+        _value = (SMIntConstant(value), SMIntConstant(value), SMIntConstant(value), SMIntConstant(value))
     }
     
 }
 
-func int4(_ value0: SMInt, _ value1: SMInt, _ value2: SMInt, _ value3: SMInt) -> SMInt4 {
-    SMInt4((value0, value1, value2, value3))
+
+public class SMInt4Varaible: SMInt4, SMValueVaraible {
+    
+    let futureValue: () -> (V)
+    public override var value: V {
+        futureValue()
+    }
+    
+    public required init(_ futureValue: @escaping () -> (V)) {
+        self.futureValue = futureValue
+    }
+    
+}
+
+func int4(_ value0: SMInt, _ value1: SMInt, _ value2: SMInt, _ value3: SMInt) -> SMInt4Constant {
+    SMInt4Constant((value0, value1, value2, value3))
 }

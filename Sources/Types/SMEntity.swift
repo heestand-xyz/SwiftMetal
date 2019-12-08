@@ -26,40 +26,40 @@ public class SMEntity: SMBuild, Identifiable, Equatable {
         SMAdd(lhs: lhs, rhs: rhs)
     }
     static func + (lhs: SMEntity, rhs: Float) -> SMAdd {
-        SMAdd(lhs: lhs, rhs: SMFloat(rhs))
+        SMAdd(lhs: lhs, rhs: SMFloatConstant(rhs))
     }
     static func + (lhs: Float, rhs: SMEntity) -> SMAdd {
-        SMAdd(lhs: SMFloat(lhs), rhs: rhs)
+        SMAdd(lhs: SMFloatConstant(lhs), rhs: rhs)
     }
     
     static func - (lhs: SMEntity, rhs: SMEntity) -> SMSubtract {
         SMSubtract(lhs: lhs, rhs: rhs)
     }
     static func - (lhs: SMEntity, rhs: Float) -> SMSubtract {
-        SMSubtract(lhs: lhs, rhs: SMFloat(rhs))
+        SMSubtract(lhs: lhs, rhs: SMFloatConstant(rhs))
     }
     static func - (lhs: Float, rhs: SMEntity) -> SMSubtract {
-        SMSubtract(lhs: SMFloat(lhs), rhs: rhs)
+        SMSubtract(lhs: SMFloatConstant(lhs), rhs: rhs)
     }
     
     static func * (lhs: SMEntity, rhs: SMEntity) -> SMMultiply {
         SMMultiply(lhs: lhs, rhs: rhs)
     }
     static func * (lhs: SMEntity, rhs: Float) -> SMMultiply {
-        SMMultiply(lhs: lhs, rhs: SMFloat(rhs))
+        SMMultiply(lhs: lhs, rhs: SMFloatConstant(rhs))
     }
     static func * (lhs: Float, rhs: SMEntity) -> SMMultiply {
-        SMMultiply(lhs: SMFloat(lhs), rhs: rhs)
+        SMMultiply(lhs: SMFloatConstant(lhs), rhs: rhs)
     }
     
     static func / (lhs: SMEntity, rhs: SMEntity) -> SMDivide {
         SMDivide(lhs: lhs, rhs: rhs)
     }
     static func / (lhs: SMEntity, rhs: Float) -> SMDivide {
-        SMDivide(lhs: lhs, rhs: SMFloat(rhs))
+        SMDivide(lhs: lhs, rhs: SMFloatConstant(rhs))
     }
     static func / (lhs: Float, rhs: SMEntity) -> SMDivide {
-        SMDivide(lhs: SMFloat(lhs), rhs: rhs)
+        SMDivide(lhs: SMFloatConstant(lhs), rhs: rhs)
     }
     
     // MARK: - Equatable
