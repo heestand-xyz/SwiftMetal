@@ -29,7 +29,7 @@ let texture: MTLTexture = render.texture
 using namespace metal;
 
 float4 f0(float4 a0, float4 a1) {
-    return (a0 + a0);
+    return (a0 + a1);
 }
 
 kernel void swiftMetal(
