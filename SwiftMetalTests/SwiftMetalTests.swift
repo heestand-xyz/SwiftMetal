@@ -31,14 +31,14 @@ class SwiftMetalTests: XCTestCase {
         let v0 = float4(0.0, 0.0, 0.0, 1.0)
         let v1 = float4(0.1, 0.1, 0.1, 1.0)
         let v2 = float4(0.2, 0.2, 0.2, 1.0)
-        func f(a: SMFloat4, b: SMFloat4) -> SMFloat4 {
-            a + b
-        }
-//        let f = SMFunction<SMFloat4> { args in
-//            ((args[0] as! SMFloat4) + (args[1] as! SMFloat4)) as! SMFloat4
+//        func f(a: SMFloat4, b: SMFloat4) -> SMFloat4 {
+//            a + b
 //        }
-        let c = f(a: v0, b: v1) + f(a: v0, b: v1) * v2
-        let function = SMShader(c, with: [])
+        let f = SMFunction { args in
+            (args[0] as! SMFloat4) + (args[1] as! SMFloat4)
+        }
+        let c: SMFloat4 = f.call(v0, v1) + f.call(v0, v1) * v2
+        let function = SMShader(c, with: [f])
         print("> > > > > > >")
         print(function.code())
         print("< < < < < < <")

@@ -17,7 +17,7 @@ public struct SMShader {
     
     var values: [Float] = []
     
-    let functions: [SMFunction<SMEntity>]
+    let functions: [SMRawFunction]
     
     let textures: [SMTexture]
     
@@ -32,7 +32,7 @@ public struct SMShader {
     
     let baseEntity: SMEntity
     
-    public init(_ entity: SMEntity, with functions: [SMFunction<SMEntity>]) {
+    public init(_ entity: SMEntity, with functions: [SMRawFunction]) {
         baseEntity = entity
         textures = SMBuilder.textures(for: baseEntity)
         self.functions = functions

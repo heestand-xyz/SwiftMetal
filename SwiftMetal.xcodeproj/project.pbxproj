@@ -20,7 +20,7 @@
 		3A99C613239A4B61005BE419 /* SMShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C612239A4B61005BE419 /* SMShader.swift */; };
 		3A99C616239A4B8E005BE419 /* SMValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C615239A4B8E005BE419 /* SMValue.swift */; };
 		7422A264239D31F0003FEA65 /* SMFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A263239D31F0003FEA65 /* SMFloat.swift */; };
-		7422A268239D3438003FEA65 /* SMOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A267239D3438003FEA65 /* SMOperation.swift */; };
+		7422A268239D3438003FEA65 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A267239D3438003FEA65 /* Types.swift */; };
 		74512F25239BE34D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74512F26239BE39D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74E5B8FD239C547E00492280 /* SMFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5B8FC239C547E00492280 /* SMFunction.swift */; };
@@ -53,7 +53,7 @@
 		3A99C612239A4B61005BE419 /* SMShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMShader.swift; sourceTree = "<group>"; };
 		3A99C615239A4B8E005BE419 /* SMValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMValue.swift; sourceTree = "<group>"; };
 		7422A263239D31F0003FEA65 /* SMFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFloat.swift; sourceTree = "<group>"; };
-		7422A267239D3438003FEA65 /* SMOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMOperation.swift; sourceTree = "<group>"; };
+		7422A267239D3438003FEA65 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		74512F24239BE34D008F5FCE /* TestMedia.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TestMedia.xcassets; sourceTree = "<group>"; };
 		74E5B8FC239C547E00492280 /* SMFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFunction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,12 +80,12 @@
 		3A67067F239A61A900E23C87 /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				7422A267239D3438003FEA65 /* Types.swift */,
 				3A670680239A61BB00E23C87 /* SMEntity.swift */,
 				3A99C615239A4B8E005BE419 /* SMValue.swift */,
 				7422A263239D31F0003FEA65 /* SMFloat.swift */,
 				3A670688239A666300E23C87 /* SMTexture.swift */,
 				74E5B8FC239C547E00492280 /* SMFunction.swift */,
-				7422A267239D3438003FEA65 /* SMOperation.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -263,7 +263,7 @@
 				3A67068F239A801200E23C87 /* SMVariable.swift in Sources */,
 				3A670689239A666300E23C87 /* SMTexture.swift in Sources */,
 				3A99C613239A4B61005BE419 /* SMShader.swift in Sources */,
-				7422A268239D3438003FEA65 /* SMOperation.swift in Sources */,
+				7422A268239D3438003FEA65 /* Types.swift in Sources */,
 				3A670681239A61BB00E23C87 /* SMEntity.swift in Sources */,
 				3A670695239A9D9600E23C87 /* Template.metal in Sources */,
 			);

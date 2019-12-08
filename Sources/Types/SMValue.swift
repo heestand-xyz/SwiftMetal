@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SMValue<V>: SMEntity {
+public class SMValue<V: SMRaw>: SMEntity {
     
     public typealias FV = () -> (V)
     
@@ -20,18 +20,5 @@ public class SMValue<V>: SMEntity {
         super.init(type: type, operation: operation)
         self.snippet = snippet ?? { "#" }
     }
-    
-//    public static func + (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
-//        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" }, type: lhs.type)
-//    }
-//    public static func - (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
-//        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" }, type: lhs.type)
-//    }
-//    public static func * (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
-//        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" }, type: lhs.type)
-//    }
-//    public static func / (lhs: SMValue<V>, rhs: SMValue<V>) -> SMValue<V> {
-//        SMValue<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" }, type: lhs.type)
-//    }
 
 }

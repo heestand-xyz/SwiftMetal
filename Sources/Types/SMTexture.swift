@@ -36,7 +36,7 @@ public class SMTexture: SMFloat4 {
     
     public init(texture: MTLTexture) {
         self.texture = texture
-        super.init({ (SMFloat(0.0), SMFloat(0.0), SMFloat(0.0), SMFloat(0.0)) })
+        super.init({ SMTuple4<Float>(SMFloat(0.0), SMFloat(0.0), SMFloat(0.0), SMFloat(0.0)) })
         self.snippet = { "t\(self.index ?? -1)" }
     }
     

@@ -8,16 +8,39 @@
 
 import Foundation
 
-public class SMFunction<OUT: SMEntity> {
+public class SMRawFunction: Identifiable, Equatable {
     
-    let function: ([SMEntity]) -> (OUT)
+    public let id: UUID
     
-    public init(_ function: @escaping ([SMEntity]) -> (OUT)) {
+    let function: ([SMEntity]) -> (SMEntity)
+    
+    public init(_ function: @escaping ([SMEntity]) -> (SMEntity)) {
+        id = UUID()
         self.function = function
     }
     
-    public func call(_ arguments: SMEntity...) -> OUT {
+    public func call(_ arguments: SMEntity...) -> SMEntity {
         function(arguments)
     }
     
+    public static func == (lhs: SMRawFunction, rhs: SMRawFunction) -> Bool {
+        lhs.id == rhs.id
+    }
+    
 }
+
+public class SMFunction<R: SMEntity>: SMRawFunction {
+
+    public init(_ function: @escaping ([SMEntity]) -> (R)) {
+        super.init(function)
+    }
+
+    public func call(_ arguments: SMEntity...) -> R {
+        function(arguments) as! R
+    }
+
+}
+
+//struct SMArg {
+//    let entity: SMEntity
+//}
