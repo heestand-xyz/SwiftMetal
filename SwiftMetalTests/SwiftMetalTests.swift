@@ -25,9 +25,10 @@ class SwiftMetalTests: XCTestCase {
     func testFunc() {
 //        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
 //        let tex = SMTexture(image: img)!
-        let date = Date()
+//        let date = Date()
         var live: Float {
-            Float(-date.timeIntervalSinceNow)
+//            Float(-date.timeIntervalSinceNow)
+            0.333
         }
         let func0 = function { args -> SMFloat4 in
             (args[0] as! SMFloat4) *
@@ -46,7 +47,7 @@ class SwiftMetalTests: XCTestCase {
         print(shader.code())
         print("< < < < < < <")
         let res = CGSize(width: 1, height: 1)
-        let render: SMTexture = try! renderer.render(shader, at: res)
+        let render: SMTexture = try! renderer.render(shader, at: res, as: .rgba16Unorm)
         let raw = try! render.raw()
         if raw.count == 4 {
             print(raw.map({ CGFloat($0) / 255 }))

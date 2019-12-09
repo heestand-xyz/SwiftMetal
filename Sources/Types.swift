@@ -8,6 +8,31 @@
 
 import Foundation
 
+struct SMVariable {
+    let entity: SMEntity
+    let index: Int
+    var name: String {
+        return "v\(index)"
+    }
+    var code: String {
+        "\(entity.type) \(name) = \(entity.snippet());"
+    }
+}
+
+struct SMUniform {
+    let entity: SMEntity
+    let index: Int
+    var name: String {
+        return "u\(index)"
+    }
+    var code: String {
+        "\(entity.type) \(name);"
+    }
+    var snippet: String {
+        "us.\(name)"
+    }
+}
+
 struct SMOperation {
     let lhs: SMEntity
     let rhs: SMEntity

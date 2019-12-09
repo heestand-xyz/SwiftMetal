@@ -24,7 +24,8 @@ public class SMTexture: SMFloat4 {
     }
     
     enum TextureError: Error {
-        case pixelFormat(MTLPixelFormat)
+        case badPixelFormat(target: [MTLPixelFormat])
+        case imageFailed(String)
     }
     
     public convenience init?(image: UIImage) {
@@ -36,17 +37,35 @@ public class SMTexture: SMFloat4 {
     
     public init(texture: MTLTexture) {
         self.texture = texture
-        super.init({ SMTuple4<Float>(SMFloat(0.0), SMFloat(0.0), SMFloat(0.0), SMFloat(0.0)) })
+        super.init()
         self.snippet = { "t\(self.index ?? -1)" }
     }
     
     required public convenience init(floatLiteral value: Float) {
         fatalError("init(floatLiteral:) has not been implemented")
     }
+
+    public func image() throws -> UIImage {
+        let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
+        guard let ciImage = CIImage(mtlTexture: texture, options: [.colorSpace: colorSpace]) else {
+            throw TextureError.imageFailed("CIImage")
+        }
+        let ciFormat: CIFormat
+        switch texture.pixelFormat {
+        case .rgba8Unorm: ciFormat = .RGBA8
+        case .rgba16Unorm: ciFormat = .RGBA16
+        default:
+            throw TextureError.badPixelFormat(target: [.rgba8Unorm, .rgba16Unorm])
+        }
+        guard let cgImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent, format: ciFormat, colorSpace: colorSpace) else {
+            throw TextureError.imageFailed("CGImage")
+        }
+        return UIImage(cgImage: cgImage)
+    }
     
-    public func raw() throws -> [UInt8] {
+    public func raw8() throws -> [UInt8] {
         guard texture.pixelFormat == .rgba8Unorm else {
-            throw TextureError.pixelFormat(.rgba8Unorm)
+            throw TextureError.badPixelFormat(target: [.rgba8Unorm])
         }
         let region = MTLRegionMake2D(0, 0, texture.width, texture.height)
         var raw = Array<UInt8>(repeating: 0, count: texture.width * texture.height * 4)
@@ -55,6 +74,65 @@ public class SMTexture: SMFloat4 {
             texture.getBytes($0.baseAddress!, bytesPerRow: bytesPerRow, from: region, mipmapLevel: 0)
         }
         return raw
+    }
+    
+    public func raw16() throws -> [Float] {
+        guard texture.pixelFormat == .rgba16Unorm else {
+            throw TextureError.badPixelFormat(target: [.rgba16Unorm])
+        }
+        let region = MTLRegionMake2D(0, 0, texture.width, texture.height)
+        var raw = Array<Float>(repeating: 0, count: texture.width * texture.height * 4)
+        raw.withUnsafeMutableBytes {
+            let bytesPerRow = MemoryLayout<Float>.size * texture.width * 4
+            texture.getBytes($0.baseAddress!, bytesPerRow: bytesPerRow, from: region, mipmapLevel: 0)
+        }
+        return raw
+    }
+    
+    public func pixels() throws -> [[[Float]]] {
+        let rawFloats: [Float]
+        switch texture.pixelFormat {
+        case .rgba8Unorm:
+            let raw = try raw8()
+            rawFloats = raw.map({ Float($0) / 255 })
+        case .rgba16Unorm:
+            rawFloats = try raw16()
+        default:
+            throw TextureError.badPixelFormat(target: [.rgba8Unorm, .rgba16Unorm])
+        }
+        var pixels: [[[Float]]] = []
+        var row: [[Float]]!
+        var pixel: [Float]!
+        for (i, rawFloat) in rawFloats.enumerated() {
+            if i % (texture.width * 4) == 0 {
+                row = []
+            }
+            if i % 4 == 0 {
+                pixel = []
+            }
+            pixel.append(rawFloat)
+            if i % 4 == 3 {
+                row.append(pixel)
+            }
+            if i % (texture.width * 4) == (texture.width * 4) - 1 {
+                pixels.append(row)
+            }
+        }
+        return pixels
+    }
+    
+    public func pixels() throws -> [[(r: Float, g: Float, b: Float, a: Float)]] {
+        try pixels().map({ $0.map({ (r: $0[0],
+                                     g: $0[1],
+                                     b: $0[2],
+                                     a: $0[3]) }) })
+    }
+    
+    public func pixels() throws -> [[UIColor]] {
+        try pixels().map({ $0.map({ UIColor(red: CGFloat($0[0]),
+                                            green: CGFloat($0[1]),
+                                            blue: CGFloat($0[2]),
+                                            alpha: CGFloat($0[3])) }) })
     }
     
 }

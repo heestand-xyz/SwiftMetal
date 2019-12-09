@@ -22,15 +22,18 @@ public class SMValue<V: SMRaw>: SMEntity {
         self.snippet = snippet ?? { "#" }
     }
     
-    init(_ futureValue: @escaping FV, snippet: (() -> (String))? = nil, type: String) {
+    init(_ futureValue: @escaping FV, type: String) {
         self.futureValue = futureValue
-        super.init(type: type)
-        self.snippet = snippet ?? { "#" }
+        super.init(type: type, isFuture: true)
     }
     
     init(operation: SMOperation, snippet: @escaping () -> (String), type: String) {
         super.init(type: type, operation: operation)
         self.snippet = snippet
+    }
+    
+    init(type: String) {
+        super.init(type: type)
     }
 
 }

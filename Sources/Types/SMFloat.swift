@@ -34,42 +34,50 @@ public struct SMRawFloat4 {
         tuple = SMTuple4<T>(SMFloat(value0), SMFloat(value1), SMFloat(value2), SMFloat(value3))
     }
 }
+//public class SMFutureFloat4: SMFloat4 {
+//    init(_ futureValue: @escaping () -> (SMRawFloat4)) {
+//        super.init({ futureValue().tuple })
+//        snippet = { "future" }
+//    }
+//    required public convenience init(floatLiteral value: T) {
+//        fatalError("init(floatLiteral:) has not been implemented")
+//    }
+//}
 public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral {
     
     static let kType: String = "float4"
     public typealias T = Float
     
     public convenience init(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat, _ value3: SMFloat) {
-        self.init({ SMTuple4<T>(value0, value1, value2, value3) })
-    }
-    
-    public init(_ value: SMTuple4<T>) {
-        super.init(value, type: SMFloat4.kType)
-        setSnippet()
+        self.init(SMTuple4<T>(value0, value1, value2, value3))
     }
     
     public convenience init(_ futureValue: @escaping () -> (SMRawFloat4)) {
         self.init({ futureValue().tuple })
     }
     
-    public init(_ futureValue: @escaping () -> (SMTuple4<T>)) {
+    required public convenience init(floatLiteral value: T) {
+        self.init(SMTuple4<T>(SMFloat(value),
+                              SMFloat(value),
+                              SMFloat(value),
+                              SMFloat(value)))
+    }
+    
+    init(_ value: SMTuple4<T>) {
+        super.init(value, type: SMFloat4.kType)
+        snippet = { "\(SMFloat4.kType)(\(self.value?.value0.value ?? -1), \(self.value?.value1.value ?? -1), \(self.value?.value2.value ?? -1), \(self.value?.value3.value ?? -1))" }
+    }
+    
+    init(_ futureValue: @escaping () -> (SMTuple4<T>)) {
         super.init(futureValue, type: SMFloat4.kType)
-        setSnippet()
     }
     
     init(operation: SMOperation, snippet: @escaping () -> (String)) {
         super.init(operation: operation, snippet: snippet, type: SMFloat4.kType)
     }
     
-    required public convenience init(floatLiteral value: T) {
-        self.init({ SMTuple4<T>(SMFloat(value),
-                                SMFloat(value),
-                                SMFloat(value),
-                                SMFloat(value)) })
-    }
-    
-    func setSnippet() {
-        snippet = { "\(SMFloat4.kType)(\(self.value?.value0.value ?? -1), \(self.value?.value1.value ?? -1), \(self.value?.value2.value ?? -1), \(self.value?.value3.value ?? -1))" }
+    init() {
+        super.init(type: SMFloat4.kType)
     }
     
     public static func + (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {

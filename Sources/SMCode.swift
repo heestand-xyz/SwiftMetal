@@ -11,25 +11,29 @@ import Foundation
 struct SMCode {
     
     var snippet: String
+    var uniforms: [SMUniform]
     var variables: [SMVariable]
     var functions: [SMFunction]
     
-    init(_ snippet: String, variables: [SMVariable] = [], functions: [SMFunction] = []) {
+    init(_ snippet: String, uniforms: [SMUniform], variables: [SMVariable], functions: [SMFunction]) {
         self.snippet = snippet
+        self.uniforms = uniforms
         self.variables = variables
         self.functions = functions
     }
     
-    init(_ snippet: String) {
-        self.snippet = snippet
-        variables = []
-        functions = []
-    }
+//    init(_ snippet: String) {
+//        self.snippet = snippet
+//        uniforms = []
+//        variables = []
+//        functions = []
+//    }
     
-    init() {
-        snippet = ""
-        variables = []
-        functions = []
-    }
+//    init() {
+//        snippet = ""
+//        uniforms = []
+//        variables = []
+//        functions = []
+//    }
     
 }

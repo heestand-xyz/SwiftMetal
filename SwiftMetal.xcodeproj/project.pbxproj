@@ -11,7 +11,6 @@
 		3A670689239A666300E23C87 /* SMTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670688239A666300E23C87 /* SMTexture.swift */; };
 		3A67068B239A687E00E23C87 /* SMBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068A239A687E00E23C87 /* SMBuilder.swift */; };
 		3A67068D239A6CCB00E23C87 /* SMCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068C239A6CCB00E23C87 /* SMCode.swift */; };
-		3A67068F239A801200E23C87 /* SMVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068E239A801200E23C87 /* SMVariable.swift */; };
 		3A670691239A93D400E23C87 /* SMRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670690239A93D400E23C87 /* SMRenderer.swift */; };
 		3A670695239A9D9600E23C87 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
 		3A99C601239A4B20005BE419 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
@@ -41,7 +40,6 @@
 		3A670688239A666300E23C87 /* SMTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMTexture.swift; sourceTree = "<group>"; };
 		3A67068A239A687E00E23C87 /* SMBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBuilder.swift; sourceTree = "<group>"; };
 		3A67068C239A6CCB00E23C87 /* SMCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCode.swift; sourceTree = "<group>"; };
-		3A67068E239A801200E23C87 /* SMVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMVariable.swift; sourceTree = "<group>"; };
 		3A670690239A93D400E23C87 /* SMRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMRenderer.swift; sourceTree = "<group>"; };
 		3A670694239A9D9600E23C87 /* Template.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Template.metal; sourceTree = "<group>"; };
 		3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMetal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,7 +78,6 @@
 		3A67067F239A61A900E23C87 /* Types */ = {
 			isa = PBXGroup;
 			children = (
-				7422A267239D3438003FEA65 /* Types.swift */,
 				3A670680239A61BB00E23C87 /* SMEntity.swift */,
 				3A99C615239A4B8E005BE419 /* SMValue.swift */,
 				7422A263239D31F0003FEA65 /* SMFloat.swift */,
@@ -112,13 +109,13 @@
 			isa = PBXGroup;
 			children = (
 				3A99C5FA239A4B20005BE419 /* SwiftMetal.h */,
+				3A670694239A9D9600E23C87 /* Template.metal */,
 				3A670690239A93D400E23C87 /* SMRenderer.swift */,
 				3A99C612239A4B61005BE419 /* SMShader.swift */,
-				3A67068E239A801200E23C87 /* SMVariable.swift */,
 				3A67068C239A6CCB00E23C87 /* SMCode.swift */,
 				3A67068A239A687E00E23C87 /* SMBuilder.swift */,
 				74E5B8FC239C547E00492280 /* SMFunction.swift */,
-				3A670694239A9D9600E23C87 /* Template.metal */,
+				7422A267239D3438003FEA65 /* Types.swift */,
 				3A67067F239A61A900E23C87 /* Types */,
 			);
 			path = Sources;
@@ -260,7 +257,6 @@
 				3A99C616239A4B8E005BE419 /* SMValue.swift in Sources */,
 				74E5B8FD239C547E00492280 /* SMFunction.swift in Sources */,
 				7422A264239D31F0003FEA65 /* SMFloat.swift in Sources */,
-				3A67068F239A801200E23C87 /* SMVariable.swift in Sources */,
 				3A670689239A666300E23C87 /* SMTexture.swift in Sources */,
 				3A99C613239A4B61005BE419 /* SMShader.swift in Sources */,
 				7422A268239D3438003FEA65 /* Types.swift in Sources */,

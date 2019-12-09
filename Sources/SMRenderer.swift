@@ -56,7 +56,7 @@ class SMRenderer {
         let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: mtlFunction)
         commandEncoder.setComputePipelineState(pipelineState)
         
-        var values: [Float] = shader.values
+        var values: [Float] = []
         if !values.isEmpty {
             let size: Int = MemoryLayout<Float>.size * values.count
             guard let uniformBuffer = SMRenderer.metalDevice.makeBuffer(length: size, options: []) else {

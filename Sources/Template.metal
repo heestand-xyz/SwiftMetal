@@ -14,10 +14,10 @@ float4 f0(float4 input) {
 }
 
 struct Uniforms {
-    float x;
+    float u0;
 };
 
-kernel void swiftMetal(const device Uniforms& vars [[ buffer(0) ]],
+kernel void swiftMetal(const device Uniforms& us [[ buffer(0) ]],
                        texture2d<float, access::write> tex [[ texture(0) ]],
                        texture2d<float, access::read> tex0 [[ texture(1) ]],
                        uint2 pos [[ thread_position_in_grid ]],
@@ -27,7 +27,7 @@ kernel void swiftMetal(const device Uniforms& vars [[ buffer(0) ]],
     
     float4 t0 = tex0.read(pos);
     
-    float4 val = f0(t0) + float4(vars.x, 0.0, 0.0, 1.0);
+    float4 val = f0(t0) + float4(us.u0, 0.0, 0.0, 1.0);
     
     tex.write(val, pos);
     

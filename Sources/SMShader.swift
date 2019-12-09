@@ -14,9 +14,7 @@ public struct SMShader {
     enum FuncError: Error {
         case shader
     }
-    
-    var values: [Float] = []
-    
+        
 //    let rawFuncs: [SMRawFunc]
     
     let textures: [SMTexture]
@@ -53,18 +51,18 @@ public struct SMShader {
             }
         }
         
-        if !values.isEmpty {
+        if !code.uniforms.isEmpty {
             lines.append(Line("struct Uniforms {"))
-            for i in 0..<values.count {
-                lines.append(Line(in: 1, "float var\(i);"))
+            for uniform in code.uniforms {
+                lines.append(Line(in: 1, uniform.code))
             }
             lines.append(Line("};"))
             lines.append(Line())
         }
         
         lines.append(Line("kernel void swiftMetal("))
-        if !values.isEmpty {
-            lines.append(Line(in: 2, "const device Uniforms& vars [[ buffer(0) ]],"))
+        if !code.uniforms.isEmpty {
+            lines.append(Line(in: 2, "const device Uniforms& us [[ buffer(0) ]],"))
         }
         lines.append(Line(in: 2, "texture2d<float, access::write> tex [[ texture(0) ]],"))
         for (i, texture) in textures.enumerated() {

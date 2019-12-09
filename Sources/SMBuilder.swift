@@ -11,7 +11,7 @@ import Foundation
 struct SMBuilder {
     
     class Branch {
-        var hit: Bool = false
+        var hitCount: Int = 0
         let entity: SMEntity
         var branches: [Branch] = []
         init(entity: SMEntity) {
@@ -21,14 +21,14 @@ struct SMBuilder {
                 branches.append(Branch(entity: operation.rhs))
             }
         }
-        func leafEntity() -> SMEntity? {
-            guard !hit else { return nil }
+        func leafEntity(_ index: Int = 0) -> SMEntity? {
+            guard hitCount < index + 1 else { return nil }
             for branch in branches {
-                if let hitEntity = branch.leafEntity() {
+                if let hitEntity = branch.leafEntity(index) {
                     return hitEntity
                 }
             }
-            hit = true
+            hitCount += 1
             return entity
         }
         func funcBranches() -> [Branch] {
@@ -158,10 +158,10 @@ struct SMBuilder {
         
         // Variables
         
-        var entities: [SMEntity] = []
+        var variableEntitieCopies: [SMEntity] = []
         var variables: [SMVariable] = []
         while let leafEntity = tree.leafEntity() {
-            if entities.contains(leafEntity) {
+            if variableEntitieCopies.contains(leafEntity) {
                 if !variables.contains(where: { variable -> Bool in
                     variable.entity == leafEntity
                 }) {
@@ -170,11 +170,26 @@ struct SMBuilder {
                     lastSnippet = lastSnippet.replacingOccurrences(of: leafEntity.snippet(), with: variable.name)
                 }
             } else {
-                entities.append(leafEntity)
+                variableEntitieCopies.append(leafEntity)
             }
         }
         
-        return SMCode(lastSnippet, variables: variables, functions: functions)
+        // Uniforms
+        
+        var uniforms: [SMUniform] = []
+        while let leafEntity = tree.leafEntity(1) {
+            if leafEntity.isFuture {
+//                if !uniforms.contains(where: { $0.entity == leafEntity }) {
+                    let uniform = SMUniform(entity: leafEntity, index: uniforms.count)
+                    uniforms.append(uniform)
+//                }
+            }
+        }
+        for uniform in uniforms {
+            lastSnippet = lastSnippet.replacingOccurrences(of: uniform.entity.futureSnippet, with: uniform.snippet)
+        }
+        
+        return SMCode(lastSnippet, uniforms: uniforms, variables: variables, functions: functions)
         
     }
     
