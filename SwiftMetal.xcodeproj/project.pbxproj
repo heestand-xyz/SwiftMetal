@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A04239E556B009AE4D4 /* AppDelegate.swift */; };
+		3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A06239E556B009AE4D4 /* SceneDelegate.swift */; };
+		3A478A09239E556B009AE4D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A08239E556B009AE4D4 /* ContentView.swift */; };
+		3A478A0B239E556D009AE4D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A478A0A239E556D009AE4D4 /* Assets.xcassets */; };
+		3A478A0E239E556D009AE4D4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A478A0D239E556D009AE4D4 /* Preview Assets.xcassets */; };
+		3A478A11239E556D009AE4D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A478A0F239E556D009AE4D4 /* LaunchScreen.storyboard */; };
+		3A478A17239E557F009AE4D4 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
+		3A478A18239E557F009AE4D4 /* SwiftMetal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3A670681239A61BB00E23C87 /* SMEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670680239A61BB00E23C87 /* SMEntity.swift */; };
 		3A670689239A666300E23C87 /* SMTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670688239A666300E23C87 /* SMTexture.swift */; };
 		3A67068B239A687E00E23C87 /* SMBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068A239A687E00E23C87 /* SMBuilder.swift */; };
@@ -26,6 +34,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3A478A19239E557F009AE4D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A99C5EE239A4B20005BE419 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A99C5F6239A4B20005BE419;
+			remoteInfo = SwiftMetal;
+		};
 		3A99C602239A4B20005BE419 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3A99C5EE239A4B20005BE419 /* Project object */;
@@ -35,7 +50,29 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3A478A1B239E557F009AE4D4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3A478A18239E557F009AE4D4 /* SwiftMetal.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		3A478A02239E556B009AE4D4 /* SwiftMetalDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftMetalDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A478A04239E556B009AE4D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3A478A06239E556B009AE4D4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		3A478A08239E556B009AE4D4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3A478A0A239E556D009AE4D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3A478A0D239E556D009AE4D4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3A478A10239E556D009AE4D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3A478A12239E556D009AE4D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A670680239A61BB00E23C87 /* SMEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMEntity.swift; sourceTree = "<group>"; };
 		3A670688239A666300E23C87 /* SMTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMTexture.swift; sourceTree = "<group>"; };
 		3A67068A239A687E00E23C87 /* SMBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBuilder.swift; sourceTree = "<group>"; };
@@ -57,6 +94,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3A4789FF239E556B009AE4D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A478A17239E557F009AE4D4 /* SwiftMetal.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A99C5F4239A4B20005BE419 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -75,6 +120,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A478A03239E556B009AE4D4 /* SwiftMetalDemo */ = {
+			isa = PBXGroup;
+			children = (
+				3A478A04239E556B009AE4D4 /* AppDelegate.swift */,
+				3A478A06239E556B009AE4D4 /* SceneDelegate.swift */,
+				3A478A08239E556B009AE4D4 /* ContentView.swift */,
+				3A478A0A239E556D009AE4D4 /* Assets.xcassets */,
+				3A478A0F239E556D009AE4D4 /* LaunchScreen.storyboard */,
+				3A478A12239E556D009AE4D4 /* Info.plist */,
+				3A478A0C239E556D009AE4D4 /* Preview Content */,
+			);
+			path = SwiftMetalDemo;
+			sourceTree = "<group>";
+		};
+		3A478A0C239E556D009AE4D4 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3A478A0D239E556D009AE4D4 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3A478A16239E557F009AE4D4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3A67067F239A61A900E23C87 /* Types */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,7 +166,9 @@
 				3A99C5F9239A4B20005BE419 /* Sources */,
 				3A99C611239A4B37005BE419 /* Resources */,
 				3A99C604239A4B20005BE419 /* SwiftMetalTests */,
+				3A478A03239E556B009AE4D4 /* SwiftMetalDemo */,
 				3A99C5F8239A4B20005BE419 /* Products */,
+				3A478A16239E557F009AE4D4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +177,7 @@
 			children = (
 				3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */,
 				3A99C600239A4B20005BE419 /* SwiftMetalTests.xctest */,
+				3A478A02239E556B009AE4D4 /* SwiftMetalDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -153,6 +230,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3A478A01239E556B009AE4D4 /* SwiftMetalDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A478A13239E556D009AE4D4 /* Build configuration list for PBXNativeTarget "SwiftMetalDemo" */;
+			buildPhases = (
+				3A4789FE239E556B009AE4D4 /* Sources */,
+				3A4789FF239E556B009AE4D4 /* Frameworks */,
+				3A478A00239E556B009AE4D4 /* Resources */,
+				3A478A1B239E557F009AE4D4 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A478A1A239E557F009AE4D4 /* PBXTargetDependency */,
+			);
+			name = SwiftMetalDemo;
+			productName = SwiftMetalDemo;
+			productReference = 3A478A02239E556B009AE4D4 /* SwiftMetalDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
 		3A99C5F6239A4B20005BE419 /* SwiftMetal */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3A99C60B239A4B20005BE419 /* Build configuration list for PBXNativeTarget "SwiftMetal" */;
@@ -199,6 +295,9 @@
 				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = Hexagons;
 				TargetAttributes = {
+					3A478A01239E556B009AE4D4 = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
 					3A99C5F6239A4B20005BE419 = {
 						CreatedOnToolsVersion = 11.2.1;
 						LastSwiftMigration = 1120;
@@ -223,11 +322,22 @@
 			targets = (
 				3A99C5F6239A4B20005BE419 /* SwiftMetal */,
 				3A99C5FF239A4B20005BE419 /* SwiftMetalTests */,
+				3A478A01239E556B009AE4D4 /* SwiftMetalDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3A478A00239E556B009AE4D4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A478A11239E556D009AE4D4 /* LaunchScreen.storyboard in Resources */,
+				3A478A0E239E556D009AE4D4 /* Preview Assets.xcassets in Resources */,
+				3A478A0B239E556D009AE4D4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A99C5F5239A4B20005BE419 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -247,6 +357,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3A4789FE239E556B009AE4D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */,
+				3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */,
+				3A478A09239E556B009AE4D4 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A99C5F3239A4B20005BE419 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -276,6 +396,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3A478A1A239E557F009AE4D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A99C5F6239A4B20005BE419 /* SwiftMetal */;
+			targetProxy = 3A478A19239E557F009AE4D4 /* PBXContainerItemProxy */;
+		};
 		3A99C603239A4B20005BE419 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3A99C5F6239A4B20005BE419 /* SwiftMetal */;
@@ -283,7 +408,58 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		3A478A0F239E556D009AE4D4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A478A10239E556D009AE4D4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		3A478A14239E556D009AE4D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"SwiftMetalDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = 2QHTY6FMW2;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SwiftMetalDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.SwiftMetalDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3A478A15239E556D009AE4D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"SwiftMetalDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = 2QHTY6FMW2;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SwiftMetalDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.SwiftMetalDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		3A99C609239A4B20005BE419 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -496,6 +672,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3A478A13239E556D009AE4D4 /* Build configuration list for PBXNativeTarget "SwiftMetalDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A478A14239E556D009AE4D4 /* Debug */,
+				3A478A15239E556D009AE4D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3A99C5F1239A4B20005BE419 /* Build configuration list for PBXProject "SwiftMetal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
