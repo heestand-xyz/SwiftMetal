@@ -23,8 +23,9 @@ public class SMEntity: Identifiable, Equatable {
     var isReturn: Bool { returnId != nil }
     
     let isFuture: Bool
+    var futureIndex: Int?
     var futureSnippet: String {
-        "future\(id.uuidString.split(separator: "-").first!)"
+        "us.u\(futureIndex ?? -1)"
     }
     
     var subscriptEntity: SMEntity?

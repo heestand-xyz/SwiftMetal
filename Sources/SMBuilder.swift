@@ -76,6 +76,24 @@ struct SMBuilder {
         func isLeaf() -> Bool {
             branches.isEmpty
         }
+        func argLeafs() -> [Branch] {
+            guard !isArgLeaf() else {
+                return [self]
+            }
+            var leafs: [Branch] = []
+            for branch in self.branches {
+                if branch.isArgLeaf() {
+                    leafs.append(branch)
+                } else {
+                    let subLeafs = branch.argLeafs()
+                    leafs.append(contentsOf: subLeafs)
+                }
+            }
+            return leafs
+        }
+        func isArgLeaf() -> Bool {
+            entity.isArg
+        }
         static func sameSignature(lhs: Branch, rhs: Branch) -> Bool {
             guard lhs.entity.isReturn && rhs.entity.isReturn else { return false }
             guard lhs.entity.returnId! == rhs.entity.returnId! else { return false }
@@ -99,7 +117,6 @@ struct SMBuilder {
         let tree: Branch = Branch(entity: baseEntity)
         
         while let leafEntity = tree.leafEntity() {
-            print(">>>", type(of: leafEntity), leafEntity.snippet())
             if let texture = leafEntity as? SMTexture {
                 if !textures.contains(texture) {
                     textures.append(texture)
@@ -138,8 +155,9 @@ struct SMBuilder {
             }
         }
         for uniqueFuncBranch in uniqueFuncBranchs {
-            let leafs = uniqueFuncBranch.leafs()
-            let argLeafs = leafs.filter({ $0.entity.isArg })
+//            let leafs = uniqueFuncBranch.leafs()
+//            let argLeafs = leafs.filter({ $0.entity.isArg })
+            let argLeafs = uniqueFuncBranch.argLeafs()
             let argEntities = argLeafs.map({ $0.entity })
             let returnEntity = uniqueFuncBranch.entity
             let function = SMFunction(argEntities: argEntities, returnEntity: returnEntity, index: functions.count)
@@ -153,8 +171,9 @@ struct SMBuilder {
                     break
                 }
             }
-            let leafs = funcBranch.leafs()
-            let argLeafs = leafs.filter({ $0.entity.isArg })
+//            let leafs = funcBranch.leafs()
+//            let argLeafs = leafs.filter({ $0.entity.isArg })
+            let argLeafs = funcBranch.argLeafs()
             let argEntities = argLeafs.map({ $0.entity })
             let returnEntity = funcBranch.entity
             lastSnippet = lastSnippet.replacingOccurrences(of: returnEntity.snippet(), with: function.snippet(with: argEntities))
@@ -183,14 +202,12 @@ struct SMBuilder {
         var uniforms: [SMUniform] = []
         while let leafEntity = tree.leafEntity(1) {
             if leafEntity.isFuture {
-//                if !uniforms.contains(where: { $0.entity == leafEntity }) {
+                if !uniforms.contains(where: { $0.entity == leafEntity }) {
+                    leafEntity.futureIndex = uniforms.count
                     let uniform = SMUniform(entity: leafEntity, index: uniforms.count)
                     uniforms.append(uniform)
-//                }
+                }
             }
-        }
-        for uniform in uniforms {
-            lastSnippet = lastSnippet.replacingOccurrences(of: uniform.entity.futureSnippet, with: uniform.snippet)
         }
         
         return SMCode(lastSnippet, uniforms: uniforms, variables: variables, functions: functions)

@@ -16,7 +16,7 @@ public class SMValue<V: SMRaw>: SMEntity {
     var _value: V?
     public var value: V? { _value ?? futureValue?() }
     
-    init(_ value: V, type: String, fromEntities: [SMEntity]) {
+    init(_ value: V, type: String, fromEntities: [SMEntity] = []) {
         self._value = value
         super.init(type: type, fromEntities: fromEntities)
     }

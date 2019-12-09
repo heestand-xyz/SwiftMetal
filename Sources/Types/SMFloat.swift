@@ -15,23 +15,28 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral {
     static let kType: String = "float"
     public typealias T = Float
     
-    public convenience init(_ value: T) {
-        self.init({ value })
-    }
-    
     init(entity: SMEntity, at index: Int) {
         super.init(type: SMFloat.kType)
         subscriptEntity = entity
         snippet = { "\(entity.snippet())[\(index)]" }
     }
 
+    public init(_ value: T) {
+        super.init(value, type: SMFloat.kType)
+        setSnippet()
+    }
+
     public init(_ futureValue: @escaping () -> (T)) {
         super.init(futureValue, type: SMFloat.kType)
+        setSnippet()
+    }
+    
+    func setSnippet() {
         snippet = { self.value != nil ? String(describing: self.value!) : "#" }
     }
 
     required public convenience init(floatLiteral value: T) {
-        self.init({ value })
+        self.init(value)
     }
 
 }
