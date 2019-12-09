@@ -59,6 +59,9 @@
 		744F60FC239EE30800C51A63 /* Float16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F60B1239EDCF200C51A63 /* Float16.swift */; };
 		744F60FF239EEB0300C51A63 /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		744F6100239EEB0300C51A63 /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
+		744F6108239EEC4E00C51A63 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F6107239EEC4E00C51A63 /* main.swift */; };
+		744F610C239EEC5A00C51A63 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744F60B8239EE2A200C51A63 /* SwiftMetal.framework */; };
+		744F610D239EEC5A00C51A63 /* SwiftMetal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 744F60B8239EE2A200C51A63 /* SwiftMetal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		74512F25239BE34D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74512F26239BE39D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74E5B8FD239C547E00492280 /* SMFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5B8FC239C547E00492280 /* SMFunction.swift */; };
@@ -79,6 +82,13 @@
 			remoteGlobalIDString = 3A99C5F6239A4B20005BE419;
 			remoteInfo = SwiftMetal;
 		};
+		744F610E239EEC5A00C51A63 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A99C5EE239A4B20005BE419 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 744F60B7239EE2A200C51A63;
+			remoteInfo = SwiftMetal_macOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -89,6 +99,26 @@
 			dstSubfolderSpec = 10;
 			files = (
 				3A478A18239E557F009AE4D4 /* SwiftMetal.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		744F6103239EEC4E00C51A63 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		744F6110239EEC5A00C51A63 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				744F610D239EEC5A00C51A63 /* SwiftMetal.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,6 +156,8 @@
 		744F60BA239EE2A200C51A63 /* SwiftMetal_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal_macOS.h; sourceTree = "<group>"; };
 		744F60C5239EE2D100C51A63 /* SwiftMetal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMetal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		744F60C7239EE2D100C51A63 /* SwiftMetal_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal_tvOS.h; sourceTree = "<group>"; };
+		744F6105239EEC4E00C51A63 /* SwiftMetalTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftMetalTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		744F6107239EEC4E00C51A63 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		74512F24239BE34D008F5FCE /* TestMedia.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TestMedia.xcassets; sourceTree = "<group>"; };
 		74E5B8FC239C547E00492280 /* SMFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFunction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,6 +197,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		744F6102239EEC4E00C51A63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				744F610C239EEC5A00C51A63 /* SwiftMetal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +259,7 @@
 				3A99C611239A4B37005BE419 /* Resources */,
 				3A99C604239A4B20005BE419 /* SwiftMetalTests */,
 				3A478A03239E556B009AE4D4 /* SwiftMetalDemo */,
+				744F6106239EEC4E00C51A63 /* SwiftMetalTool */,
 				3A99C5F8239A4B20005BE419 /* Products */,
 				3A478A16239E557F009AE4D4 /* Frameworks */,
 			);
@@ -232,6 +273,7 @@
 				3A478A02239E556B009AE4D4 /* SwiftMetalDemo.app */,
 				744F60B8239EE2A200C51A63 /* SwiftMetal.framework */,
 				744F60C5239EE2D100C51A63 /* SwiftMetal.framework */,
+				744F6105239EEC4E00C51A63 /* SwiftMetalTool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -287,6 +329,14 @@
 				744F60C7239EE2D100C51A63 /* SwiftMetal_tvOS.h */,
 			);
 			path = Headers;
+			sourceTree = "<group>";
+		};
+		744F6106239EEC4E00C51A63 /* SwiftMetalTool */ = {
+			isa = PBXGroup;
+			children = (
+				744F6107239EEC4E00C51A63 /* main.swift */,
+			);
+			path = SwiftMetalTool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -410,13 +460,32 @@
 			productReference = 744F60C5239EE2D100C51A63 /* SwiftMetal.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		744F6104239EEC4E00C51A63 /* SwiftMetalTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 744F6109239EEC4E00C51A63 /* Build configuration list for PBXNativeTarget "SwiftMetalTool" */;
+			buildPhases = (
+				744F6101239EEC4E00C51A63 /* Sources */,
+				744F6102239EEC4E00C51A63 /* Frameworks */,
+				744F6103239EEC4E00C51A63 /* CopyFiles */,
+				744F6110239EEC5A00C51A63 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				744F610F239EEC5A00C51A63 /* PBXTargetDependency */,
+			);
+			name = SwiftMetalTool;
+			productName = SwiftMetalTool;
+			productReference = 744F6105239EEC4E00C51A63 /* SwiftMetalTool */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		3A99C5EE239A4B20005BE419 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1120;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = Hexagons;
 				TargetAttributes = {
@@ -434,6 +503,9 @@
 						CreatedOnToolsVersion = 11.3;
 					};
 					744F60C4239EE2D100C51A63 = {
+						CreatedOnToolsVersion = 11.3;
+					};
+					744F6104239EEC4E00C51A63 = {
 						CreatedOnToolsVersion = 11.3;
 					};
 				};
@@ -456,6 +528,7 @@
 				744F60C4239EE2D100C51A63 /* SwiftMetal_tvOS */,
 				3A99C5FF239A4B20005BE419 /* SwiftMetalTests */,
 				3A478A01239E556B009AE4D4 /* SwiftMetalDemo */,
+				744F6104239EEC4E00C51A63 /* SwiftMetalTool */,
 			);
 		};
 /* End PBXProject section */
@@ -583,6 +656,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		744F6101239EEC4E00C51A63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				744F6108239EEC4E00C51A63 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -595,6 +676,11 @@
 			isa = PBXTargetDependency;
 			target = 3A99C5F6239A4B20005BE419 /* SwiftMetal_iOS */;
 			targetProxy = 3A99C602239A4B20005BE419 /* PBXContainerItemProxy */;
+		};
+		744F610F239EEC5A00C51A63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 744F60B7239EE2A200C51A63 /* SwiftMetal_macOS */;
+			targetProxy = 744F610E239EEC5A00C51A63 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -963,6 +1049,32 @@
 			};
 			name = Release;
 		};
+		744F610A239EEC4E00C51A63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2QHTY6FMW2;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		744F610B239EEC4E00C51A63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2QHTY6FMW2;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1016,6 +1128,15 @@
 			buildConfigurations = (
 				744F60CB239EE2D100C51A63 /* Debug */,
 				744F60CC239EE2D100C51A63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		744F6109239EEC4E00C51A63 /* Build configuration list for PBXNativeTarget "SwiftMetalTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				744F610A239EEC4E00C51A63 /* Debug */,
+				744F610B239EEC4E00C51A63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

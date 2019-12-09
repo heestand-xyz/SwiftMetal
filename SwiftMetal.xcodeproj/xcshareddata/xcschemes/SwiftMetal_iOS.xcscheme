@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3A99C5F6239A4B20005BE419"
                BuildableName = "SwiftMetal.framework"
-               BlueprintName = "SwiftMetal"
+               BlueprintName = "SwiftMetal_iOS"
                ReferencedContainer = "container:SwiftMetal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,7 +62,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3A99C5F6239A4B20005BE419"
             BuildableName = "SwiftMetal.framework"
-            BlueprintName = "SwiftMetal"
+            BlueprintName = "SwiftMetal_iOS"
             ReferencedContainer = "container:SwiftMetal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
