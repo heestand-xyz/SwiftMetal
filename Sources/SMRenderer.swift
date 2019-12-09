@@ -33,9 +33,6 @@ public class SMRenderer {
     
     public init?() {
         
-//        guard let metalDevice = MTLCreateSystemDefaultDevice() else { return nil }
-//        self.metalDevice = metalDevice
-        
         guard let commandQueue = SMRenderer.metalDevice.makeCommandQueue() else { return nil }
         self.commandQueue = commandQueue
 
@@ -45,12 +42,19 @@ public class SMRenderer {
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
         let textures: [MTLTexture] = shader.textures.map({ $0.texture })
         let values: [Float] = shader.values
-        return try render(function: function, size: size, values: values, textures: textures, pixelFormat: pixelFormat)
+        let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
+        return try render(function: function,
+                          size: size,
+                          values: values,
+                          drawableTexture: drawableTexture,
+                          textures: textures,
+                          pixelFormat: pixelFormat)
     }
     
     public func renderLive(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = .rgba8Unorm, rendered: @escaping (SMTexture) -> (), failed: @escaping (Error) -> ()) throws {
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
         let textures: [MTLTexture] = shader.textures.map({ $0.texture })
+        let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
         var rendering: Bool = false
         shader.render = {
             guard !rendering else {
@@ -61,7 +65,11 @@ public class SMRenderer {
             DispatchQueue.global(qos: .background).async {
                 let values: [Float] = shader.values
                 do {
-                    let texture = try self.render(function: function, size: size, values: values, textures: textures, pixelFormat: pixelFormat)
+                    let texture = try self.render(function: function,
+                                                  size: size, values: values,
+                                                  drawableTexture: drawableTexture,
+                                                  textures: textures,
+                                                  pixelFormat: pixelFormat)
                     rendering = false
                     DispatchQueue.main.async {
                         rendered(texture)
@@ -77,7 +85,7 @@ public class SMRenderer {
         shader.render!()
     }
 
-    func render(function: MTLFunction, size: CGSize, values: [Float], textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
+    func render(function: MTLFunction, size: CGSize, values: [Float], drawableTexture: MTLTexture, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
 
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
             throw RenderError.commandBuffer
@@ -116,7 +124,6 @@ public class SMRenderer {
         }
         commandEncoder.setSamplerState(sampler, index: 0)
         
-        let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
         commandEncoder.setTexture(drawableTexture, index: 0)
         for (i, texture) in textures.enumerated() {
             commandEncoder.setTexture(texture, index: i + 1)
