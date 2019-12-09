@@ -30,6 +30,10 @@ public class SMFunc<R: SMEntity>: Identifiable {
 
 }
 
+func function<R: SMEntity>(_ function: @escaping ([SMEntity]) -> (R)) -> SMFunc<R> {
+    SMFunc<R>(function)
+}
+
 struct SMFunction {
     let argEntities: [SMEntity]
     let returnEntity: SMEntity

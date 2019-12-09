@@ -25,19 +25,21 @@ class SwiftMetalTests: XCTestCase {
     func testFunc() {
 //        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
 //        let tex = SMTexture(image: img)!
-        let func0 = SMFunc<SMFloat4> { args in
-            (args[0] as! SMFloat4) +
-            (args[1] as! SMFloat4)
+        let date = Date()
+        var live: Float {
+            Float(-date.timeIntervalSinceNow)
         }
-        let func1 = SMFunc<SMFloat4> { args in
-            (args[0] as! SMFloat4) -
-            (args[1] as! SMFloat4) +
-            float4(1.0, 1.0, 1.0, 1.0)
+        let func0 = function { args -> SMFloat4 in
+            (args[0] as! SMFloat4) *
+            float4(0.5, 0.5, 0.5, 1.0)
         }
         let shader = SMShader {
             let a = float4(0.1, 0.0, 0.0, 1.0)
             let b = float4(0.2, 0.0, 0.0, 1.0)
-            let c: SMFloat4 = func1.call(a, a) * func1.call(a, a)
+            let lv = SMFloat4 {
+                SMRawFloat4(live, live, live, 1.0)
+            }
+            let c: SMFloat4 = func0.call(a) + func0.call(lv)
             return c
         }
         print("> > > > > > >")

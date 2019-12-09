@@ -27,63 +27,49 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral {
 
 }
 
-public class SMFloat2: SMValue<SMTuple2<Float>>, ExpressibleByFloatLiteral {
-    
-    public convenience init(_ value: SMTuple2<Float>) {
-        self.init({ value })
+public struct SMRawFloat4 {
+    typealias T = Float
+    let tuple: SMTuple4<T>
+    init(_ value0: T, _ value1: T, _ value2: T, _ value3: T) {
+        tuple = SMTuple4<T>(SMFloat(value0), SMFloat(value1), SMFloat(value2), SMFloat(value3))
     }
-    
-    public init(_ futureValue: @escaping () -> (SMTuple2<Float>)) {
-        super.init(futureValue, type: "float2")
-        snippet = { "float2(\(self.value?.value0.value ?? -1), \(self.value?.value1.value ?? -1))" }
-    }
-    
-    required public convenience init(floatLiteral value: Float) {
-        self.init({ SMTuple2<Float>(SMFloat(value),
-                                    SMFloat(value)) })
-    }
-        
 }
-
-public class SMFloat3: SMValue<SMTuple3<Float>>, ExpressibleByFloatLiteral {
-    
-    public convenience init(_ value: SMTuple3<Float>) {
-        self.init({ value })
-    }
-    
-    public init(_ futureValue: @escaping () -> (SMTuple3<Float>)) {
-        super.init(futureValue, type: "float3")
-        snippet = { "float3(\(self.value?.value0.value ?? -1), \(self.value?.value1.value ?? -1), \(self.value?.value2.value ?? -1))" }
-    }
-    
-    required public convenience init(floatLiteral value: Float) {
-        self.init({ SMTuple3<Float>(SMFloat(value),
-                                    SMFloat(value),
-                                    SMFloat(value)) })
-    }
-        
-}
-
 public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral {
     
-    public convenience init(_ value: SMTuple4<Float>) {
-        self.init({ value })
+    static let kType: String = "float4"
+    public typealias T = Float
+    
+    public convenience init(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat, _ value3: SMFloat) {
+        self.init({ SMTuple4<T>(value0, value1, value2, value3) })
     }
     
-    public init(_ futureValue: @escaping () -> (SMTuple4<Float>)) {
-        super.init(futureValue, type: "float4")
-        snippet = { "float4(\(self.value?.value0.value ?? -1), \(self.value?.value1.value ?? -1), \(self.value?.value2.value ?? -1), \(self.value?.value3.value ?? -1))" }
+    public init(_ value: SMTuple4<T>) {
+        super.init(value, type: SMFloat4.kType)
+        setSnippet()
     }
     
-    required public convenience init(floatLiteral value: Float) {
-        self.init({ SMTuple4<Float>(SMFloat(value),
-                                    SMFloat(value),
-                                    SMFloat(value),
-                                    SMFloat(value)) })
+    public convenience init(_ futureValue: @escaping () -> (SMRawFloat4)) {
+        self.init({ futureValue().tuple })
+    }
+    
+    public init(_ futureValue: @escaping () -> (SMTuple4<T>)) {
+        super.init(futureValue, type: SMFloat4.kType)
+        setSnippet()
     }
     
     init(operation: SMOperation, snippet: @escaping () -> (String)) {
-        super.init(nil, operation: operation, snippet: snippet, type: "float4")
+        super.init(operation: operation, snippet: snippet, type: SMFloat4.kType)
+    }
+    
+    required public convenience init(floatLiteral value: T) {
+        self.init({ SMTuple4<T>(SMFloat(value),
+                                SMFloat(value),
+                                SMFloat(value),
+                                SMFloat(value)) })
+    }
+    
+    func setSnippet() {
+        snippet = { "\(SMFloat4.kType)(\(self.value?.value0.value ?? -1), \(self.value?.value1.value ?? -1), \(self.value?.value2.value ?? -1), \(self.value?.value3.value ?? -1))" }
     }
     
     public static func + (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
@@ -105,14 +91,6 @@ func float(_ value: Float) -> SMFloat {
     SMFloat(value)
 }
 
-func float2(_ value0: SMFloat, _ value1: SMFloat) -> SMFloat2 {
-    SMFloat2(SMTuple2<Float>(value0, value1))
-}
-
-func float3(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat) -> SMFloat3 {
-    SMFloat3(SMTuple3<Float>(value0, value1, value2))
-}
-
 func float4(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat, _ value3: SMFloat) -> SMFloat4 {
-    SMFloat4(SMTuple4<Float>(value0, value1, value2, value3))
+    SMFloat4(value0, value1, value2, value3)
 }

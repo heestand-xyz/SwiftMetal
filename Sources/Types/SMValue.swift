@@ -13,12 +13,24 @@ public class SMValue<V: SMRaw>: SMEntity {
     public typealias FV = () -> (V)
     
     var futureValue: FV?
-    public var value: V? { futureValue?() }
+    var _value: V?
+    public var value: V? { _value ?? futureValue?() }
     
-    init(_ futureValue: FV? = nil, operation: SMOperation? = nil, snippet: (() -> (String))? = nil, type: String) {
-        self.futureValue = futureValue
-        super.init(type: type, operation: operation)
+    init(_ value: V, snippet: (() -> (String))? = nil, type: String) {
+        self._value = value
+        super.init(type: type)
         self.snippet = snippet ?? { "#" }
+    }
+    
+    init(_ futureValue: @escaping FV, snippet: (() -> (String))? = nil, type: String) {
+        self.futureValue = futureValue
+        super.init(type: type)
+        self.snippet = snippet ?? { "#" }
+    }
+    
+    init(operation: SMOperation, snippet: @escaping () -> (String), type: String) {
+        super.init(type: type, operation: operation)
+        self.snippet = snippet
     }
 
 }

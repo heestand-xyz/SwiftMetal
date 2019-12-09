@@ -81,14 +81,14 @@ struct SMBuilder {
             guard lhs.entity.isReturn && rhs.entity.isReturn else { return false }
             guard lhs.entity.returnId! == rhs.entity.returnId! else { return false }
             // TODO: - The ID is all we need...
-            guard lhs.entity.type == rhs.entity.type else { return false }
-            let lhsLeafs = lhs.leafs()
-            let rhsLeafs = rhs.leafs()
-            guard lhsLeafs.count == rhsLeafs.count else { return false }
-            guard zip(lhs.leafs(), rhs.leafs()).filter({ arg -> Bool in
-                let (lhsLeaf, rhsLeaf) = arg
-                return lhsLeaf.entity.type == rhsLeaf.entity.type
-            }).count == lhsLeafs.count else { return false }
+//            guard lhs.entity.type == rhs.entity.type else { return false }
+//            let lhsLeafs = lhs.leafs().filter({ $0.entity.isArg })
+//            let rhsLeafs = rhs.leafs().filter({ $0.entity.isArg })
+//            guard lhsLeafs.count == rhsLeafs.count else { return false }
+//            guard zip(lhs.leafs(), rhs.leafs()).filter({ arg -> Bool in
+//                let (lhsLeaf, rhsLeaf) = arg
+//                return lhsLeaf.entity.type == rhsLeaf.entity.type
+//            }).count == lhsLeafs.count else { return false }
             return true
         }
     }
