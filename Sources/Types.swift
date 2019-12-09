@@ -7,6 +7,19 @@
 //
 
 import Foundation
+#if os(macOS)
+import Cocoa
+#else
+import UIKit
+#endif
+
+#if os(macOS)
+public typealias _Image = NSImage
+public typealias _Color = NSColor
+#else
+public typealias _Image = UIImage
+public typealias _Color = UIColor
+#endif
 
 struct SMVariable {
     let entity: SMEntity

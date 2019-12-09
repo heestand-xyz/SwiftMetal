@@ -129,6 +129,7 @@ public class SMRenderer {
             commandEncoder.setTexture(texture, index: i + 1)
         }
 
+        #if !os(tvOS)
         let threadsPerGrid = MTLSize(width: Int(size.width), height: Int(size.height), depth: 1)
         let threadsPerThreadgroup = MTLSize(width: 8, height: 8, depth: 1)
 //        let w: Int = pipelineState.threadExecutionWidth
@@ -137,6 +138,7 @@ public class SMRenderer {
 //        let h2: Int = (Int(size.height) + h - 1) / h
 //        let threadsPerThreadgroup: MTLSize = MTLSizeMake(w2, h2, 1)
         commandEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
+        #endif
         
         commandEncoder.endEncoding()
         

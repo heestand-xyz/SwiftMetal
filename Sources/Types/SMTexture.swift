@@ -7,7 +7,11 @@
 //
 
 import Foundation
+#if os(macOS)
+import Cocoa
+#else
 import UIKit
+#endif
 import MetalKit
 
 public class SMTexture: SMFloat4 {
@@ -28,8 +32,12 @@ public class SMTexture: SMFloat4 {
         case imageFailed(String)
     }
     
-    public convenience init?(image: UIImage) {
+    public convenience init?(image: _Image) {
+        #if os(macOS)
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
+        #else
         guard let cgImage = image.cgImage else { return nil }
+        #endif
         let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
         guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: [
             .origin: MTKTextureLoader.Origin.bottomLeft as NSObject
@@ -61,7 +69,7 @@ public class SMTexture: SMFloat4 {
     
     // MARK: - Export
 
-    public func image() throws -> UIImage {
+    public func image() throws -> _Image {
         let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
         guard let ciImage = CIImage(mtlTexture: texture, options: [.colorSpace: colorSpace]) else {
             throw TextureError.imageFailed("CIImage")
@@ -76,7 +84,11 @@ public class SMTexture: SMFloat4 {
         guard let cgImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent, format: ciFormat, colorSpace: colorSpace) else {
             throw TextureError.imageFailed("CGImage")
         }
+        #if os(macOS)
+        return NSImage(cgImage: cgImage, size: CGSize(width: texture.width, height: texture.height))
+        #else
         return UIImage(cgImage: cgImage)
+        #endif
     }
     
     func raw<T>(fill: T) -> [T] {
@@ -111,7 +123,7 @@ public class SMTexture: SMFloat4 {
         return raw(fill: 0.0)
     }
     
-    public func pixels() throws -> [[[Float]]] {
+    public func values() throws -> [[[Float]]] {
         let rawFloats: [Float]
         switch texture.pixelFormat {
         case .rgba8Unorm:
@@ -146,17 +158,26 @@ public class SMTexture: SMFloat4 {
     }
     
     public func pixels() throws -> [[(r: Float, g: Float, b: Float, a: Float)]] {
-        try pixels().map({ $0.map({ (r: $0[0],
+        try values().map({ $0.map({ (r: $0[0],
                                      g: $0[1],
                                      b: $0[2],
                                      a: $0[3]) }) })
     }
     
-    public func pixels() throws -> [[UIColor]] {
-        try pixels().map({ $0.map({ UIColor(red: CGFloat($0[0]),
-                                            green: CGFloat($0[1]),
-                                            blue: CGFloat($0[2]),
-                                            alpha: CGFloat($0[3])) }) })
+    public func pixels() throws -> [[_Color]] {
+        try values().map({ $0.map({ color in
+            #if os(macOS)
+            return NSColor(deviceRed: CGFloat(color[0]),
+                           green: CGFloat(color[1]),
+                           blue: CGFloat(color[2]),
+                           alpha: CGFloat(color[3]))
+            #else
+            return UIColor(red: CGFloat(color[0]),
+                           green: CGFloat(color[1]),
+                           blue: CGFloat(color[2]),
+                           alpha: CGFloat(color[3]))
+            #endif
+        }) })
     }
     
 }
