@@ -29,6 +29,7 @@ struct ContentView: View {
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(5)
             }
+            Slider(value: $main.value)
             Spacer()
         }
     }

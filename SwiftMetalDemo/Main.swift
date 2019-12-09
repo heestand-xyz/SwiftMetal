@@ -15,6 +15,8 @@ class Main: ObservableObject {
     @Published var photo2: UIImage
     @Published var renderedImage: UIImage?
     
+    @Published var value: Float = 0.5
+    
     let renderer: SMRenderer
     
     init() {
@@ -27,16 +29,32 @@ class Main: ObservableObject {
         let shader = SMShader { uv in
             let tex1 = SMTexture(image: photo1)!
             let tex2 = SMTexture(image: photo2)!
-            return max(tex1, tex2)
+            let val = SMPublishedFloat($value)
+            let val4 = float4(val, val, val, val)
+            return tex1 * (1.0 - val4) + tex2 * val4
         }
         
         print(shader.code())
         
+        let res = CGSize(width: 1500, height: 1000)
+        
+//        do {
+//            let texture = try renderer.render(shader, at: res)
+//            renderedImage = try texture.image()
+//            print("Rendered!")
+//        } catch {
+//            print("Render Error:", error)
+//        }
+        
         do {
-            let texture = try renderer.render(shader, at: CGSize(width: 1500, height: 1000))
-            renderedImage = try texture.image()
+            try renderer.renderLive(shader, at: res, rendered: { texture in
+                print("Rendered!")
+                self.renderedImage = try! texture.image()
+            }) { error in
+                print("Render Error:", error)
+            }
         } catch {
-            print("Render Error:", error)
+            print("Setup Error:", error)
         }
         
     }

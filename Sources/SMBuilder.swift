@@ -110,6 +110,20 @@ struct SMBuilder {
         }
     }
     
+    static func connectSinks(for baseEntity: SMEntity, sinked: @escaping () -> ()) {
+                
+        let tree: Branch = Branch(entity: baseEntity)
+        
+        while let leafEntity = tree.leafEntity() {
+            if leafEntity.hasSink {
+                leafEntity.sink = {
+                    sinked()
+                }
+            }
+        }
+        
+    }
+    
     static func textures(for baseEntity: SMEntity) -> [SMTexture] {
         
         var textures: [SMTexture] = []
@@ -135,6 +149,20 @@ struct SMBuilder {
     static func build(for baseEntity: SMEntity) -> SMCode {
         
         let tree: Branch = Branch(entity: baseEntity)
+        
+        // Uniforms
+
+        var uniforms: [SMUniform] = []
+        while let leafEntity = tree.leafEntity(1) {
+            if leafEntity.isFuture {
+                if !uniforms.contains(where: { $0.entity == leafEntity }) {
+                    leafEntity.futureIndex = uniforms.count
+                    let uniform = SMUniform(entity: leafEntity, index: uniforms.count)
+                    uniforms.append(uniform)
+                }
+            }
+        }
+        
         var lastSnippet: String = baseEntity.snippet()
         
         /// Functions
@@ -194,19 +222,6 @@ struct SMBuilder {
                 }
             } else {
                 variableEntitieCopies.append(leafEntity)
-            }
-        }
-        
-        // Uniforms
-        
-        var uniforms: [SMUniform] = []
-        while let leafEntity = tree.leafEntity(1) {
-            if leafEntity.isFuture {
-                if !uniforms.contains(where: { $0.entity == leafEntity }) {
-                    leafEntity.futureIndex = uniforms.count
-                    let uniform = SMUniform(entity: leafEntity, index: uniforms.count)
-                    uniforms.append(uniform)
-                }
             }
         }
         

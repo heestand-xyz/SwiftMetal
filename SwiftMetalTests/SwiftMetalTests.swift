@@ -33,17 +33,16 @@ class SwiftMetalTests: XCTestCase {
             0.333
         }
         let func0 = function { args -> SMFloat4 in
-            (args[0] as! SMFloat4) *
-            (args[1] as! SMFloat4) *
-            float4(0.5, 0.5, 0.5, 1.0)
+            (args[0] as! SMFloat4) +
+            (args[1] as! SMFloat4)
         }
         let shader = SMShader { uv in
             let a = float4(0.1, 0.0, 0.0, 1.0)
             let b = float4(0.2, 0.0, 0.0, 1.0)
-            let lv = SMFloat4 {
-                SMRawFloat4(live, live, live, 1.0)
-            }
-            let c: SMFloat4 = func0.call(a, b) + func0.call(lv, lv)
+//            let lv = SMFloat4 {
+//                SMRawFloat4(live, live, live, 1.0)
+//            }
+            let c: SMFloat4 = func0.call(a, b)//func0.call(a, b) + func0.call(lv, lv)
             return c
         }
         print("> > > > > > >")

@@ -9,7 +9,7 @@
 import Foundation
 import Metal
 
-public struct SMShader {
+public class SMShader {
         
     enum FuncError: Error {
         case shader
@@ -19,14 +19,31 @@ public struct SMShader {
     
     let baseEntity: SMEntity
     
+    var sinks: [() -> ()] = []
+    
+    let smCode: SMCode
+    
+    var values: [Float] {
+        smCode.uniforms.flatMap { uniform -> [Float] in
+            uniform.entity.values
+        }
+    }
+    
+    var render: (() -> ())?
+    
     public init(_ entityCallback: (SMUV) -> (SMFloat4)) {
         baseEntity = entityCallback(SMUV())
         textures = SMBuilder.textures(for: baseEntity)
+        smCode = SMBuilder.build(for: baseEntity)
+        SMBuilder.connectSinks(for: baseEntity) {
+            print("Render...")
+            self.render?()
+        }
     }
     
     public func code() -> String {
         
-        let code: SMCode = SMBuilder.build(for: baseEntity)
+        let code = smCode
         
         var lines: [Line] = []
         

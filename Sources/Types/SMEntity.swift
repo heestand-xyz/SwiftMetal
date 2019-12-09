@@ -35,6 +35,11 @@ public class SMEntity: Identifiable, Equatable {
     
     let fromEntities: [SMEntity]
     
+    var hasSink: Bool = false
+    var sink: (() -> ())?
+    
+    var values: [Float] { [] }
+    
     var children: [SMEntity] {
         var children: [SMEntity] = [
             operation?.lhs,
@@ -55,7 +60,9 @@ public class SMEntity: Identifiable, Equatable {
         self.isFuture = isFuture
         self.fromEntities = fromEntities
         if isFuture {
-            snippet = { self.futureSnippet }
+            snippet = {
+                self.futureSnippet
+            }
         }
     }
     

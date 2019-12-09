@@ -28,6 +28,7 @@ public class SMRenderer {
         case sampler
         case uniformBuffer
         case emptyTexture(String)
+        case renderInProgress
     }
     
     public init?() {
@@ -39,10 +40,45 @@ public class SMRenderer {
         self.commandQueue = commandQueue
 
     }
-
+    
     public func render(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = .rgba8Unorm) throws -> SMTexture {
+        let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
+        let textures: [MTLTexture] = shader.textures.map({ $0.texture })
+        let values: [Float] = shader.values
+        return try render(function: function, size: size, values: values, textures: textures, pixelFormat: pixelFormat)
+    }
+    
+    public func renderLive(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = .rgba8Unorm, rendered: @escaping (SMTexture) -> (), failed: @escaping (Error) -> ()) throws {
+        let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
+        let textures: [MTLTexture] = shader.textures.map({ $0.texture })
+        var rendering: Bool = false
+        shader.render = {
+            guard !rendering else {
+                failed(RenderError.renderInProgress)
+                return
+            }
+            rendering = true
+            DispatchQueue.global(qos: .background).async {
+                let values: [Float] = shader.values
+                do {
+                    let texture = try self.render(function: function, size: size, values: values, textures: textures, pixelFormat: pixelFormat)
+                    rendering = false
+                    DispatchQueue.main.async {
+                        rendered(texture)
+                    }
+                } catch {
+                    rendering = false
+                    DispatchQueue.main.async {
+                        failed(error)
+                    }
+                }
+            }
+        }
+        shader.render!()
+    }
 
-        
+    func render(function: MTLFunction, size: CGSize, values: [Float], textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
+
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
             throw RenderError.commandBuffer
         }
@@ -52,11 +88,10 @@ public class SMRenderer {
             throw RenderError.commandEncoder
         }
 
-        let mtlFunction: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
-        let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: mtlFunction)
+        let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: function)
         commandEncoder.setComputePipelineState(pipelineState)
         
-        var values: [Float] = []
+        var values: [Float] = values
         if !values.isEmpty {
             let size: Int = MemoryLayout<Float>.size * values.count
             guard let uniformBuffer = SMRenderer.metalDevice.makeBuffer(length: size, options: []) else {
@@ -83,8 +118,8 @@ public class SMRenderer {
         
         let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
         commandEncoder.setTexture(drawableTexture, index: 0)
-        for (i, texture) in shader.textures.enumerated() {
-            commandEncoder.setTexture(texture.texture, index: i + 1)
+        for (i, texture) in textures.enumerated() {
+            commandEncoder.setTexture(texture, index: i + 1)
         }
 
         let threadsPerGrid = MTLSize(width: Int(size.width), height: Int(size.height), depth: 1)
