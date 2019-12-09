@@ -14,20 +14,14 @@ public struct SMShader {
     enum FuncError: Error {
         case shader
     }
-        
-//    let rawFuncs: [SMRawFunc]
-    
+            
     let textures: [SMTexture]
     
     let baseEntity: SMEntity
     
-    public init(/*funcs rawFuncs: [SMRawFunc], */_ entityCallback: () -> (SMEntity)) {
-        baseEntity = entityCallback()
+    public init(_ entityCallback: (SMUV) -> (SMFloat4)) {
+        baseEntity = entityCallback(SMUV())
         textures = SMBuilder.textures(for: baseEntity)
-//        self.rawFuncs = rawFuncs
-        for (i, texture) in textures.enumerated() {
-            texture.index = i
-        }
     }
     
     public func code() -> String {
@@ -66,27 +60,42 @@ public struct SMShader {
         }
         lines.append(Line(in: 2, "texture2d<float, access::write> tex [[ texture(0) ]],"))
         for (i, texture) in textures.enumerated() {
-            lines.append(Line(in: 2, "texture2d<float, access::read> \(texture.name) [[ texture(\(i + 1)) ]],"))
+//            lines.append(Line(in: 2, "texture2d<float, access::read> \(texture.name) [[ texture(\(i + 1)) ]],"))
+            lines.append(Line(in: 2, "texture2d<float, access::sample> \(texture.name) [[ texture(\(i + 1)) ]],"))
         }
         lines.append(Line(in: 2, "uint2 pos [[ thread_position_in_grid ]],"))
         lines.append(Line(in: 2, "sampler smp [[ sampler(0) ]]"))
         lines.append(Line(in: 0, ") {"))
         lines.append(Line(in: 1))
 
-        lines.append(Line(in: 1, "if (pos.x >= tex.get_width() || pos.y >= tex.get_height()) { return; }"))
+        lines.append(Line(in: 1, "int x = pos.x;"))
+        lines.append(Line(in: 1, "int y = pos.y;"))
+        lines.append(Line(in: 1, "int w = tex.get_width();"))
+        lines.append(Line(in: 1, "int h = tex.get_height();"))
+        lines.append(Line(in: 1))
+        
+        lines.append(Line(in: 1, "if (x >= w || y >= h) { return; }"))
+        lines.append(Line(in: 1))
+        
+        lines.append(Line(in: 1, "float u = (float(x) + 0.5) / float(w);"))
+        lines.append(Line(in: 1, "float v = (float(y) + 0.5) / float(h);"))
+        lines.append(Line(in: 1, "float2 uv = float2(u, v);"))
         lines.append(Line(in: 1))
         
         if !textures.isEmpty {
             for texture in textures {
-                lines.append(Line(in: 1, "float4 \(texture.snippet()) = \(texture.name).read(pos);"))
+//                lines.append(Line(in: 1, "float4 \(texture.snippet()) = \(texture.name).read(pos);"))
+                lines.append(Line(in: 1, "float4 \(texture.snippet()) = \(texture.name).sample(smp, uv);"))
             }
             lines.append(Line(in: 1))
         }
         
-        code.variables.forEach { variable in
-            lines.append(Line(in: 1, variable.code))
+        if !code.variables.isEmpty {
+            code.variables.forEach { variable in
+                lines.append(Line(in: 1, variable.code))
+            }
+            lines.append(Line(in: 1))
         }
-        lines.append(Line(in: 1))
         
         lines.append(Line(in: 1, "\(baseEntity.type) out = \(code.snippet);"))
         lines.append(Line(in: 1))

@@ -15,6 +15,8 @@
 		3A478A11239E556D009AE4D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A478A0F239E556D009AE4D4 /* LaunchScreen.storyboard */; };
 		3A478A17239E557F009AE4D4 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
 		3A478A18239E557F009AE4D4 /* SwiftMetal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3A478A1C239E55A8009AE4D4 /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
+		3A478A1E239E695E009AE4D4 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A1D239E695E009AE4D4 /* Main.swift */; };
 		3A670681239A61BB00E23C87 /* SMEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670680239A61BB00E23C87 /* SMEntity.swift */; };
 		3A670689239A666300E23C87 /* SMTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670688239A666300E23C87 /* SMTexture.swift */; };
 		3A67068B239A687E00E23C87 /* SMBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068A239A687E00E23C87 /* SMBuilder.swift */; };
@@ -73,6 +75,7 @@
 		3A478A0D239E556D009AE4D4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A478A10239E556D009AE4D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A478A12239E556D009AE4D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A478A1D239E695E009AE4D4 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		3A670680239A61BB00E23C87 /* SMEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMEntity.swift; sourceTree = "<group>"; };
 		3A670688239A666300E23C87 /* SMTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMTexture.swift; sourceTree = "<group>"; };
 		3A67068A239A687E00E23C87 /* SMBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBuilder.swift; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 				3A478A04239E556B009AE4D4 /* AppDelegate.swift */,
 				3A478A06239E556B009AE4D4 /* SceneDelegate.swift */,
 				3A478A08239E556B009AE4D4 /* ContentView.swift */,
+				3A478A1D239E695E009AE4D4 /* Main.swift */,
 				3A478A0A239E556D009AE4D4 /* Assets.xcassets */,
 				3A478A0F239E556D009AE4D4 /* LaunchScreen.storyboard */,
 				3A478A12239E556D009AE4D4 /* Info.plist */,
@@ -334,6 +338,7 @@
 			files = (
 				3A478A11239E556D009AE4D4 /* LaunchScreen.storyboard in Resources */,
 				3A478A0E239E556D009AE4D4 /* Preview Assets.xcassets in Resources */,
+				3A478A1C239E55A8009AE4D4 /* TestMedia.xcassets in Resources */,
 				3A478A0B239E556D009AE4D4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,6 +368,7 @@
 			files = (
 				3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */,
 				3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */,
+				3A478A1E239E695E009AE4D4 /* Main.swift in Sources */,
 				3A478A09239E556B009AE4D4 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

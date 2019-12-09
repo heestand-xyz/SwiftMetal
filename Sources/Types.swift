@@ -40,9 +40,9 @@ struct SMOperation {
 
 public protocol SMRaw {}
 
-public class SMTuple: SMRaw {}
+public class SMTuple<T: SMRaw>: SMRaw {}
 
-public class SMTuple2<T: SMRaw>: SMTuple {
+public class SMTuple2<T: SMRaw>: SMTuple<T> {
     let value0: SMValue<T>
     let value1: SMValue<T>
     init(_ value0: SMValue<T>,
@@ -52,7 +52,7 @@ public class SMTuple2<T: SMRaw>: SMTuple {
     }
 }
 
-public class SMTuple3<T: SMRaw>: SMTuple {
+public class SMTuple3<T: SMRaw>: SMTuple<T> {
     let value0: SMValue<T>
     let value1: SMValue<T>
     let value2: SMValue<T>
@@ -65,7 +65,7 @@ public class SMTuple3<T: SMRaw>: SMTuple {
     }
 }
 
-public class SMTuple4<T: SMRaw>: SMTuple {
+public class SMTuple4<T: SMRaw>: SMTuple<T> {
     let value0: SMValue<T>
     let value1: SMValue<T>
     let value2: SMValue<T>
@@ -97,5 +97,15 @@ struct Line {
             row += line.snippet;
             return row
         }).joined(separator: "\n") + "\n"
+    }
+}
+
+public class SMUV: SMFloat2 {
+    public override init() {
+        super.init()
+        snippet = { "uv" }
+    }
+    required public convenience init(floatLiteral value: T) {
+        fatalError("init(floatLiteral:) has not been implemented")
     }
 }

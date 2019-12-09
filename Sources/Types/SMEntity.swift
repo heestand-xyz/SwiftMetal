@@ -27,6 +27,8 @@ public class SMEntity: Identifiable, Equatable {
         "future\(id.uuidString.split(separator: "-").first!)"
     }
     
+    var sampleTexture: SMTexture?
+    
     init(type: String, operation: SMOperation? = nil, isFuture: Bool = false) {
         id = UUID()
         self.type = type

@@ -100,11 +100,21 @@ struct SMBuilder {
         let tree: Branch = Branch(entity: baseEntity)
         
         while let leafEntity = tree.leafEntity() {
-            if let texture = leafEntity as? SMTexture {
+            var texture: SMTexture?
+            if let leafTexture = leafEntity as? SMTexture {
+                texture = leafTexture
+            } else if let sampleTexture = leafEntity.sampleTexture {
+                texture = sampleTexture
+            }
+            if let texture = texture {            
                 if !textures.contains(texture) {
                     textures.append(texture)
                 }
             }
+        }
+        
+        for (i, texture) in textures.enumerated() {
+            texture.index = i
         }
         
         return textures

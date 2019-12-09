@@ -31,7 +31,9 @@ public class SMTexture: SMFloat4 {
     public convenience init?(image: UIImage) {
         guard let cgImage = image.cgImage else { return nil }
         let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
-        guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: nil) else { return nil }
+        guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: [
+            .origin: MTKTextureLoader.Origin.bottomLeft as NSObject
+        ]) else { return nil }
         self.init(texture: texture)
     }
     
@@ -44,6 +46,12 @@ public class SMTexture: SMFloat4 {
     required public convenience init(floatLiteral value: Float) {
         fatalError("init(floatLiteral:) has not been implemented")
     }
+    
+    public func sample(at uv: SMFloat2) -> SMFloat4 {
+        SMFloat4(sample: self, at: uv)
+    }
+    
+    // MARK: - Export
 
     public func image() throws -> UIImage {
         let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
@@ -133,6 +141,18 @@ public class SMTexture: SMFloat4 {
                                             green: CGFloat($0[1]),
                                             blue: CGFloat($0[2]),
                                             alpha: CGFloat($0[3])) }) })
+    }
+    
+}
+
+extension SMFloat4 {
+    
+    convenience init(sample texture: SMTexture, at uv: SMFloat2) {
+        self.init()
+        sampleTexture = texture
+        self.snippet = {
+            "\(texture.name).sample(smp, \(uv.snippet()))"
+        }
     }
     
 }
