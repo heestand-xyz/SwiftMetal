@@ -33,10 +33,8 @@
 		744F60B2239EDCF200C51A63 /* Float16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F60B1239EDCF200C51A63 /* Float16.swift */; };
 		744F60BC239EE2A200C51A63 /* SwiftMetal_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 744F60BA239EE2A200C51A63 /* SwiftMetal_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		744F60C9239EE2D100C51A63 /* SwiftMetal_tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 744F60C7239EE2D100C51A63 /* SwiftMetal_tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		744F60D6239EE2EA00C51A63 /* SwiftMetal_watchOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 744F60D4239EE2EA00C51A63 /* SwiftMetal_watchOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		744F60DA239EE2FA00C51A63 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
 		744F60DB239EE2FA00C51A63 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
-		744F60DC239EE2FB00C51A63 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
 		744F60DD239EE30000C51A63 /* SMRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670690239A93D400E23C87 /* SMRenderer.swift */; };
 		744F60DE239EE30000C51A63 /* SMShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C612239A4B61005BE419 /* SMShader.swift */; };
 		744F60DF239EE30000C51A63 /* SMCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068C239A6CCB00E23C87 /* SMCode.swift */; };
@@ -49,12 +47,6 @@
 		744F60E6239EE30100C51A63 /* SMBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068A239A687E00E23C87 /* SMBuilder.swift */; };
 		744F60E7239EE30100C51A63 /* SMFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5B8FC239C547E00492280 /* SMFunction.swift */; };
 		744F60E8239EE30100C51A63 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A267239D3438003FEA65 /* Types.swift */; };
-		744F60E9239EE30100C51A63 /* SMRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670690239A93D400E23C87 /* SMRenderer.swift */; };
-		744F60EA239EE30100C51A63 /* SMShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C612239A4B61005BE419 /* SMShader.swift */; };
-		744F60EB239EE30100C51A63 /* SMCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068C239A6CCB00E23C87 /* SMCode.swift */; };
-		744F60EC239EE30100C51A63 /* SMBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068A239A687E00E23C87 /* SMBuilder.swift */; };
-		744F60ED239EE30100C51A63 /* SMFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5B8FC239C547E00492280 /* SMFunction.swift */; };
-		744F60EE239EE30100C51A63 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A267239D3438003FEA65 /* Types.swift */; };
 		744F60EF239EE30400C51A63 /* SMEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670680239A61BB00E23C87 /* SMEntity.swift */; };
 		744F60F0239EE30400C51A63 /* SMValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C615239A4B8E005BE419 /* SMValue.swift */; };
 		744F60F1239EE30400C51A63 /* SMFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A263239D31F0003FEA65 /* SMFloat.swift */; };
@@ -63,13 +55,8 @@
 		744F60F4239EE30500C51A63 /* SMValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C615239A4B8E005BE419 /* SMValue.swift */; };
 		744F60F5239EE30500C51A63 /* SMFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A263239D31F0003FEA65 /* SMFloat.swift */; };
 		744F60F6239EE30500C51A63 /* SMTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670688239A666300E23C87 /* SMTexture.swift */; };
-		744F60F7239EE30500C51A63 /* SMEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670680239A61BB00E23C87 /* SMEntity.swift */; };
-		744F60F8239EE30500C51A63 /* SMValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C615239A4B8E005BE419 /* SMValue.swift */; };
-		744F60F9239EE30500C51A63 /* SMFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A263239D31F0003FEA65 /* SMFloat.swift */; };
-		744F60FA239EE30500C51A63 /* SMTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670688239A666300E23C87 /* SMTexture.swift */; };
 		744F60FB239EE30700C51A63 /* Float16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F60B1239EDCF200C51A63 /* Float16.swift */; };
 		744F60FC239EE30800C51A63 /* Float16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F60B1239EDCF200C51A63 /* Float16.swift */; };
-		744F60FD239EE30800C51A63 /* Float16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F60B1239EDCF200C51A63 /* Float16.swift */; };
 		74512F25239BE34D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74512F26239BE39D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74E5B8FD239C547E00492280 /* SMFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5B8FC239C547E00492280 /* SMFunction.swift */; };
@@ -137,8 +124,6 @@
 		744F60BA239EE2A200C51A63 /* SwiftMetal_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal_macOS.h; sourceTree = "<group>"; };
 		744F60C5239EE2D100C51A63 /* SwiftMetal_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMetal_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		744F60C7239EE2D100C51A63 /* SwiftMetal_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal_tvOS.h; sourceTree = "<group>"; };
-		744F60D2239EE2EA00C51A63 /* SwiftMetal_watchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMetal_watchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		744F60D4239EE2EA00C51A63 /* SwiftMetal_watchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal_watchOS.h; sourceTree = "<group>"; };
 		74512F24239BE34D008F5FCE /* TestMedia.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TestMedia.xcassets; sourceTree = "<group>"; };
 		74E5B8FC239C547E00492280 /* SMFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFunction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,13 +160,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		744F60C2239EE2D100C51A63 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		744F60CF239EE2EA00C51A63 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -252,7 +230,6 @@
 				3A478A02239E556B009AE4D4 /* SwiftMetalDemo.app */,
 				744F60B8239EE2A200C51A63 /* SwiftMetal_macOS.framework */,
 				744F60C5239EE2D100C51A63 /* SwiftMetal_tvOS.framework */,
-				744F60D2239EE2EA00C51A63 /* SwiftMetal_watchOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -306,7 +283,6 @@
 				3A99C5FA239A4B20005BE419 /* SwiftMetal.h */,
 				744F60BA239EE2A200C51A63 /* SwiftMetal_macOS.h */,
 				744F60C7239EE2D100C51A63 /* SwiftMetal_tvOS.h */,
-				744F60D4239EE2EA00C51A63 /* SwiftMetal_watchOS.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -335,14 +311,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				744F60C9239EE2D100C51A63 /* SwiftMetal_tvOS.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		744F60CD239EE2EA00C51A63 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				744F60D6239EE2EA00C51A63 /* SwiftMetal_watchOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,24 +408,6 @@
 			productReference = 744F60C5239EE2D100C51A63 /* SwiftMetal_tvOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		744F60D1239EE2EA00C51A63 /* SwiftMetal_watchOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 744F60D7239EE2EA00C51A63 /* Build configuration list for PBXNativeTarget "SwiftMetal_watchOS" */;
-			buildPhases = (
-				744F60CD239EE2EA00C51A63 /* Headers */,
-				744F60CE239EE2EA00C51A63 /* Sources */,
-				744F60CF239EE2EA00C51A63 /* Frameworks */,
-				744F60D0239EE2EA00C51A63 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftMetal_watchOS;
-			productName = SwiftMetal_watchOS;
-			productReference = 744F60D2239EE2EA00C51A63 /* SwiftMetal_watchOS.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -484,9 +434,6 @@
 					744F60C4239EE2D100C51A63 = {
 						CreatedOnToolsVersion = 11.3;
 					};
-					744F60D1239EE2EA00C51A63 = {
-						CreatedOnToolsVersion = 11.3;
-					};
 				};
 			};
 			buildConfigurationList = 3A99C5F1239A4B20005BE419 /* Build configuration list for PBXProject "SwiftMetal" */;
@@ -505,7 +452,6 @@
 				3A99C5F6239A4B20005BE419 /* SwiftMetal_iOS */,
 				744F60B7239EE2A200C51A63 /* SwiftMetal_macOS */,
 				744F60C4239EE2D100C51A63 /* SwiftMetal_tvOS */,
-				744F60D1239EE2EA00C51A63 /* SwiftMetal_watchOS */,
 				3A99C5FF239A4B20005BE419 /* SwiftMetalTests */,
 				3A478A01239E556B009AE4D4 /* SwiftMetalDemo */,
 			);
@@ -548,13 +494,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		744F60C3239EE2D100C51A63 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		744F60D0239EE2EA00C51A63 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -637,25 +576,6 @@
 				744F60E4239EE30100C51A63 /* SMShader.swift in Sources */,
 				744F60F3239EE30500C51A63 /* SMEntity.swift in Sources */,
 				744F60E6239EE30100C51A63 /* SMBuilder.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		744F60CE239EE2EA00C51A63 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				744F60E9239EE30100C51A63 /* SMRenderer.swift in Sources */,
-				744F60FD239EE30800C51A63 /* Float16.swift in Sources */,
-				744F60ED239EE30100C51A63 /* SMFunction.swift in Sources */,
-				744F60DC239EE2FB00C51A63 /* Template.metal in Sources */,
-				744F60F8239EE30500C51A63 /* SMValue.swift in Sources */,
-				744F60F9239EE30500C51A63 /* SMFloat.swift in Sources */,
-				744F60EE239EE30100C51A63 /* Types.swift in Sources */,
-				744F60FA239EE30500C51A63 /* SMTexture.swift in Sources */,
-				744F60EB239EE30100C51A63 /* SMCode.swift in Sources */,
-				744F60EA239EE30100C51A63 /* SMShader.swift in Sources */,
-				744F60F7239EE30500C51A63 /* SMEntity.swift in Sources */,
-				744F60EC239EE30100C51A63 /* SMBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1039,60 +959,6 @@
 			};
 			name = Release;
 		};
-		744F60D8239EE2EA00C51A63 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 2QHTY6FMW2;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Resources/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.watchos;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.1;
-			};
-			name = Debug;
-		};
-		744F60D9239EE2EA00C51A63 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 2QHTY6FMW2;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Resources/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.watchos;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.1;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1146,15 +1012,6 @@
 			buildConfigurations = (
 				744F60CB239EE2D100C51A63 /* Debug */,
 				744F60CC239EE2D100C51A63 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		744F60D7239EE2EA00C51A63 /* Build configuration list for PBXNativeTarget "SwiftMetal_watchOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				744F60D8239EE2EA00C51A63 /* Debug */,
-				744F60D9239EE2EA00C51A63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
