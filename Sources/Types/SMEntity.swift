@@ -18,7 +18,8 @@ public class SMEntity: Identifiable, Equatable {
     
     let operation: SMOperation?
     var isArg: Bool = false
-    var isReturn: Bool = false
+    var returnId: UUID?
+    var isReturn: Bool { returnId != nil }
     
     init(type: String, operation: SMOperation? = nil) {
         id = UUID()

@@ -112,13 +112,13 @@
 			isa = PBXGroup;
 			children = (
 				3A99C5FA239A4B20005BE419 /* SwiftMetal.h */,
-				3A670694239A9D9600E23C87 /* Template.metal */,
+				3A670690239A93D400E23C87 /* SMRenderer.swift */,
 				3A99C612239A4B61005BE419 /* SMShader.swift */,
 				3A67068E239A801200E23C87 /* SMVariable.swift */,
 				3A67068C239A6CCB00E23C87 /* SMCode.swift */,
 				3A67068A239A687E00E23C87 /* SMBuilder.swift */,
-				3A670690239A93D400E23C87 /* SMRenderer.swift */,
 				74E5B8FC239C547E00492280 /* SMFunction.swift */,
+				3A670694239A9D9600E23C87 /* Template.metal */,
 				3A67067F239A61A900E23C87 /* Types */,
 			);
 			path = Sources;

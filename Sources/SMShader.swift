@@ -90,10 +90,10 @@ public struct SMShader {
         }
         lines.append(Line(in: 1))
         
-        lines.append(Line(in: 1, "\(baseEntity.type) val = \(code.snippet);"))
+        lines.append(Line(in: 1, "\(baseEntity.type) out = \(code.snippet);"))
         lines.append(Line(in: 1))
         
-        lines.append(Line(in: 1, "tex.write(val, pos);"))
+        lines.append(Line(in: 1, "tex.write(out, pos);"))
         lines.append(Line(in: 1))
         
         lines.append(Line("}"))

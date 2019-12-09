@@ -40,7 +40,7 @@ class SMRenderer {
 
     }
 
-    func render(shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = .rgba8Unorm) throws -> SMTexture {
+    func render(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = .rgba8Unorm) throws -> SMTexture {
 
         
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {

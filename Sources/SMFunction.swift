@@ -8,43 +8,15 @@
 
 import Foundation
 
-//public class SMArg: SMEntity {
-//    let entity: SMEntity
-//    init(_ entity: SMEntity) {
-//        self.entity = entity
-//        super.init(type: "arg")
-//    }
-//}
-//
-//public class SMReturn: SMEntity {
-//    let entity: SMEntity
-//    public init(_ entity: SMEntity) {
-//        self.entity = entity
-//        super.init(type: "return")
-//    }
-//}
-
-public class SMRawFunc: Identifiable, Equatable {
+public class SMFunc<R: SMEntity>: Identifiable {
     
     public let id: UUID
     
     let function: ([SMEntity]) -> (SMEntity)
     
-    init(function: @escaping ([SMEntity]) -> (SMEntity)) {
+    public init(_ function: @escaping ([SMEntity]) -> (R)) {
         id = UUID()
         self.function = function
-    }
-    
-    public static func == (lhs: SMRawFunc, rhs: SMRawFunc) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-}
-
-public class SMFunc<R: SMEntity>: SMRawFunc {
-
-    public init(_ function: @escaping ([SMEntity]) -> (R)) {
-        super.init(function: function)
     }
 
     public func call(_ arguments: SMEntity...) -> R {
@@ -52,7 +24,7 @@ public class SMFunc<R: SMEntity>: SMRawFunc {
             entity.isArg = true
         }
         let returnEntity = function(arguments)
-        returnEntity.isReturn = true
+        returnEntity.returnId = id
         return returnEntity as! R
     }
 
@@ -79,7 +51,9 @@ struct SMFunction {
         lines.append(Line(declaration))
         var snippet: String = returnEntity.snippet()
         for (i, argEntity) in argEntities.enumerated() {
-            snippet = snippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
+            if let snippetIndexRange = snippet.range(of: argEntity.snippet()) {
+                snippet = snippet.replacingCharacters(in: snippetIndexRange, with: "a\(i)")
+            }
         }
         lines.append(Line(in: 1, "return \(snippet);"))
         lines.append(Line("}"))
