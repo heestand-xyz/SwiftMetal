@@ -57,6 +57,8 @@
 		744F60F6239EE30500C51A63 /* SMTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670688239A666300E23C87 /* SMTexture.swift */; };
 		744F60FB239EE30700C51A63 /* Float16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F60B1239EDCF200C51A63 /* Float16.swift */; };
 		744F60FC239EE30800C51A63 /* Float16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F60B1239EDCF200C51A63 /* Float16.swift */; };
+		744F60FF239EEB0300C51A63 /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
+		744F6100239EEB0300C51A63 /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74512F25239BE34D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74512F26239BE39D008F5FCE /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
 		74E5B8FD239C547E00492280 /* SMFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5B8FC239C547E00492280 /* SMFunction.swift */; };
@@ -490,6 +492,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				744F60FF239EEB0300C51A63 /* TestMedia.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,6 +500,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				744F6100239EEB0300C51A63 /* TestMedia.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
