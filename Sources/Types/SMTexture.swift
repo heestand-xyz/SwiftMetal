@@ -79,30 +79,36 @@ public class SMTexture: SMFloat4 {
         return UIImage(cgImage: cgImage)
     }
     
+    func raw<T>(fill: T) -> [T] {
+        let region = MTLRegionMake2D(0, 0, texture.width, texture.height)
+        var raw = Array<T>(repeating: fill, count: texture.width * texture.height * 4)
+        raw.withUnsafeMutableBytes {
+            let bytesPerRow: Int = MemoryLayout<T>.size * texture.width * 4
+            texture.getBytes($0.baseAddress!, bytesPerRow: bytesPerRow, from: region, mipmapLevel: 0)
+        }
+        return raw
+    }
+    
     public func raw8() throws -> [UInt8] {
         guard texture.pixelFormat == .rgba8Unorm else {
             throw TextureError.badPixelFormat(target: [.rgba8Unorm])
         }
-        let region = MTLRegionMake2D(0, 0, texture.width, texture.height)
-        var raw = Array<UInt8>(repeating: 0, count: texture.width * texture.height * 4)
-        raw.withUnsafeMutableBytes {
-            let bytesPerRow: Int = MemoryLayout<UInt8>.size * texture.width * 4
-            texture.getBytes($0.baseAddress!, bytesPerRow: bytesPerRow, from: region, mipmapLevel: 0)
-        }
-        return raw
+        return raw(fill: 0)
     }
     
     public func raw16() throws -> [Float] {
         guard texture.pixelFormat == .rgba16Float else {
             throw TextureError.badPixelFormat(target: [.rgba16Float])
         }
-        let region = MTLRegionMake2D(0, 0, texture.width, texture.height)
-        var raw = Array<Float16>(repeating: 0, count: texture.width * texture.height * 4)
-        raw.withUnsafeMutableBytes {
-            let bytesPerRow: Int = MemoryLayout<Float16>.size * texture.width * 4
-            texture.getBytes($0.baseAddress!, bytesPerRow: bytesPerRow, from: region, mipmapLevel: 0)
+        var raw16: [Float16] = raw(fill: 0)
+        return float16to32(&raw16, count: raw16.count)
+    }
+    
+    public func raw32() throws -> [Float] {
+        guard texture.pixelFormat == .rgba32Float else {
+            throw TextureError.badPixelFormat(target: [.rgba32Float])
         }
-        return float16to32(&raw, count: raw.count)
+        return raw(fill: 0.0)
     }
     
     public func pixels() throws -> [[[Float]]] {
@@ -113,8 +119,10 @@ public class SMTexture: SMFloat4 {
             rawFloats = raw.map({ Float($0) / 255 })
         case .rgba16Float:
             rawFloats = try raw16()
+        case .rgba32Float:
+            rawFloats = try raw32()
         default:
-            throw TextureError.badPixelFormat(target: [.rgba8Unorm, .rgba16Float])
+            throw TextureError.badPixelFormat(target: [.rgba8Unorm, .rgba16Float, .rgba32Float])
         }
         var pixels: [[[Float]]] = []
         var row: [[Float]]!
