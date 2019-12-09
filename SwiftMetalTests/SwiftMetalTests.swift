@@ -27,37 +27,38 @@ class SwiftMetalTests: XCTestCase {
     func testFunc() {
 //        let img = UIImage(named: "photo1", in: Bundle(for: SwiftMetalTests.self), with: nil)!
 //        let tex = SMTexture(image: img)!
-//        let date = Date()
-        var live: Float {
-//            Float(-date.timeIntervalSinceNow)
-            0.333
-        }
-        let func0 = function { args -> SMFloat4 in
-            (args[0] as! SMFloat4) +
-            (args[1] as! SMFloat4)
-        }
+//        var live: Float {
+//            0.333
+//        }
+//        let func0 = function { args -> SMFloat4 in
+//            (args[0] as! SMFloat4) +
+//            (args[1] as! SMFloat4)
+//        }
         let shader = SMShader { uv in
-            let a = float4(0.1, 0.0, 0.0, 1.0)
-            let b = float4(0.2, 0.0, 0.0, 1.0)
-//            let lv = SMFloat4 {
-//                SMRawFloat4(live, live, live, 1.0)
+            var v = float4(-1.0, 0.0, 1.0, 99.0)
+//            for _ in 0..<5 {
+//                v += float4(0.1, 0.0, 0.0, 0.0)
 //            }
-            let c: SMFloat4 = func0.call(a, b)//func0.call(a, b) + func0.call(lv, lv)
+            let c: SMFloat4 = v
             return c
         }
         print("> > > > > > >")
         print(shader.code())
         print("< < < < < < <")
         let res = CGSize(width: 1, height: 1)
-        let render: SMTexture = try! renderer.render(shader, at: res, as: .rgba8Unorm)
-        let raw = try! render.raw8()
-        if raw.count == 4 {
-            print(raw.map({ CGFloat($0) / 255 }))
-        } else {
-            print("raw count:", raw.count)
+        let render: SMTexture = try! renderer.render(shader, at: res, as: .rgba16Float)
+        if let raw8 = try? render.raw8() {
+            if raw8.count == 4 {
+                print("raw8", raw8.map({ CGFloat($0) / 255 }))
+            }
+            XCTAssertNotEqual(raw8.first!, 0)
+        } else if let raw16 = try? render.raw16() {
+            if raw16.count == 4 {
+                print("raw16", raw16)
+            }
+            XCTAssertNotEqual(raw16.first!, 0.0)
         }
         print("= = = = = = =")
-        XCTAssertNotEqual(raw.first!, 0)
     }
 
 }

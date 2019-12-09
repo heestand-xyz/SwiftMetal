@@ -36,6 +36,23 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral {
     required public convenience init(floatLiteral value: T) {
         self.init(value)
     }
+    
+    init(operation: SMOperation, snippet: @escaping () -> (String)) {
+        super.init(operation: operation, snippet: snippet, type: SMFloat.kType)
+    }
+    
+    public static func + (lhs: SMFloat, rhs: SMFloat) -> SMFloat {
+        SMFloat(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" })
+    }
+    public static func - (lhs: SMFloat, rhs: SMFloat) -> SMFloat {
+        SMFloat(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+    }
+    public static func * (lhs: SMFloat, rhs: SMFloat) -> SMFloat {
+        SMFloat(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+    }
+    public static func / (lhs: SMFloat, rhs: SMFloat) -> SMFloat {
+        SMFloat(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+    }
 
 }
 
@@ -57,17 +74,6 @@ public class SMPublishedFloat: SMFloat {
         fatalError("init(floatLiteral:) has not been implemented")
     }
 }
-
-
-//extension SMFloat: ObservableObject {
-//
-//    @Published var dynamicValue: Float
-//
-//    override init(_ futureValue: @escaping FV, type: String) {
-//
-//    }
-//
-//}
 
 
 //public struct SMRawFloat2 {
@@ -224,6 +230,10 @@ public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral {
     }
     public static func / (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
         SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+    }
+    
+    public static func += (lhs: inout SMFloat4, rhs: SMFloat4) {
+        lhs = lhs + rhs
     }
         
 }
