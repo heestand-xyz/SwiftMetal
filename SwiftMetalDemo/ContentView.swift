@@ -17,14 +17,17 @@ struct ContentView: View {
                 Image(uiImage: main.photo1)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .cornerRadius(5)
                 Image(uiImage: main.photo2)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .cornerRadius(5)
             }
             if main.renderedImage != nil {
                 Image(uiImage: main.renderedImage!)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .cornerRadius(5)
             }
             Spacer()
         }

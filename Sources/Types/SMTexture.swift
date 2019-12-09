@@ -51,6 +51,14 @@ public class SMTexture: SMFloat4 {
         SMFloat4(sample: self, at: uv)
     }
     
+//    public func sample(rel offest: SMFloat2) -> SMFloat4 {
+//        SMFloat4(sample: self, at: SMUV() + offest)
+//    }
+//    
+//    public func sample() -> SMFloat4 {
+//        SMFloat4(sample: self, at: SMUV())
+//    }
+    
     // MARK: - Export
 
     public func image() throws -> UIImage {
@@ -150,6 +158,7 @@ extension SMFloat4 {
     convenience init(sample texture: SMTexture, at uv: SMFloat2) {
         self.init()
         sampleTexture = texture
+        sampleUV = uv
         self.snippet = {
             "\(texture.name).sample(smp, \(uv.snippet()))"
         }

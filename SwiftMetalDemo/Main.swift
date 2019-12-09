@@ -27,7 +27,7 @@ class Main: ObservableObject {
         let shader = SMShader { uv in
             let tex1 = SMTexture(image: photo1)!
             let tex2 = SMTexture(image: photo2)!
-            return tex1 + tex2.sample(at: uv + float2(0.5, 0.0))
+            return max(tex1, tex2)
         }
         
         print(shader.code())

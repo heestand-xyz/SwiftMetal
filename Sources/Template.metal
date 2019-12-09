@@ -37,7 +37,7 @@ kernel void swiftMetal(const device Uniforms& us [[ buffer(0) ]],
     
     float4 t0 = tex0.read(pos);
     float4 t1 = tex1.sample(smp, uv);
-    
+        
     float4 val = f0(t0) + float4(us.u0, 0.0, 0.0, 1.0) * t1;
     
     tex.write(val, pos);

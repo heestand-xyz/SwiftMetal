@@ -16,9 +16,8 @@ struct SMBuilder {
         var branches: [Branch] = []
         init(entity: SMEntity) {
             self.entity = entity
-            if let operation = entity.operation {
-                branches.append(Branch(entity: operation.lhs))
-                branches.append(Branch(entity: operation.rhs))
+            branches = entity.children.map { child in
+                Branch(entity: child)
             }
         }
         func leafEntity(_ index: Int = 0) -> SMEntity? {
@@ -100,13 +99,8 @@ struct SMBuilder {
         let tree: Branch = Branch(entity: baseEntity)
         
         while let leafEntity = tree.leafEntity() {
-            var texture: SMTexture?
-            if let leafTexture = leafEntity as? SMTexture {
-                texture = leafTexture
-            } else if let sampleTexture = leafEntity.sampleTexture {
-                texture = sampleTexture
-            }
-            if let texture = texture {            
+            print(">>>", type(of: leafEntity), leafEntity.snippet())
+            if let texture = leafEntity as? SMTexture {
                 if !textures.contains(texture) {
                     textures.append(texture)
                 }

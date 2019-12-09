@@ -16,10 +16,9 @@ public class SMValue<V: SMRaw>: SMEntity {
     var _value: V?
     public var value: V? { _value ?? futureValue?() }
     
-    init(_ value: V, snippet: (() -> (String))? = nil, type: String) {
+    init(_ value: V, type: String, fromEntities: [SMEntity]) {
         self._value = value
-        super.init(type: type)
-        self.snippet = snippet ?? { "#" }
+        super.init(type: type, fromEntities: fromEntities)
     }
     
     init(_ futureValue: @escaping FV, type: String) {
@@ -32,8 +31,8 @@ public class SMValue<V: SMRaw>: SMEntity {
         self.snippet = snippet
     }
     
-    init(type: String) {
-        super.init(type: type)
+    init(type: String, fromEntities: [SMEntity] = []) {
+        super.init(type: type, fromEntities: fromEntities)
     }
 
 }

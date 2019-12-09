@@ -27,13 +27,32 @@ public class SMEntity: Identifiable, Equatable {
         "future\(id.uuidString.split(separator: "-").first!)"
     }
     
-    var sampleTexture: SMTexture?
+    var subscriptEntity: SMEntity?
     
-    init(type: String, operation: SMOperation? = nil, isFuture: Bool = false) {
+    var sampleTexture: SMTexture?
+    var sampleUV: SMFloat2?
+    
+    let fromEntities: [SMEntity]
+    
+    var children: [SMEntity] {
+        var children: [SMEntity] = [
+            operation?.lhs,
+            operation?.rhs,
+            subscriptEntity,
+            sampleTexture,
+            sampleUV
+        ]
+            .compactMap({ $0 })
+        children.append(contentsOf: fromEntities)
+        return children
+    }
+    
+    init(type: String, operation: SMOperation? = nil, isFuture: Bool = false, fromEntities: [SMEntity] = []) {
         id = UUID()
         self.type = type
         self.operation = operation
         self.isFuture = isFuture
+        self.fromEntities = fromEntities
         if isFuture {
             snippet = { self.futureSnippet }
         }

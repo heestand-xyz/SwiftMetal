@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Float: SMRaw {}
+extension Float: SMRawType {}
 
 public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral {
     
@@ -21,6 +21,7 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral {
     
     init(entity: SMEntity, at index: Int) {
         super.init(type: SMFloat.kType)
+        subscriptEntity = entity
         snippet = { "\(entity.snippet())[\(index)]" }
     }
 
@@ -76,7 +77,9 @@ public class SMFloat2: SMValue<SMTuple2<Float>>, ExpressibleByFloatLiteral {
     }
     
     init(_ value: SMTuple2<T>) {
-        super.init(value, type: SMFloat2.kType)
+        super.init(value, type: SMFloat2.kType, fromEntities: [
+            value.value0, value.value1
+        ])
         snippet = { "\(SMFloat2.kType)(\(self.value?.value0.snippet() ?? "#"), \(self.value?.value1.snippet() ?? "#"))" }
     }
     
@@ -88,8 +91,8 @@ public class SMFloat2: SMValue<SMTuple2<Float>>, ExpressibleByFloatLiteral {
         super.init(operation: operation, snippet: snippet, type: SMFloat2.kType)
     }
     
-    init() {
-        super.init(type: SMFloat2.kType)
+    init(fromEntities: [SMEntity] = []) {
+        super.init(type: SMFloat2.kType, fromEntities: fromEntities)
     }
     
     public static func + (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
@@ -120,6 +123,7 @@ public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral {
     
     static let kType: String = "float4"
     public typealias T = Float
+    public typealias V = SMTuple4<Float>
     
     public var x: SMFloat { self[0] }
     public var y: SMFloat { self[1] }
@@ -154,7 +158,9 @@ public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral {
     }
     
     init(_ value: SMTuple4<T>) {
-        super.init(value, type: SMFloat4.kType)
+        super.init(value, type: SMFloat4.kType, fromEntities: [
+            value.value0, value.value1, value.value2, value.value3
+        ])
         snippet = { "\(SMFloat4.kType)(\(self.value?.value0.snippet() ?? "#"), \(self.value?.value1.snippet() ?? "#"), \(self.value?.value2.snippet() ?? "#"), \(self.value?.value3.snippet() ?? "#"))" }
     }
     
@@ -166,8 +172,8 @@ public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral {
         super.init(operation: operation, snippet: snippet, type: SMFloat4.kType)
     }
     
-    init() {
-        super.init(type: SMFloat4.kType)
+    init(fromEntities: [SMEntity] = []) {
+        super.init(type: SMFloat4.kType, fromEntities: fromEntities)
     }
     
     public static func + (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
@@ -196,4 +202,38 @@ public func float2(_ value0: SMFloat, _ value1: SMFloat) -> SMFloat2 {
 
 public func float4(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat, _ value3: SMFloat) -> SMFloat4 {
     SMFloat4(value0, value1, value2, value3)
+}
+
+public func min(_ values: SMFloat4...) -> SMFloat4 {
+    let float = SMFloat4(fromEntities: values)
+    float.snippet = {
+        var snippet: String = ""
+        snippet += "min("
+        for (i, value) in values.enumerated() {
+            if i > 0 {
+                snippet += ", "
+            }
+            snippet += value.snippet()
+        }
+        snippet += ")"
+        return snippet
+    }
+    return float
+}
+
+public func max(_ values: SMFloat4...) -> SMFloat4 {
+    let float = SMFloat4(fromEntities: values)
+    float.snippet = {
+        var snippet: String = ""
+        snippet += "max("
+        for (i, value) in values.enumerated() {
+            if i > 0 {
+                snippet += ", "
+            }
+            snippet += value.snippet()
+        }
+        snippet += ")"
+        return snippet
+    }
+    return float
 }

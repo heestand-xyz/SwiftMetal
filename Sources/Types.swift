@@ -39,41 +39,42 @@ struct SMOperation {
 }
 
 public protocol SMRaw {}
+public protocol SMRawType: SMRaw {}
 
-public class SMTuple<T: SMRaw>: SMRaw {}
+public class SMTuple<RT: SMRawType>: SMRaw {}
 
-public class SMTuple2<T: SMRaw>: SMTuple<T> {
-    let value0: SMValue<T>
-    let value1: SMValue<T>
-    init(_ value0: SMValue<T>,
-         _ value1: SMValue<T>) {
+public class SMTuple2<RT: SMRawType>: SMTuple<RT> {
+    let value0: SMValue<RT>
+    let value1: SMValue<RT>
+    init(_ value0: SMValue<RT>,
+         _ value1: SMValue<RT>) {
         self.value0 = value0
         self.value1 = value1
     }
 }
 
-public class SMTuple3<T: SMRaw>: SMTuple<T> {
-    let value0: SMValue<T>
-    let value1: SMValue<T>
-    let value2: SMValue<T>
-    init(_ value0: SMValue<T>,
-         _ value1: SMValue<T>,
-         _ value2: SMValue<T>) {
+public class SMTuple3<RT: SMRawType>: SMTuple<RT> {
+    let value0: SMValue<RT>
+    let value1: SMValue<RT>
+    let value2: SMValue<RT>
+    init(_ value0: SMValue<RT>,
+         _ value1: SMValue<RT>,
+         _ value2: SMValue<RT>) {
         self.value0 = value0
         self.value1 = value1
         self.value2 = value2
     }
 }
 
-public class SMTuple4<T: SMRaw>: SMTuple<T> {
-    let value0: SMValue<T>
-    let value1: SMValue<T>
-    let value2: SMValue<T>
-    let value3: SMValue<T>
-    init(_ value0: SMValue<T>,
-         _ value1: SMValue<T>,
-         _ value2: SMValue<T>,
-         _ value3: SMValue<T>) {
+public class SMTuple4<RT: SMRawType>: SMTuple<RT> {
+    let value0: SMValue<RT>
+    let value1: SMValue<RT>
+    let value2: SMValue<RT>
+    let value3: SMValue<RT>
+    init(_ value0: SMValue<RT>,
+         _ value1: SMValue<RT>,
+         _ value2: SMValue<RT>,
+         _ value3: SMValue<RT>) {
         self.value0 = value0
         self.value1 = value1
         self.value2 = value2
@@ -101,7 +102,7 @@ struct Line {
 }
 
 public class SMUV: SMFloat2 {
-    public override init() {
+    public init() {
         super.init()
         snippet = { "uv" }
     }
