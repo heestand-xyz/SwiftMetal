@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 extension Float: SMRawType {}
 
@@ -59,7 +60,7 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral, ExpressibleByIn
 
 }
 
-public class SMPublishedFloat: SMFloat {
+public class SMLiveFloat: SMFloat {
     var valueSink: AnyCancellable!
     public init(_ publisher: Published<Float>.Publisher) {
         var value: Float!
@@ -69,6 +70,13 @@ public class SMPublishedFloat: SMFloat {
             self.sink?()
         }
         hasSink = true
+    }
+    public init(_ binding: Binding<Float>) {
+        _ = CurrentValueSubject<Float, Never>(binding.wrappedValue)
+        // TODO: - Route values:
+        //         Currently the CurrentValueSubject triggers the SMView to update,
+        //         then the future values is read.
+        super.init { binding.wrappedValue }
     }
     deinit {
         valueSink.cancel()

@@ -40,7 +40,7 @@ public class SMTexture: SMFloat4 {
         #endif
         let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
         guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: [
-            .origin: MTKTextureLoader.Origin.bottomLeft as NSObject
+            .origin: MTKTextureLoader.Origin.topLeft as NSObject
         ]) else { return nil }
         self.init(texture: texture)
     }
