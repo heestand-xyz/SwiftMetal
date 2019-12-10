@@ -1,8 +1,13 @@
 # SwiftMetal
 
-<img src="https://github.com/hexagons/SwiftMetal/blob/master/Assets/SwiftMetal.png?raw=true" width="256"/> 
+<img src="https://github.com/hexagons/SwiftMetal/blob/master/Assets/SwiftMetal-Bond-Logo-Mini.png?raw=true" width="155"/> 
+
 
 ## Write Metal in Swift
+
+~~~~swift
+import SwiftMetal
+~~~~
 
 ~~~~swift
 let img = UIImage(named: "photo1")!
@@ -22,7 +27,39 @@ let render: SMTexture = try! renderer.render(shader: shader, at: res)
 let texture: MTLTexture = render.texture
 ~~~~
 
+
+## Write Metal in SwiftUI
+
+~~~~swift
+import SwiftUI
+import SwiftMetal
+~~~~
+
+~~~~swift
+struct ContentView: View {
+    @State var value: Float = 0.5
+    var body: some View {
+        VStack {
+            Slider(value: $value)
+            SMView {
+                SMShader { uv in
+                    let tex1 = SMTexture(image: UIImage(named: "photo1")!)!
+                    let tex2 = SMTexture(image: UIImage(named: "photo2")!)!
+                    let val = SMLiveFloat(self.$value)
+                    return tex1.sample(at: uv + float2(tex2.r * -val, 0.0))
+                }
+            }
+                .aspectRatio(1.5, contentMode: .fit)
+                .cornerRadius(10)
+        }
+    }
+}
+~~~~
+
+
 ## Auto generated Metal code
+
+Generated from first Swift example.
 
 ~~~~Metal
 #include <metal_stdlib>
