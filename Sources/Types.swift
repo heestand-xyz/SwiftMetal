@@ -122,4 +122,7 @@ public class SMUV: SMFloat2 {
     required public convenience init(floatLiteral value: T) {
         fatalError("init(floatLiteral:) has not been implemented")
     }
+    required public convenience init(integerLiteral value: Int) {
+        fatalError("init(integerLiteral:) has not been implemented")
+    }
 }

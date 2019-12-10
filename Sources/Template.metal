@@ -17,7 +17,7 @@ struct Uniforms {
     float u0;
 };
 
-kernel void swiftMetal(const device Uniforms& us [[ buffer(0) ]],
+kernel void swiftMetal(constant Uniforms& us [[ buffer(0) ]],
                        texture2d<float, access::write> tex [[ texture(0) ]],
                        texture2d<float, access::read> tex0 [[ texture(1) ]],
                        texture2d<float, access::sample> tex1 [[ texture(2) ]],
@@ -37,8 +37,9 @@ kernel void swiftMetal(const device Uniforms& us [[ buffer(0) ]],
     
     float4 t0 = tex0.read(pos);
     float4 t1 = tex1.sample(smp, uv);
-        
-    float4 val = f0(t0) + float4(us.u0, 0.0, 0.0, 1.0) * t1;
+    float4 k0 = float4(0);
+    
+    float4 val = f0(t0) + float4(us.u0, 0.0, 0.0, 1.0) * t1 + k0;
     
     tex.write(val, pos);
     

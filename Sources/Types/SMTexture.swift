@@ -54,6 +54,9 @@ public class SMTexture: SMFloat4 {
     required public convenience init(floatLiteral value: Float) {
         fatalError("init(floatLiteral:) has not been implemented")
     }
+    required public convenience init(integerLiteral value: Int) {
+        fatalError("init(integerLiteral:) has not been implemented")
+    }
     
     public func sample(at uv: SMFloat2) -> SMFloat4 {
         SMFloat4(sample: self, at: uv)
