@@ -156,6 +156,7 @@
 		3A99C607239A4B20005BE419 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A99C612239A4B61005BE419 /* SMShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMShader.swift; sourceTree = "<group>"; };
 		3A99C615239A4B8E005BE419 /* SMValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMValue.swift; sourceTree = "<group>"; };
+		3AB82E10239FDC2700651B10 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		7422A263239D31F0003FEA65 /* SMFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFloat.swift; sourceTree = "<group>"; };
 		7422A267239D3438003FEA65 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		744F60B1239EDCF200C51A63 /* Float16.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Float16.swift; sourceTree = "<group>"; };
@@ -262,6 +263,7 @@
 		3A99C5ED239A4B20005BE419 = {
 			isa = PBXGroup;
 			children = (
+				3AB82E10239FDC2700651B10 /* Package.swift */,
 				3A9455DA239FD8D500668AE3 /* README.md */,
 				3A99C5F9239A4B20005BE419 /* Sources */,
 				3A99C611239A4B37005BE419 /* Resources */,
@@ -882,6 +884,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -908,6 +911,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

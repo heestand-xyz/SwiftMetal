@@ -79,16 +79,23 @@ public class SMUIView: MTKView {
     override public func draw(_ rect: CGRect) {
         super.draw(rect)
 //        autoreleasepool {
-        res = CGSize(width: rect.size.width * UIScreen.main.scale,
-                     height: rect.size.height * UIScreen.main.scale)
+        #if os(macOS)
+        let scale: CGFloat = 1.0
+        #else
+        let scale: CGFloat = UIScreen.main.scale
+        #endif
+        res = CGSize(width: rect.size.width * scale,
+                     height: rect.size.height * scale)
         guard res!.width > 0 && res!.height > 0 else { return }
         renderCallback?()
 //        }
     }
     
+    #if !os(macOS)
     public override func layoutIfNeeded() {
         super.layoutIfNeeded()
         print("layoutIfNeeded")
     }
+    #endif
     
 }
