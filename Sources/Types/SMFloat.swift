@@ -45,6 +45,10 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral, ExpressibleByIn
         super.init(operation: operation, snippet: snippet, type: SMFloat.kType)
     }
     
+    init(fromEntities: [SMEntity]) {
+        super.init(type: SMFloat.kType, fromEntities: fromEntities)
+    }
+    
     public static func + (lhs: SMFloat, rhs: SMFloat) -> SMFloat {
         SMFloat(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" })
     }
@@ -57,7 +61,12 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral, ExpressibleByIn
     public static func / (lhs: SMFloat, rhs: SMFloat) -> SMFloat {
         SMFloat(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
     }
-
+    public prefix static func - (operand: SMFloat) -> SMFloat {
+        let float = SMFloat(fromEntities: [operand])
+        float.snippet = { "-\(operand.snippet())" }
+        return float
+    }
+    
 }
 
 public class SMLiveFloat: SMFloat {

@@ -49,6 +49,7 @@ public class SMShader {
         
         lines.append(Line("//"))
         lines.append(Line("//  SwiftMetal"))
+        lines.append(Line("//  Auto generated metal code"))
         lines.append(Line("//"))
         lines.append(Line())
         
