@@ -1,7 +1,11 @@
-# SwiftMetal
-
 <img src="https://github.com/hexagons/SwiftMetal/blob/master/Assets/SwiftMetal-Bond-Logo-Mini.png?raw=true" width="155"/> 
 
+# SwiftMetal
+
+[![License](https://img.shields.io/cocoapods/l/SwiftMetal.svg)](https://github.com/hexagons/SwiftMetal/blob/master/LICENSE)
+[![Cocoapods](https://img.shields.io/cocoapods/v/SwiftMetal.svg)](http://cocoapods.org/pods/SwiftMetal)
+[![Platform](https://img.shields.io/cocoapods/p/SwiftMetal.svg)](http://cocoapods.org/pods/SwiftMetal)
+<img src="https://img.shields.io/badge/in-swift5.0-orange.svg">
 
 ## Write Metal in Swift
 
