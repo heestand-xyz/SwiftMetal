@@ -40,7 +40,7 @@ public class SMTexture: SMFloat4 {
         #endif
         let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
         guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: [
-            .origin: MTKTextureLoader.Origin.bottomLeft as NSObject
+            .origin: MTKTextureLoader.Origin.topLeft as NSObject
         ]) else { return nil }
         self.init(texture: texture)
     }
@@ -53,6 +53,9 @@ public class SMTexture: SMFloat4 {
     
     required public convenience init(floatLiteral value: Float) {
         fatalError("init(floatLiteral:) has not been implemented")
+    }
+    required public convenience init(integerLiteral value: Int) {
+        fatalError("init(integerLiteral:) has not been implemented")
     }
     
     public func sample(at uv: SMFloat2) -> SMFloat4 {

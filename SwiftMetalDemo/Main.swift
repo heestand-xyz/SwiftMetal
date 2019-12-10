@@ -16,20 +16,16 @@ class Main: ObservableObject {
     @Published var renderedImage: UIImage?
     
     @Published var value: Float = 0.5
-    
-    let renderer: SMRenderer
-    
+        
     init() {
         
         photo1 = UIImage(named: "photo1")!
         photo2 = UIImage(named: "photo2")!
-        
-        renderer = SMRenderer()!
-        
+                
         let shader = SMShader { uv in
             let tex1 = SMTexture(image: photo1)!
             let tex2 = SMTexture(image: photo2)!
-            let val = SMPublishedFloat($value)
+            let val = SMLiveFloat($value)
             let val4 = float4(val, val, val, val)
             return tex1 * (1.0 - val4) + tex2 * val4
         }
@@ -47,7 +43,7 @@ class Main: ObservableObject {
 //        }
         
         do {
-            try renderer.renderLive(shader, at: res, rendered: { texture in
+            try SMRenderer.renderLive(shader, at: res, rendered: { texture in
                 print("Rendered!")
                 self.renderedImage = try! texture.image()
             }) { error in

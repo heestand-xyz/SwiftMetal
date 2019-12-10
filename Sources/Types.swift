@@ -14,14 +14,16 @@ import UIKit
 #endif
 
 #if os(macOS)
+public typealias _View = NSView
 public typealias _Image = NSImage
 public typealias _Color = NSColor
 #else
+public typealias _View = UIView
 public typealias _Image = UIImage
 public typealias _Color = UIColor
 #endif
 
-struct SMVariable {
+struct SMVariablePack {
     let entity: SMEntity
     let index: Int
     var name: String {
@@ -32,7 +34,7 @@ struct SMVariable {
     }
 }
 
-struct SMUniform {
+struct SMUniformPack {
     let entity: SMEntity
     let index: Int
     var name: String {
@@ -121,5 +123,8 @@ public class SMUV: SMFloat2 {
     }
     required public convenience init(floatLiteral value: T) {
         fatalError("init(floatLiteral:) has not been implemented")
+    }
+    required public convenience init(integerLiteral value: Int) {
+        fatalError("init(integerLiteral:) has not been implemented")
     }
 }

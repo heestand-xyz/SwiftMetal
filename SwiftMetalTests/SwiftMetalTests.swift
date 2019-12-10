@@ -26,12 +26,18 @@ class SwiftMetalTests: XCTestCase {
 
     func testShader() {
         
+        var v: Float = 0.5
+        
         let shader = SMShader { uv in
-            return float4(uv.x, uv.y, 0.0, 1.0)
+            let base = float4(0.25)
+            let future = SMFloat4 {
+                SMRawFloat4(v, v, v, v)
+            }
+            return base + future
         }
         print(shader.code())
 
-        let res = CGSize(width: 8, height: 8)
+        let res = CGSize(width: 1, height: 1)
         let render: SMTexture = try! renderer.render(shader, at: res, as: .rgba16Float)
         
         if let raw8 = try? render.raw8() {

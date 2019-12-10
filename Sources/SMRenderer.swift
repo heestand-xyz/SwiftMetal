@@ -9,8 +9,9 @@
 import Foundation
 import CoreGraphics
 import Metal
+import MetalKit
 
-public class SMRenderer {
+public struct SMRenderer {
     
     public static let metalDevice: MTLDevice = {
         guard let metalDevice: MTLDevice = MTLCreateSystemDefaultDevice() else {
@@ -18,9 +19,16 @@ public class SMRenderer {
         }
         return metalDevice
     }()
-    let commandQueue: MTLCommandQueue
+    public static let commandQueue: MTLCommandQueue = {
+        guard let commandQueue: MTLCommandQueue = SMRenderer.metalDevice.makeCommandQueue() else {
+            fatalError("Metal command queue failed to init.")
+        }
+        return commandQueue
+    }()
     
-    var commandEncoder: MTLComputeCommandEncoder!
+    static var commandEncoder: MTLComputeCommandEncoder!
+    
+    public static var defaultPixelFormat: MTLPixelFormat = .rgba8Unorm
     
     enum RenderError: Error {
         case commandBuffer
@@ -31,14 +39,7 @@ public class SMRenderer {
         case renderInProgress
     }
     
-    public init?() {
-        
-        guard let commandQueue = SMRenderer.metalDevice.makeCommandQueue() else { return nil }
-        self.commandQueue = commandQueue
-
-    }
-    
-    public func render(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = .rgba8Unorm) throws -> SMTexture {
+    public static func render(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = defaultPixelFormat) throws -> SMTexture {
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
         let textures: [MTLTexture] = shader.textures.map({ $0.texture })
         let values: [Float] = shader.values
@@ -51,7 +52,7 @@ public class SMRenderer {
                           pixelFormat: pixelFormat)
     }
     
-    public func renderLive(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = .rgba8Unorm, rendered: @escaping (SMTexture) -> (), failed: @escaping (Error) -> ()) throws {
+    public static func renderLive(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = defaultPixelFormat, rendered: @escaping (SMTexture) -> (), failed: @escaping (Error) -> ()) throws {
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
         let textures: [MTLTexture] = shader.textures.map({ $0.texture })
         let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
@@ -84,8 +85,49 @@ public class SMRenderer {
         }
         shader.render!()
     }
+    
+    public static func renderView(_ shader: SMShader, in view: SMUIView) throws { // MTKViewDelegate...
+        print("SwiftMetal - Render View")
+        let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
+        let textures: [MTLTexture] = shader.textures.map({ $0.texture })
+        var rendering: Bool = false
+        shader.render = {
+            guard let size = view.res else {
+                print("SwiftMetal - Render View - No Res.")
+                return
+            }
+            guard let drawable: CAMetalDrawable = view.currentDrawable else {
+                print("SwiftMetal - Render View - No Drawable Texture.")
+                return
+            }
+            guard !rendering else {
+                print("SwiftMetal - Render View - Render In Progress...")
+                return
+            }
+            rendering = true
+            DispatchQueue.global(qos: .background).async {
+                let values: [Float] = shader.values
+                do {
+                    _ = try self.render(function: function,
+                                        size: size, values: values,
+                                        drawableTexture: drawable.texture,
+                                        drawable: drawable,
+                                        textures: textures,
+                                        pixelFormat: view.colorPixelFormat)
+                    print("SwiftMetal - Render View - Rendered!")
+                } catch {
+                    print("SwiftMetal - Render View - Render Error:", error)
+                }
+                rendering = false
+            }
+        }
+        view.renderCallback = {
+            shader.render!()
+        }
+//        shader.render!()
+    }
 
-    func render(function: MTLFunction, size: CGSize, values: [Float], drawableTexture: MTLTexture, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
+    static func render(function: MTLFunction, size: CGSize, values: [Float], drawableTexture: MTLTexture, drawable: CAMetalDrawable? = nil, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
 
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
             throw RenderError.commandBuffer
@@ -142,6 +184,9 @@ public class SMRenderer {
         
         commandEncoder.endEncoding()
         
+        if drawable != nil {
+            commandBuffer.present(drawable!)
+        }
 //        commandBuffer.addCompletedHandler { _ in }
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
@@ -151,7 +196,7 @@ public class SMRenderer {
         return SMTexture(texture: drawableTexture)
     }
     
-    func emptyTexture(at size: CGSize, as pixelFormat: MTLPixelFormat) throws -> MTLTexture {
+    static func emptyTexture(at size: CGSize, as pixelFormat: MTLPixelFormat) throws -> MTLTexture {
         guard size.width > 0 && size.height > 0 else { throw RenderError.emptyTexture("Size is zero.") }
         let descriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat, width: Int(size.width), height: Int(size.height), mipmapped: true)
         descriptor.usage = MTLTextureUsage(rawValue: MTLTextureUsage.shaderWrite.rawValue | MTLTextureUsage.shaderRead.rawValue)

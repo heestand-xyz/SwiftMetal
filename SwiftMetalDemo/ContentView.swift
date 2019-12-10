@@ -10,26 +10,30 @@ import SwiftUI
 import SwiftMetal
 
 struct ContentView: View {
-    @EnvironmentObject var main: Main
+    @State var value: Float = 0.5
     var body: some View {
         VStack {
             HStack {
-                Image(uiImage: main.photo1)
+                Image("photo1")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .cornerRadius(5)
-                Image(uiImage: main.photo2)
+                    .cornerRadius(10)
+                Image("photo2")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .cornerRadius(5)
+                    .cornerRadius(10)
             }
-            if main.renderedImage != nil {
-                Image(uiImage: main.renderedImage!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .cornerRadius(5)
+            SMView {
+                SMShader { uv in
+                    let tex1 = SMTexture(image: UIImage(named: "photo1")!)!
+                    let tex2 = SMTexture(image: UIImage(named: "photo2")!)!
+                    let val = SMLiveFloat(self.$value)
+                    return tex1.sample(at: uv + float2(tex2.r * -val, 0.0))
+                }
             }
-            Slider(value: $main.value)
+                .aspectRatio(1.5, contentMode: .fit)
+                .cornerRadius(10)
+            Slider(value: $value)
             Spacer()
         }
     }

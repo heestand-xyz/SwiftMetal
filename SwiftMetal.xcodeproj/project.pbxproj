@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A15240A239F9D3D003E6333 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
+		3A15240B239F9D3D003E6333 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
+		3A1A9D67239F9E500030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
+		3A1A9D68239F9E5E0030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
+		3A1A9D69239F9E5E0030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
 		3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A04239E556B009AE4D4 /* AppDelegate.swift */; };
 		3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A06239E556B009AE4D4 /* SceneDelegate.swift */; };
 		3A478A09239E556B009AE4D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A08239E556B009AE4D4 /* ContentView.swift */; };
@@ -126,7 +131,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3A478A02239E556B009AE4D4 /* SwiftMetalDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftMetalDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A1A9D66239F9E500030EE35 /* SMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMView.swift; sourceTree = "<group>"; };
+		3A478A02239E556B009AE4D4 /* Swift Metal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Metal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A478A04239E556B009AE4D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A478A06239E556B009AE4D4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3A478A08239E556B009AE4D4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -270,7 +276,7 @@
 			children = (
 				3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */,
 				3A99C600239A4B20005BE419 /* SwiftMetalTests.xctest */,
-				3A478A02239E556B009AE4D4 /* SwiftMetalDemo.app */,
+				3A478A02239E556B009AE4D4 /* Swift Metal.app */,
 				744F60B8239EE2A200C51A63 /* SwiftMetal.framework */,
 				744F60C5239EE2D100C51A63 /* SwiftMetal.framework */,
 				744F6105239EEC4E00C51A63 /* SwiftMetalTool */,
@@ -281,14 +287,14 @@
 		3A99C5F9239A4B20005BE419 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				3A670694239A9D9600E23C87 /* Template.metal */,
 				3A670690239A93D400E23C87 /* SMRenderer.swift */,
 				3A99C612239A4B61005BE419 /* SMShader.swift */,
 				3A67068C239A6CCB00E23C87 /* SMCode.swift */,
 				3A67068A239A687E00E23C87 /* SMBuilder.swift */,
 				74E5B8FC239C547E00492280 /* SMFunction.swift */,
-				7422A267239D3438003FEA65 /* Types.swift */,
+				3A1A9D66239F9E500030EE35 /* SMView.swift */,
 				3A67067F239A61A900E23C87 /* Types */,
+				7422A267239D3438003FEA65 /* Types.swift */,
 				744F60B0239EDCE600C51A63 /* Other */,
 			);
 			path = Sources;
@@ -308,6 +314,7 @@
 			children = (
 				3A99C5FB239A4B20005BE419 /* Info.plist */,
 				74512F24239BE34D008F5FCE /* TestMedia.xcassets */,
+				3A670694239A9D9600E23C87 /* Template.metal */,
 				744F60FE239EE43100C51A63 /* Headers */,
 			);
 			path = Resources;
@@ -385,7 +392,7 @@
 			);
 			name = SwiftMetalDemo;
 			productName = SwiftMetalDemo;
-			productReference = 3A478A02239E556B009AE4D4 /* SwiftMetalDemo.app */;
+			productReference = 3A478A02239E556B009AE4D4 /* Swift Metal.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3A99C5F6239A4B20005BE419 /* SwiftMetal_iOS */ = {
@@ -584,6 +591,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A15240B239F9D3D003E6333 /* Template.metal in Sources */,
 				3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */,
 				3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */,
 				3A478A1E239E695E009AE4D4 /* Main.swift in Sources */,
@@ -606,6 +614,7 @@
 				3A99C613239A4B61005BE419 /* SMShader.swift in Sources */,
 				7422A268239D3438003FEA65 /* Types.swift in Sources */,
 				3A670681239A61BB00E23C87 /* SMEntity.swift in Sources */,
+				3A1A9D67239F9E500030EE35 /* SMView.swift in Sources */,
 				3A670695239A9D9600E23C87 /* Template.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,6 +624,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A99C606239A4B20005BE419 /* SwiftMetalTests.swift in Sources */,
+				3A15240A239F9D3D003E6333 /* Template.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,6 +642,7 @@
 				744F60F2239EE30400C51A63 /* SMTexture.swift in Sources */,
 				744F60DF239EE30000C51A63 /* SMCode.swift in Sources */,
 				744F60DE239EE30000C51A63 /* SMShader.swift in Sources */,
+				3A1A9D68239F9E5E0030EE35 /* SMView.swift in Sources */,
 				744F60EF239EE30400C51A63 /* SMEntity.swift in Sources */,
 				744F60E0239EE30000C51A63 /* SMBuilder.swift in Sources */,
 			);
@@ -651,6 +662,7 @@
 				744F60F6239EE30500C51A63 /* SMTexture.swift in Sources */,
 				744F60E5239EE30100C51A63 /* SMCode.swift in Sources */,
 				744F60E4239EE30100C51A63 /* SMShader.swift in Sources */,
+				3A1A9D69239F9E5E0030EE35 /* SMView.swift in Sources */,
 				744F60F3239EE30500C51A63 /* SMEntity.swift in Sources */,
 				744F60E6239EE30100C51A63 /* SMBuilder.swift in Sources */,
 			);
@@ -710,7 +722,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.SwiftMetalDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Swift Metal";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -730,7 +742,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.SwiftMetalDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Swift Metal";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

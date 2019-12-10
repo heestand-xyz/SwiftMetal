@@ -49,6 +49,7 @@ public class SMShader {
         
         lines.append(Line("//"))
         lines.append(Line("//  SwiftMetal"))
+        lines.append(Line("//  Auto generated metal code"))
         lines.append(Line("//"))
         lines.append(Line())
         
@@ -73,7 +74,7 @@ public class SMShader {
         
         lines.append(Line("kernel void swiftMetal("))
         if !code.uniforms.isEmpty {
-            lines.append(Line(in: 2, "const device Uniforms& us [[ buffer(0) ]],"))
+            lines.append(Line(in: 2, "constant Uniforms& us [[ buffer(0) ]],"))
         }
         lines.append(Line(in: 2, "texture2d<float, access::write> tex [[ texture(0) ]],"))
         for (i, texture) in textures.enumerated() {
