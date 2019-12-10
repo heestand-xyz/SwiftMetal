@@ -1,6 +1,7 @@
 # SwiftMetal
 
-<img src="https://github.com/hexagons/SwiftMetal/blob/master/Assets/SwiftMetal.png?raw=true" width="256"/> 
+<img src="https://github.com/hexagons/SwiftMetal/blob/master/Assets/SwiftMetal-Bond-Logo-Mini.png?raw=true" width="256"/> 
+<img src="https://github.com/hexagons/SwiftMetal/blob/master/Assets/SwiftMetal.png?raw=true" width="128"/> 
 
 ## Write Metal in Swift
 
