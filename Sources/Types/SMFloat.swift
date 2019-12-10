@@ -82,13 +82,13 @@ public class SMPublishedFloat: SMFloat {
 }
 
 
-//public struct SMRawFloat2 {
-//    typealias T = Float
-//    let tuple: SMTuple2<T>
-//    init(_ value0: T, _ value1: T) {
-//        tuple = SMTuple2<T>(SMFloat(value0), SMFloat(value1))
-//    }
-//}
+public struct SMRawFloat2 {
+    typealias T = Float
+    let tuple: SMTuple2<T>
+    init(_ value0: T, _ value1: T) {
+        tuple = SMTuple2<T>(SMFloat(value0), SMFloat(value1))
+    }
+}
 
 public class SMFloat2: SMValue<SMTuple2<Float>>, ExpressibleByFloatLiteral, ExpressibleByIntegerLiteral {
     
@@ -114,9 +114,9 @@ public class SMFloat2: SMValue<SMTuple2<Float>>, ExpressibleByFloatLiteral, Expr
         self.init(SMTuple2<T>(value0, value1))
     }
     
-//    public convenience init(_ futureValue: @escaping () -> (SMRawFloat2)) {
-//        self.init({ futureValue().tuple })
-//    }
+    public convenience init(_ futureValue: @escaping () -> (SMRawFloat2)) {
+        self.init({ futureValue().tuple })
+    }
     
     required public convenience init(floatLiteral value: Float) {
         self.init(SMTuple2<T>(SMFloat(value),
@@ -167,13 +167,13 @@ public class SMFloat2: SMValue<SMTuple2<Float>>, ExpressibleByFloatLiteral, Expr
 }
 
 
-//public struct SMRawFloat4 {
-//    typealias T = Float
-//    let tuple: SMTuple4<T>
-//    init(_ value0: T, _ value1: T, _ value2: T, _ value3: T) {
-//        tuple = SMTuple4<T>(SMFloat(value0), SMFloat(value1), SMFloat(value2), SMFloat(value3))
-//    }
-//}
+public struct SMRawFloat4 {
+    typealias T = Float
+    let tuple: SMTuple4<T>
+    init(_ value0: T, _ value1: T, _ value2: T, _ value3: T) {
+        tuple = SMTuple4<T>(SMFloat(value0), SMFloat(value1), SMFloat(value2), SMFloat(value3))
+    }
+}
 
 public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral, ExpressibleByIntegerLiteral {
     
@@ -204,9 +204,9 @@ public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral, Expr
         self.init(SMTuple4<T>(value0, value1, value2, value3))
     }
     
-//    public convenience init(_ futureValue: @escaping () -> (SMRawFloat4)) {
-//        self.init({ futureValue().tuple })
-//    }
+    public convenience init(_ futureValue: @escaping () -> (SMRawFloat4)) {
+        self.init({ futureValue().tuple })
+    }
     
     required public convenience init(floatLiteral value: Float) {
         self.init(SMTuple4<T>(SMFloat(value),

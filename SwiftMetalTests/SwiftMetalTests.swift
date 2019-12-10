@@ -26,9 +26,14 @@ class SwiftMetalTests: XCTestCase {
 
     func testShader() {
         
+        var v: Float = 0.5
+        
         let shader = SMShader { uv in
-            let base = float4(1.0)
-            return base
+            let base = float4(0.25)
+            let future = SMFloat4 {
+                SMRawFloat4(v, v, v, v)
+            }
+            return base + future
         }
         print(shader.code())
 
