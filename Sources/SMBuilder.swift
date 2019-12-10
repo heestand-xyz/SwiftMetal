@@ -152,12 +152,12 @@ struct SMBuilder {
         
         // Uniforms
 
-        var uniforms: [SMUniform] = []
+        var uniforms: [SMUniformPack] = []
         while let leafEntity = tree.leafEntity(1) {
             if leafEntity.isFuture {
                 if !uniforms.contains(where: { $0.entity == leafEntity }) {
                     leafEntity.futureIndex = uniforms.count
-                    let uniform = SMUniform(entity: leafEntity, index: uniforms.count)
+                    let uniform = SMUniformPack(entity: leafEntity, index: uniforms.count)
                     uniforms.append(uniform)
                 }
             }
@@ -210,13 +210,13 @@ struct SMBuilder {
         // Variables
         
         var variableEntitieCopies: [SMEntity] = []
-        var variables: [SMVariable] = []
+        var variables: [SMVariablePack] = []
         while let leafEntity = tree.leafEntity() {
             if variableEntitieCopies.contains(leafEntity) {
                 if !variables.contains(where: { variable -> Bool in
                     variable.entity == leafEntity
                 }) {
-                    let variable = SMVariable(entity: leafEntity, index: variables.count)
+                    let variable = SMVariablePack(entity: leafEntity, index: variables.count)
                     variables.append(variable)
                     lastSnippet = lastSnippet.replacingOccurrences(of: leafEntity.snippet(), with: variable.name)
                 }
@@ -238,9 +238,9 @@ struct SMBuilder {
 //
 //        if lhs == rhs {
 //
-//            var variables: [SMVariable] = []
+//            var variables: [SMVariablePack] = []
 //            variables.append(contentsOf: lhsCode.variables)
-//            let variable = SMVariable(id: lhs.id, snippet: lhsCode.snippet, type: lhs.type, index: variableCount)
+//            let variable = SMVariablePack(id: lhs.id, snippet: lhsCode.snippet, type: lhs.type, index: variableCount)
 //            variables.append(variable)
 //            return SMCode("(\(variable.name) \(operation) \(variable.name))", variables: variables)
 //
@@ -248,7 +248,7 @@ struct SMBuilder {
 //            variable.id == lhs.id
 //        }).first {
 //
-//            var variables: [SMVariable] = []
+//            var variables: [SMVariablePack] = []
 //            variables.append(contentsOf: lhsCode.variables)
 //            variables.append(contentsOf: rhsCode.variables)
 //            return SMCode("(\(variable.name) \(operation) \(rhsCode.snippet))", variables: variables)
@@ -257,34 +257,34 @@ struct SMBuilder {
 //            variable.id == rhs.id
 //        }).first {
 //
-//            var variables: [SMVariable] = []
+//            var variables: [SMVariablePack] = []
 //            variables.append(contentsOf: lhsCode.variables)
 //            variables.append(contentsOf: rhsCode.variables)
 //            return SMCode("(\(lhsCode.snippet) \(operation) \(variable.name))", variables: variables)
 //
 //        } else if crawlForEntity(with: rhs.id, in: lhs) {
 //
-//            var variables: [SMVariable] = []
+//            var variables: [SMVariablePack] = []
 //            variables.append(contentsOf: lhsCode.variables)
 //            variables.append(contentsOf: rhsCode.variables)
-//            let variable = SMVariable(id: rhs.id, snippet: rhsCode.snippet, type: rhs.type, index: variableCount)
+//            let variable = SMVariablePack(id: rhs.id, snippet: rhsCode.snippet, type: rhs.type, index: variableCount)
 //            variables.append(variable)
 //            let lhsSnippet = lhsCode.snippet.replacingOccurrences(of: rhsCode.snippet, with: variable.name)
 //            return SMCode("(\(lhsSnippet) \(operation) \(variable.name))", variables: variables)
 //
 //        } else if crawlForEntity(with: lhs.id, in: rhs) {
 //
-//            var variables: [SMVariable] = []
+//            var variables: [SMVariablePack] = []
 //            variables.append(contentsOf: lhsCode.variables)
 //            variables.append(contentsOf: rhsCode.variables)
-//            let variable = SMVariable(id: lhs.id, snippet: lhsCode.snippet, type: lhs.type, index: variableCount)
+//            let variable = SMVariablePack(id: lhs.id, snippet: lhsCode.snippet, type: lhs.type, index: variableCount)
 //            variables.append(variable)
 //            let rhsSnippet = rhsCode.snippet.replacingOccurrences(of: lhsCode.snippet, with: variable.name)
 //            return SMCode("(\(variable.name) \(operation) \(rhsSnippet))", variables: variables)
 //
 //        } else {
 //
-//        var variables: [SMVariable] = []
+//        var variables: [SMVariablePack] = []
 //        variables.append(contentsOf: lhsCode.variables)
 //        variables.append(contentsOf: rhsCode.variables)
 //        return SMCode("(\(lhsCode.snippet) \(operation) \(rhsCode.snippet))", variables: variables)

@@ -21,7 +21,7 @@ public typealias _Image = UIImage
 public typealias _Color = UIColor
 #endif
 
-struct SMVariable {
+struct SMVariablePack {
     let entity: SMEntity
     let index: Int
     var name: String {
@@ -32,7 +32,7 @@ struct SMVariable {
     }
 }
 
-struct SMUniform {
+struct SMUniformPack {
     let entity: SMEntity
     let index: Int
     var name: String {
