@@ -45,6 +45,19 @@ public class SMTexture: SMFloat4 {
         self.init(texture: texture)
     }
     
+    public convenience init?(pixelBuffer: CVPixelBuffer) {
+        let width = CVPixelBufferGetWidth(pixelBuffer)
+        let height = CVPixelBufferGetHeight(pixelBuffer)
+        var imageTexture: CVMetalTexture?
+        let result = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, SMRenderer.textureCache, pixelBuffer, nil, .rgba8Unorm, width, height, 0, &imageTexture)
+        guard let unwrappedImageTexture = imageTexture,
+              let texture = CVMetalTextureGetTexture(unwrappedImageTexture),
+              result == kCVReturnSuccess else {
+            return nil
+        }
+        self.init(texture: texture)
+    }
+    
     public init(texture: MTLTexture) {
         self.texture = texture
         super.init()

@@ -25,6 +25,14 @@ public struct SMRenderer {
         }
         return commandQueue
     }()
+    public static let textureCache: CVMetalTextureCache = {
+        var textureCache: CVMetalTextureCache!
+        CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, SMRenderer.metalDevice, nil, &textureCache)
+        guard textureCache != nil else {
+            fatalError("Metal texture cache failed to init.")
+        }
+        return textureCache
+    }()
     
     static var commandEncoder: MTLComputeCommandEncoder!
     
