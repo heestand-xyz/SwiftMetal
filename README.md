@@ -7,6 +7,14 @@
 [![Platform](https://img.shields.io/cocoapods/p/SwiftMetal.svg)](http://cocoapods.org/pods/SwiftMetal)
 <img src="https://img.shields.io/badge/in-swift5.0-orange.svg">
 
+## Install
+
+Swift Package or CocoaPods
+
+```ruby
+pod 'SwiftMetal'
+```
+
 ## Write Metal in Swift
 
 ~~~~swift
