@@ -61,6 +61,7 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral, ExpressibleByIn
     public static func / (lhs: SMFloat, rhs: SMFloat) -> SMFloat {
         SMFloat(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
     }
+    
     public prefix static func - (operand: SMFloat) -> SMFloat {
         let float = SMFloat(fromEntities: [operand])
         float.snippet = { "-\(operand.snippet())" }
@@ -136,12 +137,10 @@ public class SMFloat2: SMValue<SMTuple2<Float>>, ExpressibleByFloatLiteral, Expr
     }
     
     required public convenience init(floatLiteral value: Float) {
-        self.init(SMTuple2<T>(SMFloat(value),
-                              SMFloat(value)))
+        self.init(SMFloat(value))
     }
     required public convenience init(integerLiteral value: Int) {
-        self.init(SMTuple2<T>(SMFloat(Float(value)),
-                              SMFloat(Float(value))))
+        self.init(SMFloat(Float(value)))
     }
     
     init(_ value: SMTuple2<T>) {
@@ -179,6 +178,12 @@ public class SMFloat2: SMValue<SMTuple2<Float>>, ExpressibleByFloatLiteral, Expr
     }
     public static func / (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
         SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+    }
+    
+    public prefix static func - (operand: SMFloat2) -> SMFloat2 {
+        let float = SMFloat2(fromEntities: [operand])
+        float.snippet = { "-\(operand.snippet())" }
+        return float
     }
         
 }
@@ -226,16 +231,10 @@ public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral, Expr
     }
     
     required public convenience init(floatLiteral value: Float) {
-        self.init(SMTuple4<T>(SMFloat(value),
-                              SMFloat(value),
-                              SMFloat(value),
-                              SMFloat(value)))
+        self.init(SMFloat(value))
     }
     required public convenience init(integerLiteral value: Int) {
-        self.init(SMTuple4<T>(SMFloat(Float(value)),
-                              SMFloat(Float(value)),
-                              SMFloat(Float(value)),
-                              SMFloat(Float(value))))
+        self.init(SMFloat(Float(value)))
     }
     
     init(_ value: SMTuple4<T>) {
@@ -275,9 +274,15 @@ public class SMFloat4: SMValue<SMTuple4<Float>>, ExpressibleByFloatLiteral, Expr
         SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
     }
     
-    public static func += (lhs: inout SMFloat4, rhs: SMFloat4) {
-        lhs = lhs + rhs
+    public prefix static func - (operand: SMFloat4) -> SMFloat4 {
+        let float = SMFloat4(fromEntities: [operand])
+        float.snippet = { "-\(operand.snippet())" }
+        return float
     }
+    
+//    public static func += (lhs: inout SMFloat4, rhs: SMFloat4) {
+//        lhs = lhs + rhs
+//    }
         
 }
 
@@ -333,3 +338,16 @@ public func max(_ values: SMFloat4...) -> SMFloat4 {
     }
     return float
 }
+
+public func fmod(_ value0: SMFloat4, _ value1: SMFloat4) -> SMFloat4 {
+    let float = SMFloat4(fromEntities: [value0, value1])
+    float.snippet = { "fmod(\(value0.snippet()), \(value1.snippet()))" }
+    return float
+}
+
+public func abs(_ value: SMFloat4) -> SMFloat4 {
+    let float = SMFloat4(fromEntities: [value])
+    float.snippet = { "abs(\(value.snippet()))" }
+    return float
+}
+

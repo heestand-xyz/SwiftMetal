@@ -11,16 +11,17 @@ import SwiftMetal
 
 struct ContentView: View {
     @EnvironmentObject var main: Main
-    @State var value: Float = 1.0
+//    @State var value: Float = 1.0
     var body: some View {
         VStack {
             SMView {
                 SMShader { uv in
-                    let cam = SMLiveTexture(self.main.$cameraPixelBuffer)
-                    return cam.sample(at: float2(uv.y, 1.0 - uv.x)) * float4(SMLiveFloat(self.$value))
+                    let rawCam = SMLiveTexture(self.main.$cameraPixelBuffer)
+                    let cam = rawCam.sample(at: float2(uv.y, 1.0 - uv.x))
+                    return cam
                 }
             }
-            Slider(value: $value)
+//            Slider(value: $value)
         }
     }
 }
