@@ -894,6 +894,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.ios;
 				PRODUCT_NAME = SwiftMetal;
 				SKIP_INSTALL = YES;
@@ -921,6 +922,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.ios;
 				PRODUCT_NAME = SwiftMetal;
 				SKIP_INSTALL = YES;
@@ -985,6 +987,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.macos;
 				PRODUCT_NAME = SwiftMetal;
 				SDKROOT = macosx;
@@ -1011,6 +1014,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.macos;
 				PRODUCT_NAME = SwiftMetal;
 				SDKROOT = macosx;
@@ -1035,6 +1039,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.tvos;
 				PRODUCT_NAME = SwiftMetal;
 				SDKROOT = appletvos;
@@ -1061,6 +1066,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.tvos;
 				PRODUCT_NAME = SwiftMetal;
 				SDKROOT = appletvos;

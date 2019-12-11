@@ -11,8 +11,6 @@ import SwiftMetal
 
 print("SwiftMetal")
 
-let renderer = SMRenderer()!
-
 let shader = SMShader { uv in
     float4(uv.x, uv.y, 0.0, 1.0)
 }
@@ -20,7 +18,7 @@ let shader = SMShader { uv in
 print("Render...")
 
 let res = CGSize(width: 4096, height: 4096)
-let texture = try! renderer.render(shader, at: res)
+let texture = try! SMRenderer.render(shader, at: res)
 let image = try! texture.image()
 
 print("Rendered!")
