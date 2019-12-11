@@ -24,9 +24,9 @@ public class SMShader {
     let smCode: SMCode
     
     var values: [Float] {
-        smCode.uniforms.flatMap { uniform -> [Float] in
+        smCode.uniforms.flatMap({ uniform -> [Float] in
             uniform.entity.values
-        }
+        })
     }
     
     var render: (() -> ())?
@@ -36,7 +36,7 @@ public class SMShader {
         textures = SMBuilder.textures(for: baseEntity)
         smCode = SMBuilder.build(for: baseEntity)
         SMBuilder.connectSinks(for: baseEntity) {
-            print("Render...")
+            print("SwiftMetal - Shader - Update")
             self.render?()
         }
     }

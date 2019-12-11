@@ -13,10 +13,14 @@ import Cocoa
 import UIKit
 #endif
 import MetalKit
+import Combine
+import SwiftUI
 
 public class SMTexture: SMFloat4 {
-        
-    let texture: MTLTexture
+            
+    var futureTexture: (() -> (MTLTexture?))?
+    var _texture: MTLTexture?
+    public var texture: MTLTexture? { _texture ?? futureTexture?() }
     
     var index: Int?
     var name: String {
@@ -24,30 +28,55 @@ public class SMTexture: SMFloat4 {
     }
     
     var size: CGSize {
-        CGSize(width: texture.width, height: texture.height)
+        CGSize(width: texture?.width ?? -1, height: texture?.height ?? -1)
     }
     
     enum TextureError: Error {
+        case noTexture
         case badPixelFormat(target: [MTLPixelFormat])
         case imageFailed(String)
     }
     
     public convenience init?(image: _Image) {
-        #if os(macOS)
-        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
-        #else
-        guard let cgImage = image.cgImage else { return nil }
-        #endif
-        let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
-        guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: [
-            .origin: MTKTextureLoader.Origin.topLeft as NSObject
-        ]) else { return nil }
+        guard let texture = SMTexture.convertFrom(image: image) else { return nil }
         self.init(texture: texture)
     }
     
+    public convenience init(futureImage: @escaping () -> (_Image?)) {
+        self.init(futureTexture: {
+            guard let image: _Image = futureImage() else { return nil }
+            guard let texture = SMTexture.convertFrom(image: image) else {
+                fatalError("Future Image to MTLTexture conversion failed.")
+            }
+            return texture
+        })
+    }
+    
+    public convenience init?(pixelBuffer: CVPixelBuffer) {
+        guard let texture: MTLTexture = SMTexture.convertFrom(pixelBuffer: pixelBuffer) else { return nil }
+        self.init(texture: texture)
+    }
+    
+    public convenience init(futurePixelBuffer: @escaping () -> (CVPixelBuffer?)) {
+        self.init(futureTexture: {
+            guard let pixelBuffer: CVPixelBuffer = futurePixelBuffer() else { return nil }
+            guard let texture: MTLTexture = SMTexture.convertFrom(pixelBuffer: pixelBuffer) else {
+                fatalError("Future Pixel Buffer to MTLTexture conversion failed.")
+            }
+            return texture
+        })
+    }
+    
     public init(texture: MTLTexture) {
-        self.texture = texture
-        super.init()
+        self._texture = texture
+        super.init(tupleCount: 4)
+        self.snippet = { "t\(self.index ?? -1)" }
+    }
+    
+    public init(futureTexture: @escaping () -> (MTLTexture?)) {
+        self.futureTexture = futureTexture
+        super.init({ SMTuple4<Float>(SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0)) }, tupleCount: 4)
+        hasSink = true
         self.snippet = { "t\(self.index ?? -1)" }
     }
     
@@ -56,6 +85,10 @@ public class SMTexture: SMFloat4 {
     }
     required public convenience init(integerLiteral value: Int) {
         fatalError("init(integerLiteral:) has not been implemented")
+    }
+    
+    public func update() {
+        sink?()
     }
     
     public func sample(at uv: SMFloat2) -> SMFloat4 {
@@ -73,6 +106,9 @@ public class SMTexture: SMFloat4 {
     // MARK: - Export
 
     public func image() throws -> _Image {
+        guard let texture: MTLTexture = texture else {
+            throw TextureError.noTexture
+        }
         let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
         guard let ciImage = CIImage(mtlTexture: texture, options: [.colorSpace: colorSpace]) else {
             throw TextureError.imageFailed("CIImage")
@@ -95,6 +131,7 @@ public class SMTexture: SMFloat4 {
     }
     
     func raw<T>(fill: T) -> [T] {
+        guard let texture: MTLTexture = texture else { return [] }
         let region = MTLRegionMake2D(0, 0, texture.width, texture.height)
         var raw = Array<T>(repeating: fill, count: texture.width * texture.height * 4)
         raw.withUnsafeMutableBytes {
@@ -105,6 +142,7 @@ public class SMTexture: SMFloat4 {
     }
     
     public func raw8() throws -> [UInt8] {
+        guard let texture: MTLTexture = texture else { return [] }
         guard texture.pixelFormat == .rgba8Unorm else {
             throw TextureError.badPixelFormat(target: [.rgba8Unorm])
         }
@@ -112,6 +150,7 @@ public class SMTexture: SMFloat4 {
     }
     
     public func raw16() throws -> [Float] {
+        guard let texture: MTLTexture = texture else { return [] }
         guard texture.pixelFormat == .rgba16Float else {
             throw TextureError.badPixelFormat(target: [.rgba16Float])
         }
@@ -120,6 +159,7 @@ public class SMTexture: SMFloat4 {
     }
     
     public func raw32() throws -> [Float] {
+        guard let texture: MTLTexture = texture else { return [] }
         guard texture.pixelFormat == .rgba32Float else {
             throw TextureError.badPixelFormat(target: [.rgba32Float])
         }
@@ -127,6 +167,7 @@ public class SMTexture: SMFloat4 {
     }
     
     public func values() throws -> [[[Float]]] {
+        guard let texture: MTLTexture = texture else { return [] }
         let rawFloats: [Float]
         switch texture.pixelFormat {
         case .rgba8Unorm:
@@ -167,7 +208,7 @@ public class SMTexture: SMFloat4 {
                                      a: $0[3]) }) })
     }
     
-    public func pixels() throws -> [[_Color]] {
+    public func colors() throws -> [[_Color]] {
         try values().map({ $0.map({ color in
             #if os(macOS)
             return NSColor(deviceRed: CGFloat(color[0]),
@@ -183,12 +224,137 @@ public class SMTexture: SMFloat4 {
         }) })
     }
     
+    // MARK: - Formats
+    
+    static func convertFrom(pixelBuffer: CVPixelBuffer) -> MTLTexture? {
+        let width = CVPixelBufferGetWidth(pixelBuffer)
+        let height = CVPixelBufferGetHeight(pixelBuffer)
+        var imageTexture: CVMetalTexture?
+        let result = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, SMRenderer.textureCache, pixelBuffer, nil, .bgra8Unorm, width, height, 0, &imageTexture)
+        guard let unwrappedImageTexture = imageTexture,
+              let texture = CVMetalTextureGetTexture(unwrappedImageTexture),
+              result == kCVReturnSuccess else {
+            return nil
+        }
+        return texture
+    }
+    
+    static func convertFrom(image: _Image) -> MTLTexture? {
+        #if os(macOS)
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
+        #else
+        guard let cgImage = image.cgImage else { return nil }
+        #endif
+        let textureLoader = MTKTextureLoader(device: SMRenderer.metalDevice)
+        guard let texture: MTLTexture = try? textureLoader.newTexture(cgImage: cgImage, options: [
+            .origin: MTKTextureLoader.Origin.topLeft as NSObject
+        ]) else { return nil }
+        return texture
+    }
+    
+    static func emptyTexture(at size: CGSize, as pixelFormat: MTLPixelFormat) -> MTLTexture? {
+        guard size.width > 0 && size.height > 0 else { return nil }
+        let descriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat, width: Int(size.width), height: Int(size.height), mipmapped: true)
+        descriptor.usage = MTLTextureUsage(rawValue: MTLTextureUsage.shaderWrite.rawValue | MTLTextureUsage.shaderRead.rawValue)
+        guard let texture = SMRenderer.metalDevice.makeTexture(descriptor: descriptor) else { return nil }
+        return texture
+    }
+    
+}
+
+public class SMLiveTexture: SMTexture {
+    var valueSink: AnyCancellable!
+    public init(_ publisher: Published<_Image?>.Publisher) {
+        var value: MTLTexture?
+        super.init { value }
+        valueSink = publisher.sink { newValue in
+            guard newValue != nil else {
+                value = nil
+                self.sink?()
+                return
+            }
+            guard let texture = SMTexture.convertFrom(image: newValue!) else {
+                fatalError("Live Texture with Image to MTLTexture conversion failed.")
+            }
+            value = texture
+            self.sink?()
+        }
+        hasSink = true
+    }
+    public init(_ publisher: Published<CVPixelBuffer?>.Publisher) {
+        var value: MTLTexture?
+        super.init { value }
+        valueSink = publisher.sink { newValue in
+            guard newValue != nil else {
+                value = nil
+                self.sink?()
+                return
+            }
+            guard let texture: MTLTexture = SMTexture.convertFrom(pixelBuffer: newValue!) else {
+                fatalError("Live Texture with Pixel Buffer to MTLTexture conversion failed.")
+            }
+            value = texture
+            self.sink?()
+        }
+        hasSink = true
+    }
+    public init(_ publisher: Published<MTLTexture?>.Publisher) {
+        var value: MTLTexture?
+        super.init { value }
+        valueSink = publisher.sink { newValue in
+            value = newValue
+            self.sink?()
+        }
+        hasSink = true
+    }
+    public init(_ binding: Binding<_Image?>) {
+        _ = CurrentValueSubject<_Image?, Never>(binding.wrappedValue)
+        // TODO: - Route values:
+        //         Currently the CurrentValueSubject triggers the SMView to update,
+        //         then the future values is read.
+        super.init(futureTexture: {
+            guard binding.wrappedValue != nil else { return nil }
+            guard let texture = SMTexture.convertFrom(image: binding.wrappedValue!) else {
+                fatalError("Live Texture with Image to MTLTexture conversion failed.")
+            }
+            return texture
+        })
+    }
+    public init(_ binding: Binding<CVPixelBuffer?>) {
+        _ = CurrentValueSubject<CVPixelBuffer?, Never>(binding.wrappedValue)
+        // TODO: - Route values:
+        //         Currently the CurrentValueSubject triggers the SMView to update,
+        //         then the future values is read.
+        super.init(futureTexture: {
+            guard binding.wrappedValue != nil else { return nil }
+            guard let texture: MTLTexture = SMTexture.convertFrom(pixelBuffer: binding.wrappedValue!) else {
+                fatalError("Live Texture with Pixel Buffer to MTLTexture conversion failed.")
+            }
+            return texture
+        })
+    }
+    public init(_ binding: Binding<MTLTexture?>) {
+        _ = CurrentValueSubject<MTLTexture?, Never>(binding.wrappedValue)
+        // TODO: - Route values:
+        //         Currently the CurrentValueSubject triggers the SMView to update,
+        //         then the future values is read.
+        super.init { binding.wrappedValue }
+    }
+    deinit {
+        valueSink.cancel()
+    }
+    required public convenience init(floatLiteral value: Float) {
+        fatalError("init(floatLiteral:) has not been implemented")
+    }
+    required public convenience init(integerLiteral value: Int) {
+        fatalError("init(integerLiteral:) has not been implemented")
+    }
 }
 
 extension SMFloat4 {
     
     convenience init(sample texture: SMTexture, at uv: SMFloat2) {
-        self.init()
+        self.init(tupleCount: 4)
         sampleTexture = texture
         sampleUV = uv
         self.snippet = {
