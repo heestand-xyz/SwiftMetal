@@ -9,9 +9,7 @@
 import AVKit
 
 class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
-    
-    static let shared = Camera()
-    
+        
     let device: AVCaptureDevice
     let session: AVCaptureSession
     let input: AVCaptureDeviceInput

@@ -43,15 +43,21 @@ public struct SMRenderer {
         case commandEncoder
         case sampler
         case uniformBuffer
-        case emptyTexture(String)
+        case emptyTextureFailed
         case renderInProgress
+        case someTextureIsNil
     }
     
     public static func render(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = defaultPixelFormat) throws -> SMTexture {
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
-        let textures: [MTLTexture] = shader.textures.map({ $0.texture })
+        let textures: [MTLTexture] = shader.textures.compactMap({ $0.texture })
+        guard textures.count == shader.textures.count else {
+            throw RenderError.someTextureIsNil
+        }
         let values: [Float] = shader.values
-        let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
+        guard let drawableTexture: MTLTexture = SMTexture.emptyTexture(at: size, as: pixelFormat) else {
+            throw RenderError.emptyTextureFailed
+        }
         return try render(function: function,
                           size: size,
                           values: values,
@@ -62,8 +68,10 @@ public struct SMRenderer {
     
     public static func renderLive(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = defaultPixelFormat, rendered: @escaping (SMTexture) -> (), failed: @escaping (Error) -> ()) throws {
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
-        let textures: [MTLTexture] = shader.textures.map({ $0.texture })
-        let drawableTexture: MTLTexture = try emptyTexture(at: size, as: pixelFormat)
+        let preTextures: [MTLTexture?] = shader.textures.map({ !$0.isFuture ? $0.texture! : nil })
+        guard let drawableTexture: MTLTexture = SMTexture.emptyTexture(at: size, as: pixelFormat) else {
+            throw RenderError.emptyTextureFailed
+        }
         var rendering: Bool = false
         shader.render = {
             guard !rendering else {
@@ -73,6 +81,14 @@ public struct SMRenderer {
             rendering = true
             DispatchQueue.global(qos: .background).async {
                 let values: [Float] = shader.values
+                let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
+                let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
+                    textureAB.0 ?? textureAB.1
+                }
+                guard textures.count == shader.textures.count else {
+                    failed(RenderError.someTextureIsNil)
+                    return
+                }
                 do {
                     let texture = try self.render(function: function,
                                                   size: size, values: values,
@@ -94,10 +110,10 @@ public struct SMRenderer {
         shader.render!()
     }
     
-    public static func renderView(_ shader: SMShader, in view: SMUIView) throws { // MTKViewDelegate...
+    public static func renderView(_ shader: SMShader, in view: SMUIView) throws {
         print("SwiftMetal - Render View")
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
-        let textures: [MTLTexture] = shader.textures.map({ $0.texture })
+        let preTextures: [MTLTexture?] = shader.textures.map({ !$0.isFuture ? $0.texture! : nil })
         var rendering: Bool = false
         shader.render = {
             guard let size = view.res else {
@@ -113,8 +129,18 @@ public struct SMRenderer {
                 return
             }
             rendering = true
+            print("SwiftMetal - Render View - Render...")
             DispatchQueue.global(qos: .background).async {
                 let values: [Float] = shader.values
+                let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
+                let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
+                    textureAB.0 ?? textureAB.1
+                }
+                guard textures.count == shader.textures.count else {
+                    print("SwiftMetal - Render View - Render Error:", RenderError.someTextureIsNil)
+                    rendering = false
+                    return
+                }
                 do {
                     _ = try self.render(function: function,
                                         size: size, values: values,
@@ -202,16 +228,6 @@ public struct SMRenderer {
         commandEncoder = nil
         
         return SMTexture(texture: drawableTexture)
-    }
-    
-    static func emptyTexture(at size: CGSize, as pixelFormat: MTLPixelFormat) throws -> MTLTexture {
-        guard size.width > 0 && size.height > 0 else { throw RenderError.emptyTexture("Size is zero.") }
-        let descriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat, width: Int(size.width), height: Int(size.height), mipmapped: true)
-        descriptor.usage = MTLTextureUsage(rawValue: MTLTextureUsage.shaderWrite.rawValue | MTLTextureUsage.shaderRead.rawValue)
-        guard let texture = SMRenderer.metalDevice.makeTexture(descriptor: descriptor) else {
-            throw RenderError.emptyTexture("Make failed.")
-        }
-        return texture
     }
     
 }

@@ -154,7 +154,7 @@ struct SMBuilder {
 
         var uniforms: [SMUniformPack] = []
         while let leafEntity = tree.leafEntity(1) {
-            if leafEntity.isFuture {
+            if leafEntity.isFuture && !(leafEntity is SMTexture) {
                 if !uniforms.contains(where: { $0.entity == leafEntity }) {
                     leafEntity.futureIndex = uniforms.count
                     let uniform = SMUniformPack(entity: leafEntity, index: uniforms.count)

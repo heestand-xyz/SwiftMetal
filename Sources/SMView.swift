@@ -38,6 +38,7 @@ public struct SMView: UIViewRepresentable {
 }
 #endif
 
+// MTKViewDelegate...
 
 public class SMUIView: MTKView {
     
@@ -67,7 +68,7 @@ public class SMUIView: MTKView {
         do {
             try SMRenderer.renderView(shader, in: self)
         } catch {
-            fatalError("SwiftMetal - SMUIView - Render Setup Error: \(error.localizedDescription)")
+            fatalError("SwiftMetal - SMUIView - Render Setup Error: \(String(describing: error))")
         }
                 
     }
