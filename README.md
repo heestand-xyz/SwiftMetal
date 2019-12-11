@@ -23,7 +23,7 @@ let shader = SMShader {
     return c
 }
 let res = CGSize(width: 1024, height: 1024)
-let render: SMTexture = try! renderer.render(shader: shader, at: res)
+let render: SMTexture = try! SMRenderer.render(shader: shader, at: res)
 let texture: MTLTexture = render.texture
 ~~~~
 
