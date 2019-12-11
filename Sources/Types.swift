@@ -56,7 +56,13 @@ struct SMOperation {
 public protocol SMRaw {}
 public protocol SMRawType: SMRaw {}
 
-public class SMTuple<RT: SMRawType>: SMRaw {}
+public class SMTuple<RT: SMRawType>: SMRaw {
+    let values: [SMValue<RT>]
+    var count: Int { values.count }
+    init(_ values: [SMValue<RT>]) {
+        self.values = values
+    }
+}
 
 public class SMTuple2<RT: SMRawType>: SMTuple<RT> {
     let value0: SMValue<RT>
@@ -65,6 +71,7 @@ public class SMTuple2<RT: SMRawType>: SMTuple<RT> {
          _ value1: SMValue<RT>) {
         self.value0 = value0
         self.value1 = value1
+        super.init([value0, value1])
     }
 }
 
@@ -78,6 +85,7 @@ public class SMTuple3<RT: SMRawType>: SMTuple<RT> {
         self.value0 = value0
         self.value1 = value1
         self.value2 = value2
+        super.init([value0, value1, value2])
     }
 }
 
@@ -94,6 +102,7 @@ public class SMTuple4<RT: SMRawType>: SMTuple<RT> {
         self.value1 = value1
         self.value2 = value2
         self.value3 = value3
+        super.init([value0, value1, value2, value3])
     }
 }
 
@@ -118,13 +127,28 @@ struct Line {
 
 public class SMUV: SMFloat2 {
     public init() {
-        super.init()
+        super.init(tupleCount: 2)
         snippet = { "uv" }
     }
-    required public convenience init(floatLiteral value: T) {
+    required public convenience init(floatLiteral value: Float) {
         fatalError("init(floatLiteral:) has not been implemented")
     }
     required public convenience init(integerLiteral value: Int) {
         fatalError("init(integerLiteral:) has not been implemented")
+    }
+}
+
+struct Snippet {
+    static func functionSnippet(name: String, from entities: [SMEntity]) -> String {
+        var snippet: String = ""
+        snippet += "\(name)("
+        for (i, entity) in entities.enumerated() {
+            if i > 0 {
+                snippet += ", "
+            }
+            snippet += entity.snippet()
+        }
+        snippet += ")"
+        return snippet
     }
 }

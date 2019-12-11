@@ -11,22 +11,13 @@ import XCTest
 
 class SwiftMetalTests: XCTestCase {
     
-    var renderer: SMRenderer!
-    
-    override func setUp() {
-        renderer = SMRenderer()
-        if renderer == nil {
-            assertionFailure()
-        }
-    }
+    override func setUp() {}
 
-    override func tearDown() {
-        renderer = nil
-    }
+    override func tearDown() {}
 
     func testShader() {
         
-        var v: Float = 0.5
+        let v: Float = 0.5
         
         let shader = SMShader { uv in
             let base = float4(0.25)
@@ -38,7 +29,7 @@ class SwiftMetalTests: XCTestCase {
         print(shader.code())
 
         let res = CGSize(width: 1, height: 1)
-        let render: SMTexture = try! renderer.render(shader, at: res, as: .rgba16Float)
+        let render: SMTexture = try! SMRenderer.render(shader, at: res, as: .rgba16Float)
         
         if let raw8 = try? render.raw8() {
             if raw8.count <= 256 {
