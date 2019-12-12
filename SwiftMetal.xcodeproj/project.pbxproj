@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3A15240A239F9D3D003E6333 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
 		3A15240B239F9D3D003E6333 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
+		3A159FDC23A28DE700D202FD /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A159FDA23A28DE300D202FD /* Photos.swift */; };
 		3A1A9D67239F9E500030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
 		3A1A9D68239F9E5E0030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
 		3A1A9D69239F9E5E0030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
@@ -136,6 +137,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3A159FDA23A28DE300D202FD /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		3A1A9D66239F9E500030EE35 /* SMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMView.swift; sourceTree = "<group>"; };
 		3A295A7F239FF20800E86ADE /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		3A478A02239E556B009AE4D4 /* Swift Metal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Metal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -274,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				3A7344E423A27778003BEF66 /* Logo.swift */,
+				3A159FDA23A28DE300D202FD /* Photos.swift */,
 			);
 			path = ExampleShaders;
 			sourceTree = "<group>";
@@ -618,6 +621,7 @@
 				3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */,
 				3A295A80239FF20800E86ADE /* Camera.swift in Sources */,
 				3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */,
+				3A159FDC23A28DE700D202FD /* Photos.swift in Sources */,
 				3A7344E523A27778003BEF66 /* Logo.swift in Sources */,
 				3A478A1E239E695E009AE4D4 /* Main.swift in Sources */,
 				3A478A09239E556B009AE4D4 /* ContentView.swift in Sources */,
