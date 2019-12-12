@@ -61,9 +61,11 @@ struct ContentView: View {
                     let metalGradient: SMFloat4 = gradient.call(1.0 - uv.y, metalColorA, metalColorB)
                     let ug: SMFloat = uv.x * 2 - 0.5
                     let swiftMetalGradient: SMFloat4 = gradient.call(ug, swiftGradient, metalGradient)
-                                        
-                    let final: SMFloat4 = bCL <?> float4(1.0) <=>
-                        (bCR <?> float4(0.0, 0.0, 0.0, 1.0) <=> (c * swiftMetalGradient))
+                    
+                    let white: SMFloat4 = float4(1.0, 1.0, 1.0, 1.0)
+                    let black: SMFloat4 = float4(0.0, 0.0, 0.0, 1.0)
+                    
+                    let final: SMFloat4 = bCL <?> white <=> (bCR <?> black <=> (c * swiftMetalGradient))
                     
                     return final
                 }
@@ -76,6 +78,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .previewLayout(.fixed(width: CGFloat(aspect) * 300, height: 300))
+            .previewLayout(.fixed(width: CGFloat(aspect) * 350, height: 350))
     }
 }
