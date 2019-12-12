@@ -54,13 +54,13 @@ public struct SMRenderer {
         guard textures.count == shader.textures.count else {
             throw RenderError.someTextureIsNil
         }
-        let values: [Float] = shader.values
+        let rawUniforms: [SMRaw] = shader.rawUniforms
         guard let drawableTexture: MTLTexture = SMTexture.emptyTexture(at: size, as: pixelFormat) else {
             throw RenderError.emptyTextureFailed
         }
         return try render(function: function,
                           size: size,
-                          values: values,
+                          rawUniforms: rawUniforms,
                           drawableTexture: drawableTexture,
                           textures: textures,
                           pixelFormat: pixelFormat)
@@ -80,7 +80,7 @@ public struct SMRenderer {
             }
             rendering = true
             DispatchQueue.global(qos: .background).async {
-                let values: [Float] = shader.values
+                let rawUniforms: [SMRaw] = shader.rawUniforms
                 let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
                 let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
                     textureAB.0 ?? textureAB.1
@@ -91,7 +91,7 @@ public struct SMRenderer {
                 }
                 do {
                     let texture = try self.render(function: function,
-                                                  size: size, values: values,
+                                                  size: size, rawUniforms: rawUniforms,
                                                   drawableTexture: drawableTexture,
                                                   textures: textures,
                                                   pixelFormat: pixelFormat)
@@ -131,7 +131,7 @@ public struct SMRenderer {
             rendering = true
             print("SwiftMetal - Render View - Render...")
             DispatchQueue.global(qos: .background).async {
-                let values: [Float] = shader.values
+                let rawUniforms: [SMRaw] = shader.rawUniforms
                 let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
                 let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
                     textureAB.0 ?? textureAB.1
@@ -143,7 +143,7 @@ public struct SMRenderer {
                 }
                 do {
                     _ = try self.render(function: function,
-                                        size: size, values: values,
+                                        size: size, rawUniforms: rawUniforms,
                                         drawableTexture: drawable.texture,
                                         drawable: drawable,
                                         textures: textures,
@@ -161,7 +161,7 @@ public struct SMRenderer {
 //        shader.render!()
     }
 
-    static func render(function: MTLFunction, size: CGSize, values: [Float], drawableTexture: MTLTexture, drawable: CAMetalDrawable? = nil, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
+    static func render(function: MTLFunction, size: CGSize, rawUniforms: [SMRaw], drawableTexture: MTLTexture, drawable: CAMetalDrawable? = nil, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
 
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
             throw RenderError.commandBuffer
@@ -175,16 +175,23 @@ public struct SMRenderer {
         let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: function)
         commandEncoder.setComputePipelineState(pipelineState)
         
-        var values: [Float] = values
-        if !values.isEmpty {
-            let size: Int = MemoryLayout<Float>.size * values.count
+        var rawUniforms: [SMRaw] = rawUniforms
+        if !rawUniforms.isEmpty {
+            var size: Int = 0
+            for rawUniform in rawUniforms {
+                if rawUniform is Float {
+                    size += MemoryLayout<Float>.size
+                } else if rawUniform is Bool {
+                    size += MemoryLayout<Bool>.size
+                }
+            }
             guard let uniformBuffer = SMRenderer.metalDevice.makeBuffer(length: size, options: []) else {
                 commandEncoder.endEncoding()
                 commandEncoder = nil
                 throw RenderError.uniformBuffer
             }
             let bufferPointer = uniformBuffer.contents()
-            memcpy(bufferPointer, &values, size)
+            memcpy(bufferPointer, &rawUniforms, size)
             commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 0)
         }
         
@@ -205,16 +212,18 @@ public struct SMRenderer {
             commandEncoder.setTexture(texture, index: i + 1)
         }
 
-        #if !os(tvOS)
-        let threadsPerGrid = MTLSize(width: Int(size.width), height: Int(size.height), depth: 1)
+//        #if !os(tvOS) && !targetEnvironment(simulator)
+        let tw = Int(size.width)
+        let th = Int(size.height)
+        let threadsPerGrid = MTLSize(width: tw, height: th, depth: 1)
         let threadsPerThreadgroup = MTLSize(width: 8, height: 8, depth: 1)
 //        let w: Int = pipelineState.threadExecutionWidth
 //        let h: Int = pipelineState.maxTotalThreadsPerThreadgroup / w
-//        let w2: Int = (Int(size.width) + w - 1) / w
-//        let h2: Int = (Int(size.height) + h - 1) / h
-//        let threadsPerThreadgroup: MTLSize = MTLSizeMake(w2, h2, 1)
+////        let w2: Int = (tw + w - 1) / w
+////        let h2: Int = (th + h - 1) / h
+//        let threadsPerThreadgroup: MTLSize = MTLSizeMake(w, h, 1)
         commandEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
-        #endif
+//        #endif
         
         commandEncoder.endEncoding()
         

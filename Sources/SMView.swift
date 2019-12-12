@@ -23,9 +23,6 @@ public struct SMView: UIViewRepresentable {
     }
     public func makeUIView(context: Self.Context) -> SMUIView {
         let shader = self.shader()
-        #if DEBUG
-        print(shader.code())
-        #endif
         return SMUIView(shader: shader)
     }
     public func updateUIView(_ view: SMUIView, context: Self.Context) {

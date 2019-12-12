@@ -38,8 +38,11 @@ kernel void swiftMetal(constant Uniforms& us [[ buffer(0) ]],
     float4 t0 = tex0.read(pos);
     float4 t1 = tex1.sample(smp, uv);
     float4 k0 = float4(0);
+    bool b0 = true;
+    bool b1 = false;
+    bool v0 = b0 && b1;
     
-    float4 val = f0(t0) + float4(us.u0, 0.0, 0.0, 1.0) * t1 + k0;
+    float4 val = f0(t0) + float4(us.u0, 0.0, 0.0, 1.0) * t1 + k0 + (!v0 ? 1.0 : 0.0);
     
     tex.write(val, pos);
     

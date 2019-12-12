@@ -29,6 +29,9 @@
 		3A67068D239A6CCB00E23C87 /* SMCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068C239A6CCB00E23C87 /* SMCode.swift */; };
 		3A670691239A93D400E23C87 /* SMRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670690239A93D400E23C87 /* SMRenderer.swift */; };
 		3A670695239A9D9600E23C87 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
+		3A7344E023A25014003BEF66 /* SMBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7344DF23A25014003BEF66 /* SMBool.swift */; };
+		3A7344E123A25014003BEF66 /* SMBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7344DF23A25014003BEF66 /* SMBool.swift */; };
+		3A7344E223A25014003BEF66 /* SMBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7344DF23A25014003BEF66 /* SMBool.swift */; };
 		3A99C601239A4B20005BE419 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
 		3A99C606239A4B20005BE419 /* SwiftMetalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C605239A4B20005BE419 /* SwiftMetalTests.swift */; };
 		3A99C608239A4B20005BE419 /* SwiftMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A99C5FA239A4B20005BE419 /* SwiftMetal.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -149,6 +152,7 @@
 		3A67068C239A6CCB00E23C87 /* SMCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCode.swift; sourceTree = "<group>"; };
 		3A670690239A93D400E23C87 /* SMRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMRenderer.swift; sourceTree = "<group>"; };
 		3A670694239A9D9600E23C87 /* Template.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Template.metal; sourceTree = "<group>"; };
+		3A7344DF23A25014003BEF66 /* SMBool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMBool.swift; sourceTree = "<group>"; };
 		3A9455DA239FD8D500668AE3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMetal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A99C5FA239A4B20005BE419 /* SwiftMetal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal.h; sourceTree = "<group>"; };
@@ -258,6 +262,7 @@
 				3A670680239A61BB00E23C87 /* SMEntity.swift */,
 				3A99C615239A4B8E005BE419 /* SMValue.swift */,
 				7422A263239D31F0003FEA65 /* SMFloat.swift */,
+				3A7344DF23A25014003BEF66 /* SMBool.swift */,
 				3A670688239A666300E23C87 /* SMTexture.swift */,
 			);
 			path = Types;
@@ -618,6 +623,7 @@
 				3A99C616239A4B8E005BE419 /* SMValue.swift in Sources */,
 				74E5B8FD239C547E00492280 /* SMFunction.swift in Sources */,
 				7422A264239D31F0003FEA65 /* SMFloat.swift in Sources */,
+				3A7344E023A25014003BEF66 /* SMBool.swift in Sources */,
 				3A670689239A666300E23C87 /* SMTexture.swift in Sources */,
 				3A99C613239A4B61005BE419 /* SMShader.swift in Sources */,
 				7422A268239D3438003FEA65 /* Types.swift in Sources */,
@@ -647,6 +653,7 @@
 				744F60F0239EE30400C51A63 /* SMValue.swift in Sources */,
 				744F60F1239EE30400C51A63 /* SMFloat.swift in Sources */,
 				744F60E2239EE30000C51A63 /* Types.swift in Sources */,
+				3A7344E123A25014003BEF66 /* SMBool.swift in Sources */,
 				744F60F2239EE30400C51A63 /* SMTexture.swift in Sources */,
 				744F60DF239EE30000C51A63 /* SMCode.swift in Sources */,
 				744F60DE239EE30000C51A63 /* SMShader.swift in Sources */,
@@ -667,6 +674,7 @@
 				744F60F4239EE30500C51A63 /* SMValue.swift in Sources */,
 				744F60F5239EE30500C51A63 /* SMFloat.swift in Sources */,
 				744F60E8239EE30100C51A63 /* Types.swift in Sources */,
+				3A7344E223A25014003BEF66 /* SMBool.swift in Sources */,
 				744F60F6239EE30500C51A63 /* SMTexture.swift in Sources */,
 				744F60E5239EE30100C51A63 /* SMCode.swift in Sources */,
 				744F60E4239EE30100C51A63 /* SMShader.swift in Sources */,

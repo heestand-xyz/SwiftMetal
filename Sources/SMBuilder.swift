@@ -223,10 +223,6 @@ struct SMBuilder {
         
         // Variables
         
-        print("~~~ ~~~ ~~~")
-        print(lastSnippet)
-        print("~~~ ~~~ ~~~")
-        print("<<< <<< <<< A >>> >>> >>>")
         var variableBranchCopies: [Branch] = []
         var variables: [SMVariablePack] = []
         while let leaf = tree.scanLeafs(1) {
@@ -241,60 +237,23 @@ struct SMBuilder {
                             guard subVariable.entity != leaf.entity else { continue }
                             snippet = snippet.replacingOccurrences(of: subVariable.entity.snippet(), with: subVariable.name)
                         }
-                        print("DYN", "v\(index)", "<" + leaf.entity.snippet() + ">", "=", "<" + snippet + ">")
                         return snippet
-                    })
-                    print("while", "<" + leaf.entity.snippet() + ">", "var", "<" + variable.rawCode + ">", "-->", "<" + variable.code + ">")
+                    }())
                     leaf.variable = variable
-                    variable.lock()
-//                    for branch in variableBranchCopies {
-//                        guard branch != leaf else { break }
-//                        if branch.entity == leaf.entity {
-//                            branch.variable = variable
-//                            break
-//                        }
-//                    }
                     variables.append(variable)
                     lastSnippet = lastSnippet.replacingOccurrences(of: leaf.entity.snippet(), with: variable.name)
-//                    print("~~~ ~~~ ~~~")
-//                    variables.forEach { variable in
-//                        print("~~~", "v\(variable.index)", "<" + variable.code + ">")
-//                    }
-//                    print(lastSnippet)
-//                    print("~~~ ~~~ ~~~")
-                } else {
-                    print("while", "<" + leaf.entity.snippet() + ">", "old")
-                    // ...
                 }
             } else {
-                print("while", "<" + leaf.entity.snippet() + ">", "new")
                 variableBranchCopies.append(leaf)
             }
         }
-        print("<<< <<< <<< B >>> >>> >>>")
-//        variables.forEach({ $0.unlock() })
-//        print("+++ UNLOK +++")
-        print("~~~ ~~~ ~~~")
-        variables.forEach { variable in
-            print("~~~", "v\(variable.index)", "<" + variable.code + ">")
-        }
-        print(lastSnippet)
-        print("~~~ ~~~ ~~~")
-        print("=== === ===")
         while let leaf = tree.scanLeafs(2) {
             if let variable = leaf.variable {
                 guard !variable.snippet.starts(with: "v") else { continue }
-                print(">>>", "v\(variable.index)", "<" + variable.snippet + ">", "-->", "<" + variable.name + ">")
                 lastSnippet = lastSnippet.replacingOccurrences(of: variable.snippet, with: variable.name)
             }
         }
-        print("~~~ ~~~ ~~~")
-        variables.forEach { variable in
-            print("~~~", "v\(variable.index)", "<" + variable.code + ">")
-        }
-        print(lastSnippet)
-        print("~~~ ~~~ ~~~")
-        print("CLEAN")
+        /// Clean
         // TODO - Fix case where v10 is mistaken for v1, as we get unused variables in metal code.
         let count = variables.count
         for i in 0..<count {
@@ -312,13 +271,6 @@ struct SMBuilder {
                 variables.remove(at: ir)
             }
         }
-        print("~~~ ~~~ ~~~")
-        variables.forEach { variable in
-            print("~~~", "v\(variable.index)", "<" + variable.code + ">")
-        }
-        print(lastSnippet)
-        print("~~~ ~~~ ~~~")
-        print("<<< <<< <<< C >>> >>> >>>")
         
         return SMCode(lastSnippet, uniforms: uniforms, variables: variables, functions: functions)
         

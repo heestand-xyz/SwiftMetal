@@ -23,9 +23,9 @@ public class SMShader {
     
     let smCode: SMCode
     
-    var values: [Float] {
-        smCode.uniforms.flatMap({ uniform -> [Float] in
-            uniform.entity.values
+    var rawUniforms: [SMRaw] {
+        smCode.uniforms.flatMap({ uniform -> [SMRaw] in
+            uniform.entity.rawUniforms
         })
     }
     
@@ -123,16 +123,15 @@ public class SMShader {
         
         lines.append(Line("}"))
         
-        let metalCode = Line.merge(lines)
-        print(">>> SwiftMetal - Auto Generated Code >>>")
-        print(metalCode)
-        print("<<< SwiftMetal - Auto Generated Code <<<")
-        
-        return metalCode
+        return Line.merge(lines)
     }
     
     public func make(with metalDevice: MTLDevice) throws -> MTLFunction {
-        let lib: MTLLibrary = try metalDevice.makeLibrary(source: code(), options: nil)
+        let metalCode = code()
+        print(">>> SwiftMetal - Auto Generated Metal Code >>>")
+        print(metalCode)
+        print("<<< SwiftMetal - Auto Generated Metal Code <<<")
+        let lib: MTLLibrary = try metalDevice.makeLibrary(source: metalCode, options: nil)
         guard let shader: MTLFunction = lib.makeFunction(name: "swiftMetal") else {
             throw FuncError.shader
         }

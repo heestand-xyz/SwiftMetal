@@ -26,30 +26,20 @@ public typealias _Color = UIColor
 class SMVariablePack {
     let entity: SMEntity
     let index: Int
-    fileprivate let dynamicSnippet: () -> (String)
-    fileprivate var lockedSnippet: String?
-    var snippet: String {
-        lockedSnippet ?? dynamicSnippet()
-    }
+    let snippet: String
     var name: String {
         return "v\(index)"
     }
     var code: String {
         code(with: snippet)
     }
-    var rawCode: String {
-        code(with: entity.snippet())
-    }
-    init(for entity: SMEntity, at index: Int, with dynamicSnippet: @escaping () -> (String)) {
+//    var rawCode: String {
+//        code(with: entity.snippet())
+//    }
+    init(for entity: SMEntity, at index: Int, with snippet: String) {
         self.entity = entity
         self.index = index
-        self.dynamicSnippet = dynamicSnippet
-    }
-    func lock() {
-        lockedSnippet = dynamicSnippet()
-    }
-    func unlock() {
-        lockedSnippet = nil
+        self.snippet = snippet
     }
     fileprivate func code(with snippet: String) -> String {
         "\(entity.type) \(name) = \(snippet);"
@@ -173,4 +163,20 @@ struct Snippet {
         snippet += ")"
         return snippet
     }
+}
+
+extension String {
+
+    public subscript (bounds: CountableClosedRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: bounds.lowerBound)
+        let end = index(startIndex, offsetBy: bounds.upperBound)
+        return String(self[start...end])
+    }
+
+    public subscript (bounds: CountableRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: bounds.lowerBound)
+        let end = index(startIndex, offsetBy: bounds.upperBound)
+        return String(self[start..<end])
+    }
+
 }
