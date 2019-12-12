@@ -212,7 +212,7 @@ public struct SMRenderer {
             commandEncoder.setTexture(texture, index: i + 1)
         }
 
-//        #if !os(tvOS) && !targetEnvironment(simulator)
+        #if !os(tvOS)
         let tw = Int(size.width)
         let th = Int(size.height)
         let threadsPerGrid = MTLSize(width: tw, height: th, depth: 1)
@@ -223,7 +223,7 @@ public struct SMRenderer {
 ////        let h2: Int = (th + h - 1) / h
 //        let threadsPerThreadgroup: MTLSize = MTLSizeMake(w, h, 1)
         commandEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
-//        #endif
+        #endif
         
         commandEncoder.endEncoding()
         
