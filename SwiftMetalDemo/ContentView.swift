@@ -11,7 +11,7 @@ import SwiftMetal
 
 struct ContentView: View {
     var body: some View {
-        LogoView()
+        CameraView()
     }
 }
 

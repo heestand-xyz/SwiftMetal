@@ -1,22 +1,43 @@
 //
 //  Camera.swift
-//  SwiftMetalDemo
+//  SwiftMetal_iOS
 //
-//  Created by Anton Heestand on 2019-12-10.
+//  Created by Anton Heestand on 2019-12-12.
 //  Copyright © 2019 Hexagons. All rights reserved.
 //
 
+import SwiftUI
+import SwiftMetal
 import AVKit
 
-class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+struct CameraView: View {
+    @ObservedObject var camera: Camera = Camera.main
+    var body: some View {
+        ZStack {
+            Color.black
+                .edgesIgnoringSafeArea(.all)
+            SMView {
+                SMShader { uv in
+                    SMLiveTexture(self.$camera.pixelBuffer)
+                        .sample(at: SMFloat2(uv.y, 1.0 - uv.x))
+                }
+            }
+                .aspectRatio(9 / 16, contentMode: .fit)
+        }
+    }
+}
+
+class Camera: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    static let main = Camera()
+    
+    @Published var pixelBuffer: CVPixelBuffer?
         
     let device: AVCaptureDevice
     let session: AVCaptureSession
     let input: AVCaptureDeviceInput
     let output: AVCaptureVideoDataOutput
-    
-    var callback: ((CVImageBuffer) -> ())?
-    
+        
     override init() {
         device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)!
         session = AVCaptureSession()
@@ -52,7 +73,7 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         DispatchQueue.main.async {
-            self.callback?(buffer)
+            self.pixelBuffer = buffer
         }
     }
     

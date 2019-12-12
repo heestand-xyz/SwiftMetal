@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		3A15240A239F9D3D003E6333 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
 		3A15240B239F9D3D003E6333 /* Template.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A670694239A9D9600E23C87 /* Template.metal */; };
+		3A159FDC23A28DE700D202FD /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A159FDA23A28DE300D202FD /* Photos.swift */; };
+		3A159FDF23A2921000D202FD /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A159FDD23A291D000D202FD /* Camera.swift */; };
 		3A1A9D67239F9E500030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
 		3A1A9D68239F9E5E0030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
 		3A1A9D69239F9E5E0030EE35 /* SMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A9D66239F9E500030EE35 /* SMView.swift */; };
-		3A295A80239FF20800E86ADE /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A295A7F239FF20800E86ADE /* Camera.swift */; };
 		3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A04239E556B009AE4D4 /* AppDelegate.swift */; };
 		3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A06239E556B009AE4D4 /* SceneDelegate.swift */; };
 		3A478A09239E556B009AE4D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A08239E556B009AE4D4 /* ContentView.swift */; };
@@ -22,7 +23,6 @@
 		3A478A17239E557F009AE4D4 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
 		3A478A18239E557F009AE4D4 /* SwiftMetal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3A478A1C239E55A8009AE4D4 /* TestMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74512F24239BE34D008F5FCE /* TestMedia.xcassets */; };
-		3A478A1E239E695E009AE4D4 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A478A1D239E695E009AE4D4 /* Main.swift */; };
 		3A670681239A61BB00E23C87 /* SMEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670680239A61BB00E23C87 /* SMEntity.swift */; };
 		3A670689239A666300E23C87 /* SMTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A670688239A666300E23C87 /* SMTexture.swift */; };
 		3A67068B239A687E00E23C87 /* SMBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A67068A239A687E00E23C87 /* SMBuilder.swift */; };
@@ -136,8 +136,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3A159FDA23A28DE300D202FD /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
+		3A159FDD23A291D000D202FD /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		3A1A9D66239F9E500030EE35 /* SMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMView.swift; sourceTree = "<group>"; };
-		3A295A7F239FF20800E86ADE /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		3A478A02239E556B009AE4D4 /* Swift Metal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Metal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A478A04239E556B009AE4D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A478A06239E556B009AE4D4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,7 +147,6 @@
 		3A478A0D239E556D009AE4D4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A478A10239E556D009AE4D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A478A12239E556D009AE4D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3A478A1D239E695E009AE4D4 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		3A670680239A61BB00E23C87 /* SMEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMEntity.swift; sourceTree = "<group>"; };
 		3A670688239A666300E23C87 /* SMTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMTexture.swift; sourceTree = "<group>"; };
 		3A67068A239A687E00E23C87 /* SMBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBuilder.swift; sourceTree = "<group>"; };
@@ -233,8 +233,6 @@
 				3A478A04239E556B009AE4D4 /* AppDelegate.swift */,
 				3A478A06239E556B009AE4D4 /* SceneDelegate.swift */,
 				3A478A08239E556B009AE4D4 /* ContentView.swift */,
-				3A478A1D239E695E009AE4D4 /* Main.swift */,
-				3A295A7F239FF20800E86ADE /* Camera.swift */,
 				3A478A0A239E556D009AE4D4 /* Assets.xcassets */,
 				3A478A0F239E556D009AE4D4 /* LaunchScreen.storyboard */,
 				3A478A12239E556D009AE4D4 /* Info.plist */,
@@ -274,6 +272,8 @@
 			isa = PBXGroup;
 			children = (
 				3A7344E423A27778003BEF66 /* Logo.swift */,
+				3A159FDA23A28DE300D202FD /* Photos.swift */,
+				3A159FDD23A291D000D202FD /* Camera.swift */,
 			);
 			path = ExampleShaders;
 			sourceTree = "<group>";
@@ -614,12 +614,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A159FDF23A2921000D202FD /* Camera.swift in Sources */,
 				3A15240B239F9D3D003E6333 /* Template.metal in Sources */,
 				3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */,
-				3A295A80239FF20800E86ADE /* Camera.swift in Sources */,
 				3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */,
+				3A159FDC23A28DE700D202FD /* Photos.swift in Sources */,
 				3A7344E523A27778003BEF66 /* Logo.swift in Sources */,
-				3A478A1E239E695E009AE4D4 /* Main.swift in Sources */,
 				3A478A09239E556B009AE4D4 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -752,7 +752,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.SwiftMetalDemo;
 				PRODUCT_NAME = "Swift Metal";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -772,7 +772,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.SwiftMetalDemo;
 				PRODUCT_NAME = "Swift Metal";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -914,7 +914,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.ios;
 				PRODUCT_NAME = SwiftMetal;
 				SKIP_INSTALL = YES;
@@ -942,7 +942,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.ios;
 				PRODUCT_NAME = SwiftMetal;
 				SKIP_INSTALL = YES;
@@ -1007,7 +1007,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.macos;
 				PRODUCT_NAME = SwiftMetal;
 				SDKROOT = macosx;
@@ -1034,7 +1034,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.macos;
 				PRODUCT_NAME = SwiftMetal;
 				SDKROOT = macosx;
@@ -1059,7 +1059,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.tvos;
 				PRODUCT_NAME = SwiftMetal;
 				SDKROOT = appletvos;
@@ -1086,7 +1086,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = se.hexagons.swift.metal.tvos;
 				PRODUCT_NAME = SwiftMetal;
 				SDKROOT = appletvos;

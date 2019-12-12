@@ -18,15 +18,15 @@ let shader = SMShader { uv in
 print("Render...")
 
 let res = CGSize(width: 4096, height: 4096)
-let texture = try! SMRenderer.render(shader, at: res)
+let texture = try! SMRenderer.render(shader, at: res, as: .rgba32Float)
 let image = try! texture.image()
 
 print("Rendered!")
 
 let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first!
-let fileURL = desktopURL.appendingPathComponent("swift-metal-render.png")
-let tiffRepresentation = NSBitmapImageRep(data: image.tiffRepresentation!)!
-let pngData = tiffRepresentation.representation(using: .png, properties: [:])!
-try! pngData.write(to: fileURL, options: .atomic)
+let fileURL = desktopURL.appendingPathComponent("swift-metal-render-32.tiff")
+let data: Data = image.tiffRepresentation!
+try! data.write(to: fileURL, options: .atomic)
+//let pngData = NSBitmapImageRep(data: data)!.representation(using: .png, properties: [:])!
 
 print("Saved!")
