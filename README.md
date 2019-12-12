@@ -10,20 +10,21 @@ import SwiftMetal
 ~~~~
 
 ~~~~swift
-let img = UIImage(named: "photo1")!
-let f = SMFunc<SMFloat4> { args in
-    (args[0] as! SMFloat4) +
-    (args[1] as! SMFloat4)
+let add: SMFunc<SMFloat4> = function { args -> SMFloat4 in
+    let a = args[0] as! SMFloat4
+    let b = args[1] as! SMFloat4
+    return a + b
 }
-let shader = SMShader {
+let shader = SMShader { uv in
     let a = float4(0.1, 0.0, 0.0, 1.0)
     let b = float4(0.2, 0.0, 0.0, 1.0)
-    let tex = SMTexture(image: img)!
-    let c: SMFloat4 = f.call(a, a) * f.call(b, b) + tex
+    let t = SMTexture(image: UIImage(named: "photo1")!)!
+    let c: SMFloat4 = add.call(a, a) * add.call(b, b) + t
     return c
 }
 let res = CGSize(width: 1024, height: 1024)
 let render: SMTexture = try! SMRenderer.render(shader: shader, at: res)
+let image: UIImage = try! render.image()
 let texture: MTLTexture = render.texture
 ~~~~
 
@@ -61,7 +62,7 @@ struct ContentView: View {
 
 Generated from first Swift example.
 
-~~~~Metal
+~~~~metal
 #include <metal_stdlib>
 using namespace metal;
 

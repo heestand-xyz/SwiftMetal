@@ -295,6 +295,7 @@ struct SMBuilder {
         print(lastSnippet)
         print("~~~ ~~~ ~~~")
         print("CLEAN")
+        // TODO - Fix case where v10 is mistaken for v1, as we get unused variables in metal code.
         let count = variables.count
         for i in 0..<count {
             let ir = count - i - 1

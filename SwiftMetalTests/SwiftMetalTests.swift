@@ -18,6 +18,17 @@ class SwiftMetalTests: XCTestCase {
     func testShader() {
                 
         let shader = SMShader { uv in
+            let add: SMFunc<SMFloat4> = function { args -> SMFloat4 in
+                let a = args[0] as! SMFloat4
+                let b = args[1] as! SMFloat4
+                return a + b
+            }
+            let sub = function { args -> SMFloat4 in
+                (args[0] as! SMFloat4) - (args[1] as! SMFloat4)
+            }
+            let mult = function { args -> SMFloat4 in
+                (args[0] as! SMFloat4) * (args[1] as! SMFloat4) * (args[2] as! SMFloat4)
+            }
             let a = float4(1, 1, 1, 1)
             let b = float4(2, 2, 2, 2)
             let c = float4(2, 2, 2, 2)
@@ -26,7 +37,7 @@ class SwiftMetalTests: XCTestCase {
             let aa = a + a - a
             let bb = b + b - b
             let cc = c + c - c
-            return (d * e) + (aa * bb * cc) + (d * e)
+            return add.call(d, e) + mult.call(aa, bb, cc) + sub.call(d, e)
         }
 
         let res = CGSize(width: 1, height: 1)
