@@ -17,7 +17,7 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral, ExpressibleByIn
     static let kType: String = "float"
     public typealias T = Float
     
-    override var values: [T] { [value ?? -1] }
+    override var rawUniforms: [SMRaw] { [value ?? -1] }
     
     init(entity: SMEntity, at index: Int) {
         super.init(type: SMFloat.kType)
@@ -60,6 +60,23 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral, ExpressibleByIn
     }
     public static func / (lhs: SMFloat, rhs: SMFloat) -> SMFloat {
         SMFloat(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+    }
+    
+    public static func < (lhs: SMFloat, rhs: SMFloat) -> SMBool {
+        SMBool(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) < \(rhs.snippet()))" })
+    }
+    public static func > (lhs: SMFloat, rhs: SMFloat) -> SMBool {
+        SMBool(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) > \(rhs.snippet()))" })
+    }
+    public static func == (lhs: SMFloat, rhs: SMFloat) -> SMBool {
+        SMBool(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) == \(rhs.snippet()))" })
+    }
+    public static func != (lhs: SMFloat, rhs: SMFloat) -> SMBool {
+        SMBool(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) != \(rhs.snippet()))" })
+    }
+    
+    public static func <=> (lhs: SMFloat, rhs: SMFloat) -> (SMFloat, SMFloat) {
+        return (lhs, rhs)
     }
     
     public prefix static func - (operand: SMFloat) -> SMFloat {
@@ -107,7 +124,7 @@ public class SMFloatTuple: SMValue<SMTuple<Float>> {
         "float\(tupleCount)"
     }
     
-    override var values: [Float] { value?.values.map({ $0.value ?? -1 }) ?? [Float].init(repeating: -1, count: tupleCount) }
+    override var rawUniforms: [SMRaw] { value?.values.map({ $0.value ?? -1 }) ?? [Float].init(repeating: -1, count: tupleCount) }
     
     public subscript(index: Int) -> SMFloat {
         guard (0..<tupleCount).contains(index) else {
@@ -165,6 +182,7 @@ public class SMFloat2: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
     public var r: SMFloat { self[0] }
     public var g: SMFloat { self[1] }
     
+    
     public convenience init(_ value0: SMFloat, _ value1: SMFloat) {
         self.init(SMTuple2<Float>(value0, value1))
     }
@@ -181,6 +199,7 @@ public class SMFloat2: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
         self.init({ futureValue().tuple }, tupleCount: 2)
     }
     
+    
     public static func + (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
         SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" }, tupleCount: 2)
     }
@@ -193,10 +212,15 @@ public class SMFloat2: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
     public static func / (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
         SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" }, tupleCount: 2)
     }
+    
+    public static func <=> (lhs: SMFloat2, rhs: SMFloat2) -> (SMFloat2, SMFloat2) {
+        return (lhs, rhs)
+    }
+    
     public prefix static func - (operand: SMFloat2) -> SMFloat2 {
-        let float = SMFloat2(fromEntities: [operand], tupleCount: 2)
-        float.snippet = { "-\(operand.snippet())" }
-        return float
+        let float2 = SMFloat2(fromEntities: [operand], tupleCount: 2)
+        float2.snippet = { "-\(operand.snippet())" }
+        return float2
     }
         
 }
@@ -219,6 +243,7 @@ public class SMFloat3: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
     public var g: SMFloat { self[1] }
     public var b: SMFloat { self[2] }
     
+    
     public convenience init(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat) {
         self.init(SMTuple3<Float>(value0, value1, value2))
     }
@@ -235,6 +260,7 @@ public class SMFloat3: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
         self.init({ futureValue().tuple }, tupleCount: 3)
     }
     
+    
     public static func + (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
         SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" }, tupleCount: 3)
     }
@@ -247,10 +273,15 @@ public class SMFloat3: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
     public static func / (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
         SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" }, tupleCount: 3)
     }
+    
+    public static func <=> (lhs: SMFloat3, rhs: SMFloat3) -> (SMFloat3, SMFloat3) {
+        return (lhs, rhs)
+    }
+    
     public prefix static func - (operand: SMFloat3) -> SMFloat3 {
-        let float = SMFloat3(fromEntities: [operand], tupleCount: 3)
-        float.snippet = { "-\(operand.snippet())" }
-        return float
+        let float3 = SMFloat3(fromEntities: [operand], tupleCount: 3)
+        float3.snippet = { "-\(operand.snippet())" }
+        return float3
     }
         
 }
@@ -275,6 +306,7 @@ public class SMFloat4: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
     public var b: SMFloat { self[2] }
     public var a: SMFloat { self[3] }
     
+    
     public convenience init(_ value0: SMFloat, _ value1: SMFloat, _ value2: SMFloat, _ value3: SMFloat) {
         self.init(SMTuple4<Float>(value0, value1, value2, value3))
     }
@@ -290,6 +322,31 @@ public class SMFloat4: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
     public convenience init(_ futureValue: @escaping () -> (SMRawFloat4)) {
         self.init({ futureValue().tuple }, tupleCount: 4)
     }
+    /// Very convenience... Not a part of Metal...
+    public convenience init(_ hex: String, alpha: SMFloat = 1.0) {
+        var hex = hex
+        if hex[0..<1] == "#" {
+            if hex.count == 4 {
+                hex = hex[1..<4]
+            } else {
+                hex = hex[1..<7]
+            }
+        }
+        if hex.count == 3 {
+            let r = hex[0..<1]
+            let g = hex[1..<2]
+            let b = hex[2..<3]
+            hex = r + r + g + g + b + b
+        }
+        var hexInt: UInt32 = 0
+        let scanner: Scanner = Scanner(string: hex)
+        scanner.scanHexInt32(&hexInt)
+        let r = SMFloat(Float((hexInt & 0xff0000) >> 16) / 255.0)
+        let g = SMFloat(Float((hexInt & 0xff00) >> 8) / 255.0)
+        let b = SMFloat(Float((hexInt & 0xff) >> 0) / 255.0)
+        self.init([r, g, b, alpha])
+    }
+    
     
     public static func + (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
         SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" }, tupleCount: 4)
@@ -303,10 +360,15 @@ public class SMFloat4: SMFloatTuple, ExpressibleByFloatLiteral, ExpressibleByInt
     public static func / (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
         SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" }, tupleCount: 4)
     }
+    
+    public static func <=> (lhs: SMFloat4, rhs: SMFloat4) -> (SMFloat4, SMFloat4) {
+        return (lhs, rhs)
+    }
+    
     public prefix static func - (operand: SMFloat4) -> SMFloat4 {
-        let float = SMFloat4(fromEntities: [operand], tupleCount: 4)
-        float.snippet = { "-\(operand.snippet())" }
-        return float
+        let float4 = SMFloat4(fromEntities: [operand], tupleCount: 4)
+        float4.snippet = { "-\(operand.snippet())" }
+        return float4
     }
         
 }
@@ -361,3 +423,14 @@ public func abs(_ value: SMFloat4) -> SMFloat4 {
     return float
 }
 
+public func sqrt(_ value: SMFloat) -> SMFloat {
+    let float = SMFloat(fromEntities: [value])
+    float.snippet = { "sqrt(\(value.snippet()))" }
+    return float
+}
+
+public func pow(_ value0: SMFloat, _ value1: SMFloat) -> SMFloat {
+    let float = SMFloat(fromEntities: [value0, value1])
+    float.snippet = { "pow(\(value0.snippet()), \(value1.snippet()))" }
+    return float
+}

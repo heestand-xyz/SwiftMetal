@@ -23,6 +23,9 @@ class Main: ObservableObject {
             self.cameraPixelBuffer = pixelBuffer
         }
         
+//        let rawCam = SMLiveTexture(self.main.$cameraPixelBuffer)
+//        let cam = rawCam.sample(at: float2(uv.y, 1.0 - uv.x))
+        
     }
     
 }
