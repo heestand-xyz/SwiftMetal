@@ -32,6 +32,7 @@
 		3A7344E023A25014003BEF66 /* SMBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7344DF23A25014003BEF66 /* SMBool.swift */; };
 		3A7344E123A25014003BEF66 /* SMBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7344DF23A25014003BEF66 /* SMBool.swift */; };
 		3A7344E223A25014003BEF66 /* SMBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7344DF23A25014003BEF66 /* SMBool.swift */; };
+		3A7344E523A27778003BEF66 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7344E423A27778003BEF66 /* Logo.swift */; };
 		3A99C601239A4B20005BE419 /* SwiftMetal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */; };
 		3A99C606239A4B20005BE419 /* SwiftMetalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C605239A4B20005BE419 /* SwiftMetalTests.swift */; };
 		3A99C608239A4B20005BE419 /* SwiftMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A99C5FA239A4B20005BE419 /* SwiftMetal.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -153,6 +154,7 @@
 		3A670690239A93D400E23C87 /* SMRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMRenderer.swift; sourceTree = "<group>"; };
 		3A670694239A9D9600E23C87 /* Template.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Template.metal; sourceTree = "<group>"; };
 		3A7344DF23A25014003BEF66 /* SMBool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMBool.swift; sourceTree = "<group>"; };
+		3A7344E423A27778003BEF66 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		3A9455DA239FD8D500668AE3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3A99C5F7239A4B20005BE419 /* SwiftMetal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMetal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A99C5FA239A4B20005BE419 /* SwiftMetal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMetal.h; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				3A478A08239E556B009AE4D4 /* ContentView.swift */,
 				3A478A1D239E695E009AE4D4 /* Main.swift */,
 				3A295A7F239FF20800E86ADE /* Camera.swift */,
+				3A7344E623A27805003BEF66 /* Shaders */,
 				3A478A0A239E556D009AE4D4 /* Assets.xcassets */,
 				3A478A0F239E556D009AE4D4 /* LaunchScreen.storyboard */,
 				3A478A12239E556D009AE4D4 /* Info.plist */,
@@ -266,6 +269,14 @@
 				3A670688239A666300E23C87 /* SMTexture.swift */,
 			);
 			path = Types;
+			sourceTree = "<group>";
+		};
+		3A7344E623A27805003BEF66 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				3A7344E423A27778003BEF66 /* Logo.swift */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 		3A99C5ED239A4B20005BE419 = {
@@ -607,6 +618,7 @@
 				3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */,
 				3A295A80239FF20800E86ADE /* Camera.swift in Sources */,
 				3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */,
+				3A7344E523A27778003BEF66 /* Logo.swift in Sources */,
 				3A478A1E239E695E009AE4D4 /* Main.swift in Sources */,
 				3A478A09239E556B009AE4D4 /* ContentView.swift in Sources */,
 			);
