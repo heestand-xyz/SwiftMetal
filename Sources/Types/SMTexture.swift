@@ -117,8 +117,9 @@ public class SMTexture: SMFloat4 {
         switch texture.pixelFormat {
         case .rgba8Unorm: ciFormat = .RGBA8
         case .rgba16Float: ciFormat = .RGBA16
+        case .rgba32Float: ciFormat = .RGBAf
         default:
-            throw TextureError.badPixelFormat(target: [.rgba8Unorm, .rgba16Float])
+            throw TextureError.badPixelFormat(target: [.rgba8Unorm, .rgba16Float, .rgba32Float])
         }
         guard let cgImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent, format: ciFormat, colorSpace: colorSpace) else {
             throw TextureError.imageFailed("CGImage")
