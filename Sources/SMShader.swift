@@ -123,7 +123,12 @@ public class SMShader {
         
         lines.append(Line("}"))
         
-        return Line.merge(lines)
+        let metalCode = Line.merge(lines)
+        print(">>> SwiftMetal - Auto Generated Code >>>")
+        print(metalCode)
+        print("<<< SwiftMetal - Auto Generated Code <<<")
+        
+        return metalCode
     }
     
     public func make(with metalDevice: MTLDevice) throws -> MTLFunction {

@@ -16,17 +16,18 @@ class SwiftMetalTests: XCTestCase {
     override func tearDown() {}
 
     func testShader() {
-        
-        let v: Float = 0.5
-        
+                
         let shader = SMShader { uv in
-            let base = float4(0.25)
-            let future = SMFloat4 {
-                SMRawFloat4(v, v, v, v)
-            }
-            return base + future
+            let a = float4(1, 1, 1, 1)
+            let b = float4(2, 2, 2, 2)
+            let c = float4(2, 2, 2, 2)
+            let d = float4(3)
+            let e = float4(4)
+            let aa = a + a - a
+            let bb = b + b - b
+            let cc = c + c - c
+            return (d * e) + (aa * bb * cc) + (d * e)
         }
-        print(shader.code())
 
         let res = CGSize(width: 1, height: 1)
         let render: SMTexture = try! SMRenderer.render(shader, at: res, as: .rgba16Float)

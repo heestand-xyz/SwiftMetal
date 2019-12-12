@@ -10,15 +10,26 @@ import Foundation
 
 struct SMBuilder {
     
-    class Branch {
+    class Branch: Equatable {
         var hitCount: Int = 0
         let entity: SMEntity
+        var variable: SMVariablePack?
         var branches: [Branch] = []
         init(entity: SMEntity) {
             self.entity = entity
             branches = entity.children.map { child in
                 Branch(entity: child)
             }
+        }
+        func scanLeafs(_ index: Int = 0) -> Branch? {
+            guard hitCount < index + 1 else { return nil }
+            for branch in branches {
+                if let hitEntity = branch.scanLeafs(index) {
+                    return hitEntity
+                }
+            }
+            hitCount += 1
+            return self
         }
         func leafEntity(_ index: Int = 0) -> SMEntity? {
             guard hitCount < index + 1 else { return nil }
@@ -108,6 +119,9 @@ struct SMBuilder {
 //            }).count == lhsLeafs.count else { return false }
             return true
         }
+        static func == (lhs: Branch, rhs: Branch) -> Bool {
+            lhs.entity == rhs.entity
+        }
     }
     
     static func connectSinks(for baseEntity: SMEntity, sinked: @escaping () -> ()) {
@@ -153,7 +167,7 @@ struct SMBuilder {
         // Uniforms
 
         var uniforms: [SMUniformPack] = []
-        while let leafEntity = tree.leafEntity(1) {
+        while let leafEntity = tree.leafEntity(0) {
             if leafEntity.isFuture && !(leafEntity is SMTexture) {
                 if !uniforms.contains(where: { $0.entity == leafEntity }) {
                     leafEntity.futureIndex = uniforms.count
@@ -209,97 +223,104 @@ struct SMBuilder {
         
         // Variables
         
-        var variableEntitieCopies: [SMEntity] = []
+        print("~~~ ~~~ ~~~")
+        print(lastSnippet)
+        print("~~~ ~~~ ~~~")
+        print("<<< <<< <<< A >>> >>> >>>")
+        var variableBranchCopies: [Branch] = []
         var variables: [SMVariablePack] = []
-        while let leafEntity = tree.leafEntity() {
-            if variableEntitieCopies.contains(leafEntity) {
+        while let leaf = tree.scanLeafs(1) {
+            if variableBranchCopies.contains(leaf) {
                 if !variables.contains(where: { variable -> Bool in
-                    variable.entity == leafEntity
+                    variable.entity == leaf.entity
                 }) {
-                    let variable = SMVariablePack(entity: leafEntity, index: variables.count)
+                    let index = variables.count
+                    let variable = SMVariablePack(for: leaf.entity, at: index, with: {
+                        var snippet: String = leaf.entity.snippet()
+                        for subVariable in variables {
+                            guard subVariable.entity != leaf.entity else { continue }
+                            snippet = snippet.replacingOccurrences(of: subVariable.entity.snippet(), with: subVariable.name)
+                        }
+                        print("DYN", "v\(index)", "<" + leaf.entity.snippet() + ">", "=", "<" + snippet + ">")
+                        return snippet
+                    })
+                    print("while", "<" + leaf.entity.snippet() + ">", "var", "<" + variable.rawCode + ">", "-->", "<" + variable.code + ">")
+                    leaf.variable = variable
+                    variable.lock()
+//                    for branch in variableBranchCopies {
+//                        guard branch != leaf else { break }
+//                        if branch.entity == leaf.entity {
+//                            branch.variable = variable
+//                            break
+//                        }
+//                    }
                     variables.append(variable)
-                    lastSnippet = lastSnippet.replacingOccurrences(of: leafEntity.snippet(), with: variable.name)
+                    lastSnippet = lastSnippet.replacingOccurrences(of: leaf.entity.snippet(), with: variable.name)
+//                    print("~~~ ~~~ ~~~")
+//                    variables.forEach { variable in
+//                        print("~~~", "v\(variable.index)", "<" + variable.code + ">")
+//                    }
+//                    print(lastSnippet)
+//                    print("~~~ ~~~ ~~~")
+                } else {
+                    print("while", "<" + leaf.entity.snippet() + ">", "old")
+                    // ...
                 }
             } else {
-                variableEntitieCopies.append(leafEntity)
+                print("while", "<" + leaf.entity.snippet() + ">", "new")
+                variableBranchCopies.append(leaf)
             }
         }
+        print("<<< <<< <<< B >>> >>> >>>")
+//        variables.forEach({ $0.unlock() })
+//        print("+++ UNLOK +++")
+        print("~~~ ~~~ ~~~")
+        variables.forEach { variable in
+            print("~~~", "v\(variable.index)", "<" + variable.code + ">")
+        }
+        print(lastSnippet)
+        print("~~~ ~~~ ~~~")
+        print("=== === ===")
+        while let leaf = tree.scanLeafs(2) {
+            if let variable = leaf.variable {
+                guard !variable.snippet.starts(with: "v") else { continue }
+                print(">>>", "v\(variable.index)", "<" + variable.snippet + ">", "-->", "<" + variable.name + ">")
+                lastSnippet = lastSnippet.replacingOccurrences(of: variable.snippet, with: variable.name)
+            }
+        }
+        print("~~~ ~~~ ~~~")
+        variables.forEach { variable in
+            print("~~~", "v\(variable.index)", "<" + variable.code + ">")
+        }
+        print(lastSnippet)
+        print("~~~ ~~~ ~~~")
+        print("CLEAN")
+        let count = variables.count
+        for i in 0..<count {
+            let ir = count - i - 1
+            let variable = variables[ir]
+            var used = false
+            for subVariable in variables {
+                guard subVariable.entity != variable.entity else { continue }
+                if subVariable.snippet.contains(variable.name) {
+                    used = true
+                    break
+                }
+            }
+            if !used && !lastSnippet.contains(variable.name) {
+                variables.remove(at: ir)
+            }
+        }
+        print("~~~ ~~~ ~~~")
+        variables.forEach { variable in
+            print("~~~", "v\(variable.index)", "<" + variable.code + ">")
+        }
+        print(lastSnippet)
+        print("~~~ ~~~ ~~~")
+        print("<<< <<< <<< C >>> >>> >>>")
         
         return SMCode(lastSnippet, uniforms: uniforms, variables: variables, functions: functions)
         
     }
-    
-//    static func buildOperatorCode(lhs: SMEntity, _ operation: String, rhs: SMEntity) -> SMCode {
-//
-//        let lhsCode: SMCode = lhs.build()
-//        let rhsCode: SMCode = rhs.build()
-//
-//        let variableCount = lhsCode.variables.count + rhsCode.variables.count
-//
-//        if lhs == rhs {
-//
-//            var variables: [SMVariablePack] = []
-//            variables.append(contentsOf: lhsCode.variables)
-//            let variable = SMVariablePack(id: lhs.id, snippet: lhsCode.snippet, type: lhs.type, index: variableCount)
-//            variables.append(variable)
-//            return SMCode("(\(variable.name) \(operation) \(variable.name))", variables: variables)
-//
-//        } else if let variable = rhsCode.variables.filter({ variable -> Bool in
-//            variable.id == lhs.id
-//        }).first {
-//
-//            var variables: [SMVariablePack] = []
-//            variables.append(contentsOf: lhsCode.variables)
-//            variables.append(contentsOf: rhsCode.variables)
-//            return SMCode("(\(variable.name) \(operation) \(rhsCode.snippet))", variables: variables)
-//
-//        } else if let variable = lhsCode.variables.filter({ variable -> Bool in
-//            variable.id == rhs.id
-//        }).first {
-//
-//            var variables: [SMVariablePack] = []
-//            variables.append(contentsOf: lhsCode.variables)
-//            variables.append(contentsOf: rhsCode.variables)
-//            return SMCode("(\(lhsCode.snippet) \(operation) \(variable.name))", variables: variables)
-//
-//        } else if crawlForEntity(with: rhs.id, in: lhs) {
-//
-//            var variables: [SMVariablePack] = []
-//            variables.append(contentsOf: lhsCode.variables)
-//            variables.append(contentsOf: rhsCode.variables)
-//            let variable = SMVariablePack(id: rhs.id, snippet: rhsCode.snippet, type: rhs.type, index: variableCount)
-//            variables.append(variable)
-//            let lhsSnippet = lhsCode.snippet.replacingOccurrences(of: rhsCode.snippet, with: variable.name)
-//            return SMCode("(\(lhsSnippet) \(operation) \(variable.name))", variables: variables)
-//
-//        } else if crawlForEntity(with: lhs.id, in: rhs) {
-//
-//            var variables: [SMVariablePack] = []
-//            variables.append(contentsOf: lhsCode.variables)
-//            variables.append(contentsOf: rhsCode.variables)
-//            let variable = SMVariablePack(id: lhs.id, snippet: lhsCode.snippet, type: lhs.type, index: variableCount)
-//            variables.append(variable)
-//            let rhsSnippet = rhsCode.snippet.replacingOccurrences(of: lhsCode.snippet, with: variable.name)
-//            return SMCode("(\(variable.name) \(operation) \(rhsSnippet))", variables: variables)
-//
-//        } else {
-//
-//        var variables: [SMVariablePack] = []
-//        variables.append(contentsOf: lhsCode.variables)
-//        variables.append(contentsOf: rhsCode.variables)
-//        return SMCode("(\(lhsCode.snippet) \(operation) \(rhsCode.snippet))", variables: variables)
-//
-//        }
-//    }
-//    
-//    static func crawlForEntity(with id: UUID, in entity: SMEntity) -> Bool {
-//        if id == entity.id {
-//            return true
-//        }
-//        if let entityOperator = entity as? SMOperator {
-//            return crawlForEntity(with: id, in: entityOperator.lhs) ?? crawlForEntity(with: id, in: entityOperator.rhs)
-//        }
-//        return false
-//    }
     
 }

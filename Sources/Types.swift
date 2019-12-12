@@ -23,14 +23,36 @@ public typealias _Image = UIImage
 public typealias _Color = UIColor
 #endif
 
-struct SMVariablePack {
+class SMVariablePack {
     let entity: SMEntity
     let index: Int
+    fileprivate let dynamicSnippet: () -> (String)
+    fileprivate var lockedSnippet: String?
+    var snippet: String {
+        lockedSnippet ?? dynamicSnippet()
+    }
     var name: String {
         return "v\(index)"
     }
     var code: String {
-        "\(entity.type) \(name) = \(entity.snippet());"
+        code(with: snippet)
+    }
+    var rawCode: String {
+        code(with: entity.snippet())
+    }
+    init(for entity: SMEntity, at index: Int, with dynamicSnippet: @escaping () -> (String)) {
+        self.entity = entity
+        self.index = index
+        self.dynamicSnippet = dynamicSnippet
+    }
+    func lock() {
+        lockedSnippet = dynamicSnippet()
+    }
+    func unlock() {
+        lockedSnippet = nil
+    }
+    fileprivate func code(with snippet: String) -> String {
+        "\(entity.type) \(name) = \(snippet);"
     }
 }
 
