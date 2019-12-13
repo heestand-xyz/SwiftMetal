@@ -29,8 +29,8 @@ public class SMShader: Identifiable, Equatable {
     
     var render: (() -> ())?
     
-    public init(_ entityCallback: (SMUV) -> (SMFloat4)) {
-        baseEntity = entityCallback(SMUV())
+    public init(_ entityCallback: (SMUV, SMAspect) -> (SMFloat4)) {
+        baseEntity = entityCallback(SMUV(), SMAspect())
         textures = SMBuilder.textures(for: baseEntity)
         smCode = SMBuilder.build(for: baseEntity)
         SMBuilder.connectSinks(for: baseEntity) {
@@ -92,6 +92,7 @@ public class SMShader: Identifiable, Equatable {
         lines.append(Line(in: 1, "int y = pos.y;"))
         lines.append(Line(in: 1, "int w = tex.get_width();"))
         lines.append(Line(in: 1, "int h = tex.get_height();"))
+        lines.append(Line(in: 1, "float aspect = float(w) / float(h);"))
         lines.append(Line(in: 1))
         
         lines.append(Line(in: 1, "if (x >= w || y >= h) { return; }"))

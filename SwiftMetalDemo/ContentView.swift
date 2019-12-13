@@ -13,7 +13,7 @@ struct ContentView: View {
 //    @EnvironmentObject var main: Main
     var body: some View {
         SMView {
-            SMShader { uv in
+            SMShader { uv, _ in
                 let uv4: SMFloat4 = float4(uv.x, uv.y, 0.0, 1.0)
                 let c: SMFloat4 = max(uv4, float4(0.5))
                 return c

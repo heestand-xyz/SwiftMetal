@@ -17,7 +17,7 @@ struct CameraView: View {
             Color.black
                 .edgesIgnoringSafeArea(.all)
             SMView {
-                SMShader { uv in
+                SMShader { uv, _ in
                     SMLiveTexture(self.$camera.pixelBuffer)
                         .sample(at: float2(uv.y, 1.0 - uv.x))
                 }

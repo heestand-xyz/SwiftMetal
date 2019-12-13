@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftMetal
 
-let photosShader: SMShader = SMShader { uv in
+let photosShader: SMShader = SMShader { uv, _ in
     let photo1 = SMTexture(image: UIImage(named: "photo1")!)!
     let photo2 = SMTexture(image: UIImage(named: "photo2")!)!
     let mask: SMBool = photo2.r < 0.1

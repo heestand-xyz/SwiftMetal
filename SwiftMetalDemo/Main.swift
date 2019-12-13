@@ -35,7 +35,7 @@ class Main: ObservableObject {
         
         camera = Camera()
         
-        shader = SMShader({ uv in
+        shader = SMShader({ uv, _ in
             let cross: SMFunc<SMFloat4> = function { args -> SMFloat4 in
                 let a: SMFloat4 = args[0] as! SMFloat4
                 let b: SMFloat4 = args[1] as! SMFloat4

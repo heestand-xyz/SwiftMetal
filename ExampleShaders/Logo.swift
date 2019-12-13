@@ -35,7 +35,7 @@ let aspect: Float = 2.5
     return SMFloat4([r, g, b, alpha])
 }
 
-let logoShader: SMShader = SMShader { uv in
+let logoShader: SMShader = SMShader { uv, _ in
     
     let swiftColorA: SMFloat4 = color("#fd442a")
     let swiftColorB: SMFloat4 = color("#faa33d")

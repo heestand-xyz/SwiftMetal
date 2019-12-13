@@ -110,6 +110,19 @@ public class SMUV: SMFloat2 {
     }
 }
 
+public class SMAspect: SMFloat {
+    public init() {
+        super.init(1.0)
+        snippet = { "aspect" }
+    }
+    required public convenience init(floatLiteral value: Float) {
+        fatalError("init(floatLiteral:) has not been implemented")
+    }
+    required public convenience init(integerLiteral value: Int) {
+        fatalError("init(integerLiteral:) has not been implemented")
+    }
+}
+
 struct Snippet {
     static func functionSnippet(name: String, from entities: [SMEntity]) -> String {
         var snippet: String = ""
