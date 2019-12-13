@@ -34,7 +34,7 @@ public struct SMRenderer {
         return textureCache
     }()
     
-    static var commandEncoder: MTLComputeCommandEncoder!
+//    static var commandEncoders: [UUID: MTLComputeCommandEncoder] = [:]
     
     public static var defaultPixelFormat: MTLPixelFormat = .rgba8Unorm
     
@@ -48,14 +48,14 @@ public struct SMRenderer {
         case someTextureIsNil
     }
     
-    public static func render(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = defaultPixelFormat) throws -> SMTexture {
+    public static func render(_ shader: SMShader, at size: CGSize, on texture: MTLTexture? = nil, as pixelFormat: MTLPixelFormat = defaultPixelFormat) throws -> SMTexture {
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
         let textures: [MTLTexture] = shader.textures.compactMap({ $0.texture })
         guard textures.count == shader.textures.count else {
             throw RenderError.someTextureIsNil
         }
-        let rawUniforms: [SMRaw] = shader.rawUniforms
-        guard let drawableTexture: MTLTexture = SMTexture.emptyTexture(at: size, as: pixelFormat) else {
+        let rawUniforms: [SMRawType] = try shader.rawUniforms()
+        guard let drawableTexture: MTLTexture =  texture ?? SMTexture.emptyTexture(at: size, as: pixelFormat) else {
             throw RenderError.emptyTextureFailed
         }
         return try render(function: function,
@@ -79,8 +79,8 @@ public struct SMRenderer {
                 return
             }
             rendering = true
-            DispatchQueue.global(qos: .background).async {
-                let rawUniforms: [SMRaw] = shader.rawUniforms
+            do {
+                let rawUniforms: [SMRawType] = try shader.rawUniforms()
                 let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
                 let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
                     textureAB.0 ?? textureAB.1
@@ -89,21 +89,28 @@ public struct SMRenderer {
                     failed(RenderError.someTextureIsNil)
                     return
                 }
-                do {
-                    let texture = try self.render(function: function,
-                                                  size: size, rawUniforms: rawUniforms,
-                                                  drawableTexture: drawableTexture,
-                                                  textures: textures,
-                                                  pixelFormat: pixelFormat)
-                    rendering = false
-                    DispatchQueue.main.async {
-                        rendered(texture)
+                DispatchQueue.global(qos: .background).async {
+                    do {
+                        let texture = try self.render(function: function,
+                                                      size: size, rawUniforms: rawUniforms,
+                                                      drawableTexture: drawableTexture,
+                                                      textures: textures,
+                                                      pixelFormat: pixelFormat)
+                        rendering = false
+                        DispatchQueue.main.async {
+                            rendered(texture)
+                        }
+                    } catch {
+                        rendering = false
+                        DispatchQueue.main.async {
+                            failed(error)
+                        }
                     }
-                } catch {
-                    rendering = false
-                    DispatchQueue.main.async {
-                        failed(error)
-                    }
+                }
+            } catch {
+                rendering = false
+                DispatchQueue.main.async {
+                    failed(error)
                 }
             }
         }
@@ -130,8 +137,8 @@ public struct SMRenderer {
             }
             rendering = true
             print("SwiftMetal - Render View - Render...")
-            DispatchQueue.global(qos: .background).async {
-                let rawUniforms: [SMRaw] = shader.rawUniforms
+            do {
+                let rawUniforms: [SMRawType] = try shader.rawUniforms()
                 let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
                 let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
                     textureAB.0 ?? textureAB.1
@@ -141,17 +148,22 @@ public struct SMRenderer {
                     rendering = false
                     return
                 }
-                do {
-                    _ = try self.render(function: function,
-                                        size: size, rawUniforms: rawUniforms,
-                                        drawableTexture: drawable.texture,
-                                        drawable: drawable,
-                                        textures: textures,
-                                        pixelFormat: view.colorPixelFormat)
-                    print("SwiftMetal - Render View - Rendered!")
-                } catch {
-                    print("SwiftMetal - Render View - Render Error:", error)
+                DispatchQueue.global(qos: .background).async {
+                    do {
+                        _ = try self.render(function: function,
+                                            size: size, rawUniforms: rawUniforms,
+                                            drawableTexture: drawable.texture,
+                                            drawable: drawable,
+                                            textures: textures,
+                                            pixelFormat: view.colorPixelFormat)
+                        print("SwiftMetal - Render View - Rendered!")
+                    } catch {
+                        print("SwiftMetal - Render View - Render Error:", error)
+                    }
+                    rendering = false
                 }
+            } catch {
+                print("SwiftMetal - Render View - Render Setup Error:", error)
                 rendering = false
             }
         }
@@ -161,13 +173,13 @@ public struct SMRenderer {
 //        shader.render!()
     }
 
-    static func render(function: MTLFunction, size: CGSize, rawUniforms: [SMRaw], drawableTexture: MTLTexture, drawable: CAMetalDrawable? = nil, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
+    static func render(function: MTLFunction, size: CGSize, rawUniforms: [SMRawType], drawableTexture: MTLTexture, drawable: CAMetalDrawable? = nil, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
 
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
             throw RenderError.commandBuffer
         }
         
-        commandEncoder = commandBuffer.makeComputeCommandEncoder()
+        let commandEncoder: MTLComputeCommandEncoder! = commandBuffer.makeComputeCommandEncoder()
         guard commandEncoder != nil else {
             throw RenderError.commandEncoder
         }
@@ -175,7 +187,8 @@ public struct SMRenderer {
         let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: function)
         commandEncoder.setComputePipelineState(pipelineState)
         
-        var rawUniforms: [SMRaw] = rawUniforms
+        // FIXME: - Vector's are currently flat mapped...
+        var rawUniforms: [SMRawType] = rawUniforms
         if !rawUniforms.isEmpty {
             var size: Int = 0
             for rawUniform in rawUniforms {
@@ -187,7 +200,7 @@ public struct SMRenderer {
             }
             guard let uniformBuffer = SMRenderer.metalDevice.makeBuffer(length: size, options: []) else {
                 commandEncoder.endEncoding()
-                commandEncoder = nil
+//                commandEncoder = nil
                 throw RenderError.uniformBuffer
             }
             let bufferPointer = uniformBuffer.contents()
@@ -234,7 +247,7 @@ public struct SMRenderer {
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
 
-        commandEncoder = nil
+//        commandEncoder = nil
         
         return SMTexture(texture: drawableTexture)
     }

@@ -19,7 +19,7 @@ struct CameraView: View {
             SMView {
                 SMShader { uv in
                     SMLiveTexture(self.$camera.pixelBuffer)
-                        .sample(at: SMFloat2(uv.y, 1.0 - uv.x))
+                        .sample(at: float2(uv.y, 1.0 - uv.x))
                 }
             }
                 .aspectRatio(9 / 16, contentMode: .fit)

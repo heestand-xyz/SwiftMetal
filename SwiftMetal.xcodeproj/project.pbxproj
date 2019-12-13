@@ -38,6 +38,8 @@
 		3A99C608239A4B20005BE419 /* SwiftMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A99C5FA239A4B20005BE419 /* SwiftMetal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3A99C613239A4B61005BE419 /* SMShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C612239A4B61005BE419 /* SMShader.swift */; };
 		3A99C616239A4B8E005BE419 /* SMValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99C615239A4B8E005BE419 /* SMValue.swift */; };
+		3AB01E2623A38DAE003738D1 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB01E2523A38DAE003738D1 /* Main.swift */; };
+		3AB01E2A23A3CF32003738D1 /* SMVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB01E2923A3CF32003738D1 /* SMVector.swift */; };
 		7422A264239D31F0003FEA65 /* SMFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A263239D31F0003FEA65 /* SMFloat.swift */; };
 		7422A268239D3438003FEA65 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7422A267239D3438003FEA65 /* Types.swift */; };
 		744F60B2239EDCF200C51A63 /* Float16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F60B1239EDCF200C51A63 /* Float16.swift */; };
@@ -165,6 +167,8 @@
 		3A99C607239A4B20005BE419 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A99C612239A4B61005BE419 /* SMShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMShader.swift; sourceTree = "<group>"; };
 		3A99C615239A4B8E005BE419 /* SMValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMValue.swift; sourceTree = "<group>"; };
+		3AB01E2523A38DAE003738D1 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		3AB01E2923A3CF32003738D1 /* SMVector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMVector.swift; sourceTree = "<group>"; };
 		3AB82E10239FDC2700651B10 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		7422A263239D31F0003FEA65 /* SMFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMFloat.swift; sourceTree = "<group>"; };
 		7422A267239D3438003FEA65 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
@@ -234,6 +238,7 @@
 				3A478A04239E556B009AE4D4 /* AppDelegate.swift */,
 				3A478A06239E556B009AE4D4 /* SceneDelegate.swift */,
 				3A478A08239E556B009AE4D4 /* ContentView.swift */,
+				3AB01E2523A38DAE003738D1 /* Main.swift */,
 				3A478A0A239E556D009AE4D4 /* Assets.xcassets */,
 				3A478A0F239E556D009AE4D4 /* LaunchScreen.storyboard */,
 				3A478A12239E556D009AE4D4 /* Info.plist */,
@@ -262,6 +267,7 @@
 			children = (
 				3A670680239A61BB00E23C87 /* SMEntity.swift */,
 				3A99C615239A4B8E005BE419 /* SMValue.swift */,
+				3AB01E2923A3CF32003738D1 /* SMVector.swift */,
 				7422A263239D31F0003FEA65 /* SMFloat.swift */,
 				3A7344DF23A25014003BEF66 /* SMBool.swift */,
 				3A670688239A666300E23C87 /* SMTexture.swift */,
@@ -618,6 +624,7 @@
 			files = (
 				3A159FDF23A2921000D202FD /* Camera.swift in Sources */,
 				3A15240B239F9D3D003E6333 /* Template.metal in Sources */,
+				3AB01E2623A38DAE003738D1 /* Main.swift in Sources */,
 				3A478A05239E556B009AE4D4 /* AppDelegate.swift in Sources */,
 				3A478A07239E556B009AE4D4 /* SceneDelegate.swift in Sources */,
 				3A159FDC23A28DE700D202FD /* Photos.swift in Sources */,
@@ -640,6 +647,7 @@
 				3A7344E023A25014003BEF66 /* SMBool.swift in Sources */,
 				3A670689239A666300E23C87 /* SMTexture.swift in Sources */,
 				3A99C613239A4B61005BE419 /* SMShader.swift in Sources */,
+				3AB01E2A23A3CF32003738D1 /* SMVector.swift in Sources */,
 				7422A268239D3438003FEA65 /* Types.swift in Sources */,
 				3A670681239A61BB00E23C87 /* SMEntity.swift in Sources */,
 				3A1A9D67239F9E500030EE35 /* SMView.swift in Sources */,

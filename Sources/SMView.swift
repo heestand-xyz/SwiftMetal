@@ -33,6 +33,81 @@ public struct SMView: UIViewRepresentable {
         #endif
     }
 }
+//struct SMSubReView<Content: View>: UIViewRepresentable {
+//    let view: () -> (Content)
+//    let update: () -> ()
+//    init(view: @escaping () -> (Content), update: @escaping () -> ()) {
+//        self.view = view
+//        self.update = update
+//    }
+//    func makeUIView(context: Self.Context) -> UIView {
+//        UIHostingController(rootView: view()).view!
+//    }
+//    func updateUIView(_ view: UIView, context: Self.Context) {
+//        update()
+//    }
+//}
+//public struct SMReView<Content: View>: UIViewRepresentable {
+//    let shader: (SMTexture) -> (SMShader)
+//    let view: () -> (Content)
+//    public init(_ shader: @escaping (SMTexture) -> (SMShader), _ view: @escaping () -> (Content)) {
+//        self.shader = shader
+//        self.view = view
+//    }
+//    public func makeUIView(context: Self.Context) -> UIView {
+//
+//        var texture: SMTexture!
+//        let subReView = SMSubReView<Content>(view: view, update: {
+//            print("Update......")
+//            texture.update()
+//        })
+//        let subView = UIHostingController(rootView: subReView).view!
+//        texture = SMTexture(futureImage: {
+//            guard subView.bounds.width > 0 else {
+//                print("View Frame is Zero")
+//                return nil
+//            }
+//            UIGraphicsBeginImageContextWithOptions(subView.bounds.size, false, 0)
+//            subView.drawHierarchy(in: subView.bounds, afterScreenUpdates: true)
+//            guard let image: UIImage = UIGraphicsGetImageFromCurrentImageContext() else {
+//                print("View to Image Failed")
+//                return nil
+//            }
+//            UIGraphicsEndImageContext()
+//            return image
+//        })
+////        texture.update()
+//
+//        let shader = self.shader(texture)
+//
+//        let baseView = UIView()
+//
+//        let smUiView = SMUIView(shader: shader)
+//        baseView.addSubview(smUiView)
+//        smUiView.translatesAutoresizingMaskIntoConstraints = false
+//        smUiView.centerXAnchor.constraint(equalTo: baseView.centerXAnchor).isActive = true
+//        smUiView.centerYAnchor.constraint(equalTo: baseView.centerYAnchor).isActive = true
+//        smUiView.widthAnchor.constraint(equalTo: baseView.widthAnchor).isActive = true
+//        smUiView.heightAnchor.constraint(equalTo: baseView.heightAnchor).isActive = true
+//
+//        baseView.addSubview(subView)
+//        subView.alpha = 0.1
+//        subView.translatesAutoresizingMaskIntoConstraints = false
+//        subView.centerXAnchor.constraint(equalTo: baseView.centerXAnchor).isActive = true
+//        subView.centerYAnchor.constraint(equalTo: baseView.centerYAnchor).isActive = true
+//        subView.widthAnchor.constraint(equalTo: baseView.widthAnchor).isActive = true
+//        subView.heightAnchor.constraint(equalTo: baseView.heightAnchor).isActive = true
+//
+//        return baseView
+//    }
+//    public func updateUIView(_ view: UIView, context: Self.Context) {
+//        #if os(macOS)
+//        view.subviews[0].setNeedsDisplay(view.frame)
+//        #else
+//        view.subviews[0].setNeedsDisplay()
+//        #endif
+//    }
+//}
 #endif
 
 // MTKViewDelegate...

@@ -9,10 +9,13 @@
 import Foundation
 import Metal
 
-public class SMShader {
+public class SMShader: Identifiable, Equatable {
+    
+    public let id = UUID()
         
     enum FuncError: Error {
         case shader
+        case someUniformsAreNil
     }
             
     let textures: [SMTexture]
@@ -22,12 +25,7 @@ public class SMShader {
     var sinks: [() -> ()] = []
     
     let smCode: SMCode
-    
-    var rawUniforms: [SMRaw] {
-        smCode.uniforms.flatMap({ uniform -> [SMRaw] in
-            uniform.entity.rawUniforms
-        })
-    }
+    public var code: String!
     
     var render: (() -> ())?
     
@@ -36,12 +34,16 @@ public class SMShader {
         textures = SMBuilder.textures(for: baseEntity)
         smCode = SMBuilder.build(for: baseEntity)
         SMBuilder.connectSinks(for: baseEntity) {
-            print("SwiftMetal - Shader - Update")
+//            print("SwiftMetal - Shader - Update")
             self.render?()
         }
+        code = makeCode()
+        print("SwiftMetal - Shader >>> >>> >>>", id.uuidString)
+        print(code!)
+        print("SwiftMetal - Shader <<< <<< <<<", id.uuidString)
     }
     
-    public func code() -> String {
+    fileprivate func makeCode() -> String {
         
         let code = smCode
         
@@ -127,15 +129,28 @@ public class SMShader {
     }
     
     public func make(with metalDevice: MTLDevice) throws -> MTLFunction {
-        let metalCode = code()
-        print(">>> SwiftMetal - Auto Generated Metal Code >>>")
-        print(metalCode)
-        print("<<< SwiftMetal - Auto Generated Metal Code <<<")
-        let lib: MTLLibrary = try metalDevice.makeLibrary(source: metalCode, options: nil)
+        let lib: MTLLibrary = try metalDevice.makeLibrary(source: code, options: nil)
         guard let shader: MTLFunction = lib.makeFunction(name: "swiftMetal") else {
             throw FuncError.shader
         }
         return shader
+    }
+    
+    func rawUniforms() throws -> [SMRawType] {
+        var rawUniforms: [SMRawType] = []
+        for uniform in smCode.uniforms {
+            guard let rawSubUniforms = uniform.entity.rawUniforms else {
+                throw FuncError.someUniformsAreNil
+            }
+            for subUniform in rawSubUniforms {
+                rawUniforms.append(subUniform)
+            }
+        }
+        return rawUniforms
+    }
+    
+    public static func == (lhs: SMShader, rhs: SMShader) -> Bool {
+        lhs.id == rhs.id
     }
     
 }

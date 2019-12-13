@@ -23,14 +23,16 @@ precedencegroup TernaryElse {
 infix operator <?>: TernaryIf
 infix operator <=>: TernaryElse
 
-extension Bool: SMRawType {}
+extension Bool: SMRawType {
+    public static let typeName: String = "bool"
+}
 
 public class SMBool: SMValue<Bool>, ExpressibleByBooleanLiteral {
-
+    
     static let kType: String = "bool"
     public typealias T = Bool
 
-    override var rawUniforms: [SMRaw] { [value ?? false] }
+    override var rawUniforms: [SMRawType]? { value != nil ? [value!] : nil }
 
     public init(_ value: T) {
         super.init(value, type: SMBool.kType)
@@ -66,26 +68,31 @@ public class SMBool: SMValue<Bool>, ExpressibleByBooleanLiteral {
         SMBool(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) || \(rhs.snippet()))" })
     }
     
-    public static func <?> (lhs: SMBool, rhs: (SMFloat, SMFloat)) -> SMFloat {
-        let float = SMFloat(fromEntities: [lhs, rhs.0, rhs.1])
+    public static func <?> <RT: SMRawType, VEC: SMVec> (lhs: SMBool, rhs: (SMVector<RT, VEC>, SMVector<RT, VEC>)) -> SMVector<RT, VEC> {
+        let float = SMVector<RT, VEC>(fromEntities: [lhs, rhs.0, rhs.1])
         float.snippet = { "(\(lhs.snippet()) ? \(rhs.0.snippet()) : \(rhs.1.snippet()))" }
         return float
     }
-    public static func <?> (lhs: SMBool, rhs: (SMFloat2, SMFloat2)) -> SMFloat2 {
-        let float2 = SMFloat2(fromEntities: [lhs, rhs.0, rhs.1], tupleCount: 2)
-        float2.snippet = { "(\(lhs.snippet()) ? \(rhs.0.snippet()) : \(rhs.1.snippet()))" }
-        return float2
-    }
-    public static func <?> (lhs: SMBool, rhs: (SMFloat3, SMFloat3)) -> SMFloat3 {
-        let float3 = SMFloat3(fromEntities: [lhs, rhs.0, rhs.1], tupleCount: 3)
-        float3.snippet = { "(\(lhs.snippet()) ? \(rhs.0.snippet()) : \(rhs.1.snippet()))" }
-        return float3
-    }
-    public static func <?> (lhs: SMBool, rhs: (SMFloat4, SMFloat4)) -> SMFloat4 {
-        let float4 = SMFloat4(fromEntities: [lhs, rhs.0, rhs.1], tupleCount: 4)
-        float4.snippet = { "(\(lhs.snippet()) ? \(rhs.0.snippet()) : \(rhs.1.snippet()))" }
-        return float4
-    }
+//    public static func <?> (lhs: SMBool, rhs: (SMFloat, SMFloat)) -> SMFloat {
+//        let float = SMFloat(fromEntities: [lhs, rhs.0, rhs.1])
+//        float.snippet = { "(\(lhs.snippet()) ? \(rhs.0.snippet()) : \(rhs.1.snippet()))" }
+//        return float
+//    }
+//    public static func <?> (lhs: SMBool, rhs: (SMFloat2, SMFloat2)) -> SMFloat2 {
+//        let float2 = SMFloat2(fromEntities: [lhs, rhs.0, rhs.1])
+//        float2.snippet = { "(\(lhs.snippet()) ? \(rhs.0.snippet()) : \(rhs.1.snippet()))" }
+//        return float2
+//    }
+//    public static func <?> (lhs: SMBool, rhs: (SMFloat3, SMFloat3)) -> SMFloat3 {
+//        let float3 = SMFloat3(fromEntities: [lhs, rhs.0, rhs.1])
+//        float3.snippet = { "(\(lhs.snippet()) ? \(rhs.0.snippet()) : \(rhs.1.snippet()))" }
+//        return float3
+//    }
+//    public static func <?> (lhs: SMBool, rhs: (SMFloat4, SMFloat4)) -> SMFloat4 {
+//        let float4 = SMFloat4(fromEntities: [lhs, rhs.0, rhs.1])
+//        float4.snippet = { "(\(lhs.snippet()) ? \(rhs.0.snippet()) : \(rhs.1.snippet()))" }
+//        return float4
+//    }
 
     public prefix static func ! (operand: SMBool) -> SMBool {
         let float = SMBool(fromEntities: [operand])
