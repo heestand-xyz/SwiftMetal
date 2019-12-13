@@ -8,6 +8,10 @@
 
 import Foundation
 
+//public protocol SMRawValue {
+//    static var typeName: String { get }
+//}
+
 public class SMValue<V: SMRaw>: SMEntity {
     
     public typealias FV = () -> (V)

@@ -23,14 +23,16 @@ precedencegroup TernaryElse {
 infix operator <?>: TernaryIf
 infix operator <=>: TernaryElse
 
-extension Bool: SMRawType {}
+extension Bool: SMRawType {
+    public static let typeName: String = "bool"
+}
 
 public class SMBool: SMValue<Bool>, ExpressibleByBooleanLiteral {
-
+    
     static let kType: String = "bool"
     public typealias T = Bool
 
-    override var rawUniforms: [SMRaw] { [value ?? false] }
+    override var rawUniforms: [SMRawType]? { value != nil ? [value!] : nil }
 
     public init(_ value: T) {
         super.init(value, type: SMBool.kType)

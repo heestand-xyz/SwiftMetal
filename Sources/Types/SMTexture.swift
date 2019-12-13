@@ -76,7 +76,7 @@ public class SMTexture: SMFloat4 {
     
     public init(futureTexture: @escaping () -> (MTLTexture?)) {
         self.futureTexture = futureTexture
-        super.init({ SMTuple4<Float>(SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0)) })
+        super.init({ SMTuple<Float>([SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0)]) })
         hasSink = true
         self.snippet = { "t\(self.index ?? -1)" }
     }

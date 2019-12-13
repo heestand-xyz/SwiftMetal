@@ -15,6 +15,7 @@ public class SMShader: Identifiable, Equatable {
         
     enum FuncError: Error {
         case shader
+        case someUniformsAreNil
     }
             
     let textures: [SMTexture]
@@ -25,12 +26,6 @@ public class SMShader: Identifiable, Equatable {
     
     let smCode: SMCode
     public var code: String!
-    
-    var rawUniforms: [SMRaw] {
-        smCode.uniforms.flatMap({ uniform -> [SMRaw] in
-            uniform.entity.rawUniforms
-        })
-    }
     
     var render: (() -> ())?
     
@@ -139,6 +134,19 @@ public class SMShader: Identifiable, Equatable {
             throw FuncError.shader
         }
         return shader
+    }
+    
+    func rawUniforms() throws -> [SMRawType] {
+        var rawUniforms: [SMRawType] = []
+        for uniform in smCode.uniforms {
+            guard let rawSubUniforms = uniform.entity.rawUniforms else {
+                throw FuncError.someUniformsAreNil
+            }
+            for subUniform in rawSubUniforms {
+                rawUniforms.append(subUniform)
+            }
+        }
+        return rawUniforms
     }
     
     public static func == (lhs: SMShader, rhs: SMShader) -> Bool {

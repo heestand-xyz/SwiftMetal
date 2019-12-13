@@ -38,7 +38,7 @@ public class SMEntity: Identifiable, Equatable {
     var hasSink: Bool = false
     var sink: (() -> ())?
     
-    var rawUniforms: [SMRaw] { [] }
+    var rawUniforms: [SMRawType]? { nil }
     
     var children: [SMEntity] {
         var children: [SMEntity] = [
