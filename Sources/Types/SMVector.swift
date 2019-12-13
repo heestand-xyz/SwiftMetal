@@ -82,27 +82,108 @@ public class SMVector<RT: SMRawType, VEC: SMVec>: SMValue<SMTuple<RT>> {
     }
     
     
-//    public static func + <V: SMVec> (lhs: SMFloatTuple<V>, rhs: SMFloatTuple<V>) -> SMFloatTuple<V> {
-//        SMFloatTuple<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+    public static func + (lhs: SMVector<RT, VEC>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+    }
+    public static func + (lhs: SMVector<RT, VEC>, rhs: SMValue<RT>) -> SMVector<RT, VEC> {
+        let vector = SMVector<RT, VEC>(rhs)
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) - \(vector.snippet()))" })
+    }
+    public static func + (lhs: SMValue<RT>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        let vector = SMVector<RT, VEC>(lhs)
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) - \(rhs.snippet()))" })
+    }
+//    public static func + (lhs: SMVector<RT, VEC>, rhs: RT) -> SMVector<RT, VEC> {
+//        let vector = SMVector<RT, VEC>(SMValue<RT>(rhs))
+//        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) - \(vector.snippet()))" })
 //    }
-//    public static func - <V: SMVec> (lhs: SMFloatTuple<V>, rhs: SMFloatTuple<V>) -> SMFloatTuple<V> {
-//        SMFloatTuple<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    public static func + (lhs: RT, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+//        let vector = SMVector<RT, VEC>(SMValue<RT>(lhs))
+//        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) - \(rhs.snippet()))" })
 //    }
-//    public static func * <V: SMVec> (lhs: SMFloatTuple<V>, rhs: SMFloatTuple<V>) -> SMFloatTuple<V> {
-//        SMFloatTuple<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+    
+    public static func - (lhs: SMVector<RT, VEC>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+    }
+    public static func - (lhs: SMVector<RT, VEC>, rhs: SMValue<RT>) -> SMVector<RT, VEC> {
+        let vector = SMVector<RT, VEC>(rhs)
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) - \(vector.snippet()))" })
+    }
+    public static func - (lhs: SMValue<RT>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        let vector = SMVector<RT, VEC>(lhs)
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) - \(rhs.snippet()))" })
+    }
+//    public static func - (lhs: SMVector<RT, VEC>, rhs: RT) -> SMVector<RT, VEC> {
+//        let vector = SMVector<RT, VEC>(SMValue<RT>(rhs))
+//        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) - \(vector.snippet()))" })
 //    }
-//    public static func / <V: SMVec> (lhs: SMFloatTuple<V>, rhs: SMFloatTuple<V>) -> SMFloatTuple<V> {
-//        SMFloatTuple<V>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    public static func - (lhs: RT, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+//        let vector = SMVector<RT, VEC>(SMValue<RT>(lhs))
+//        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) - \(rhs.snippet()))" })
 //    }
-//
-//    public static func <=> <V: SMVec> (lhs: SMFloatTuple<V>, rhs: SMFloatTuple<V>) -> (SMFloatTuple<V>, SMFloatTuple<V>) {
-//        return (lhs, rhs)
+    
+    public static func * (lhs: SMVector<RT, VEC>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+    }
+    public static func * (lhs: SMVector<RT, VEC>, rhs: SMValue<RT>) -> SMVector<RT, VEC> {
+        let vector = SMVector<RT, VEC>(rhs)
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) * \(vector.snippet()))" })
+    }
+    public static func * (lhs: SMValue<RT>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        let vector = SMVector<RT, VEC>(lhs)
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) * \(rhs.snippet()))" })
+    }
+//    public static func * (lhs: SMVector<RT, VEC>, rhs: RT) -> SMVector<RT, VEC> {
+//        let vector = SMVector<RT, VEC>(SMValue<RT>(rhs))
+//        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) * \(vector.snippet()))" })
 //    }
-//
-//    public prefix static func - <V: SMVec> (operand: SMFloatTuple<V>) -> SMFloatTuple<V> {
-//        let tuple = SMFloatTuple<V>(fromEntities: [operand])
-//        tuple.snippet = { "-\(operand.snippet())" }
-//        return tuple
+//    public static func * (lhs: RT, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+//        let vector = SMVector<RT, VEC>(SMValue<RT>(lhs))
+//        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) * \(rhs.snippet()))" })
 //    }
+    
+    public static func / (lhs: SMVector<RT, VEC>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+    }
+    public static func / (lhs: SMVector<RT, VEC>, rhs: SMValue<RT>) -> SMVector<RT, VEC> {
+        let vector = SMVector<RT, VEC>(rhs)
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) / \(vector.snippet()))" })
+    }
+    public static func / (lhs: SMValue<RT>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        let vector = SMVector<RT, VEC>(lhs)
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) / \(rhs.snippet()))" })
+    }
+//    public static func / (lhs: SMVector<RT, VEC>, rhs: RT) -> SMVector<RT, VEC> {
+//        let vector = SMVector<RT, VEC>(SMValue<RT>(rhs))
+//        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) / \(vector.snippet()))" })
+//    }
+//    public static func / (lhs: RT, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+//        let vector = SMVector<RT, VEC>(SMValue<RT>(lhs))
+//        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) / \(rhs.snippet()))" })
+//    }
+    
+
+    public static func <=> (lhs: SMVector<RT, VEC>, rhs: SMVector<RT, VEC>) -> (SMVector<RT, VEC>, SMVector<RT, VEC>) {
+        return (lhs, rhs)
+    }
+    public static func <=> (lhs: SMVector<RT, VEC>, rhs: SMValue<RT>) -> (SMVector<RT, VEC>, SMVector<RT, VEC>) {
+        return (lhs, SMVector<RT, VEC>(rhs))
+    }
+    public static func <=> (lhs: SMValue<RT>, rhs: SMVector<RT, VEC>) -> (SMVector<RT, VEC>, SMVector<RT, VEC>) {
+        return (SMVector<RT, VEC>(lhs), rhs)
+    }
+//    public static func <=> (lhs: SMVector<RT, VEC>, rhs: RT) -> (SMVector<RT, VEC>, SMVector<RT, VEC>) {
+//        return (lhs, SMVector<RT, VEC>(SMValue<RT>(rhs)))
+//    }
+//    public static func <=> (lhs: RT, rhs: SMVector<RT, VEC>) -> (SMVector<RT, VEC>, SMVector<RT, VEC>) {
+//        return (SMVector<RT, VEC>(SMValue<RT>(lhs)), rhs)
+//    }
+    
+
+    public prefix static func - (operand: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+        let tuple = SMVector<RT, VEC>(fromEntities: [operand])
+        tuple.snippet = { "-\(operand.snippet())" }
+        return tuple
+    }
     
 }

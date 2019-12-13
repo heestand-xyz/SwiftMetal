@@ -20,7 +20,7 @@ extension Float: SMRawType {
 public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral, ExpressibleByIntegerLiteral {
     
     static let kType: String = "float"
-    public typealias T = Float
+    public typealias RT = Float
     
     override var rawUniforms: [SMRawType]? { value != nil ? [value!] : nil }
     
@@ -30,12 +30,12 @@ public class SMFloat: SMValue<Float>, ExpressibleByFloatLiteral, ExpressibleByIn
         snippet = { "\(entity.snippet())[\(index)]" }
     }
 
-    public init(_ value: T) {
+    public init(_ value: RT) {
         super.init(value, type: SMFloat.kType)
         snippet = { self.value != nil ? String(describing: self.value!) : "#" }
     }
 
-    public init(_ futureValue: @escaping () -> (T)) {
+    public init(_ futureValue: @escaping () -> (RT)) {
         super.init(futureValue, type: SMFloat.kType)
     }
 
@@ -113,7 +113,7 @@ public class SMLiveFloat: SMFloat {
     deinit {
         valueSink.cancel()
     }
-    required public convenience init(floatLiteral value: T) {
+    required public convenience init(floatLiteral value: Float) {
         fatalError("init(floatLiteral:) has not been implemented")
     }
     required public convenience init(integerLiteral value: Int) {
@@ -134,144 +134,144 @@ public typealias SMFloat4 = SMVector<Float, SMVec4>
 //    }
 //}
 
-public extension SMFloat2 {
-    static func + (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func + (lhs: SMFloat2, rhs: SMFloat) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func + (lhs: SMFloat, rhs: SMFloat2) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat2, rhs: SMFloat) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat, rhs: SMFloat2) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat2, rhs: SMFloat) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat, rhs: SMFloat2) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat2, rhs: SMFloat) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat, rhs: SMFloat2) -> SMFloat2 {
-        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func <=> (lhs: SMFloat2, rhs: SMFloat2) -> (SMFloat2, SMFloat2) {
-        return (lhs, rhs)
-    }
-    prefix static func - (operand: SMFloat2) -> SMFloat2 {
-        let tuple = SMFloat2(fromEntities: [operand])
-        tuple.snippet = { "-\(operand.snippet())" }
-        return tuple
-    }
-}
-public extension SMFloat3 {
-    static func + (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func + (lhs: SMFloat3, rhs: SMFloat) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func + (lhs: SMFloat, rhs: SMFloat3) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat3, rhs: SMFloat) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat, rhs: SMFloat3) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat3, rhs: SMFloat) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat, rhs: SMFloat3) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat3, rhs: SMFloat) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat, rhs: SMFloat3) -> SMFloat3 {
-        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func <=> (lhs: SMFloat3, rhs: SMFloat3) -> (SMFloat3, SMFloat3) {
-        return (lhs, rhs)
-    }
-    prefix static func - (operand: SMFloat3) -> SMFloat3 {
-        let tuple = SMFloat3(fromEntities: [operand])
-        tuple.snippet = { "-\(operand.snippet())" }
-        return tuple
-    }
-}
-public extension SMFloat4 {
-    static func + (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func + (lhs: SMFloat4, rhs: SMFloat) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func + (lhs: SMFloat, rhs: SMFloat4) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat4, rhs: SMFloat) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func - (lhs: SMFloat, rhs: SMFloat4) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat4, rhs: SMFloat) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func * (lhs: SMFloat, rhs: SMFloat4) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat4, rhs: SMFloat) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func / (lhs: SMFloat, rhs: SMFloat4) -> SMFloat4 {
-        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
-    }
-    static func <=> (lhs: SMFloat4, rhs: SMFloat4) -> (SMFloat4, SMFloat4) {
-        return (lhs, rhs)
-    }
-    prefix static func - (operand: SMFloat4) -> SMFloat4 {
-        let tuple = SMFloat4(fromEntities: [operand])
-        tuple.snippet = { "-\(operand.snippet())" }
-        return tuple
-    }
-}
+//public extension SMFloat2 {
+//    static func + (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func + (lhs: SMFloat2, rhs: SMFloat) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func + (lhs: SMFloat, rhs: SMFloat2) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat2, rhs: SMFloat) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat, rhs: SMFloat2) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat2, rhs: SMFloat) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat, rhs: SMFloat2) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat2, rhs: SMFloat2) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat2, rhs: SMFloat) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat, rhs: SMFloat2) -> SMFloat2 {
+//        SMFloat2(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func <=> (lhs: SMFloat2, rhs: SMFloat2) -> (SMFloat2, SMFloat2) {
+//        return (lhs, rhs)
+//    }
+//    prefix static func - (operand: SMFloat2) -> SMFloat2 {
+//        let tuple = SMFloat2(fromEntities: [operand])
+//        tuple.snippet = { "-\(operand.snippet())" }
+//        return tuple
+//    }
+//}
+//public extension SMFloat3 {
+//    static func + (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func + (lhs: SMFloat3, rhs: SMFloat) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func + (lhs: SMFloat, rhs: SMFloat3) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat3, rhs: SMFloat) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat, rhs: SMFloat3) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat3, rhs: SMFloat) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat, rhs: SMFloat3) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat3, rhs: SMFloat3) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat3, rhs: SMFloat) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat, rhs: SMFloat3) -> SMFloat3 {
+//        SMFloat3(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func <=> (lhs: SMFloat3, rhs: SMFloat3) -> (SMFloat3, SMFloat3) {
+//        return (lhs, rhs)
+//    }
+//    prefix static func - (operand: SMFloat3) -> SMFloat3 {
+//        let tuple = SMFloat3(fromEntities: [operand])
+//        tuple.snippet = { "-\(operand.snippet())" }
+//        return tuple
+//    }
+//}
+//public extension SMFloat4 {
+//    static func + (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func + (lhs: SMFloat4, rhs: SMFloat) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func + (lhs: SMFloat, rhs: SMFloat4) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat4, rhs: SMFloat) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func - (lhs: SMFloat, rhs: SMFloat4) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat4, rhs: SMFloat) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func * (lhs: SMFloat, rhs: SMFloat4) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) * \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat4, rhs: SMFloat4) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat4, rhs: SMFloat) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func / (lhs: SMFloat, rhs: SMFloat4) -> SMFloat4 {
+//        SMFloat4(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) / \(rhs.snippet()))" })
+//    }
+//    static func <=> (lhs: SMFloat4, rhs: SMFloat4) -> (SMFloat4, SMFloat4) {
+//        return (lhs, rhs)
+//    }
+//    prefix static func - (operand: SMFloat4) -> SMFloat4 {
+//        let tuple = SMFloat4(fromEntities: [operand])
+//        tuple.snippet = { "-\(operand.snippet())" }
+//        return tuple
+//    }
+//}
 
 
 public func float(_ value: Float) -> SMFloat {

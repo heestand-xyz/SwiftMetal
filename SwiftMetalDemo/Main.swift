@@ -41,7 +41,7 @@ class Main: ObservableObject {
                 let b: SMFloat4 = args[1] as! SMFloat4
                 let f: SMFloat = args[2] as! SMFloat
                 let f4: SMFloat4 = float4(f)
-                return a * (1.0 - f4) + b * f4
+                return a * (float(1.0) - f4) + b * f4
             }
             let cam = SMLiveTexture(self.camera.$pixelBuffer)
                 .sample(at: float2(uv.y, 1.0 - uv.x))
