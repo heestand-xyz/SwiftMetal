@@ -35,6 +35,7 @@ public class SMTexture: SMFloat4 {
         case noTexture
         case badPixelFormat(target: [MTLPixelFormat])
         case imageFailed(String)
+        case copyTextureFailed(String)
     }
     
     public convenience init?(image: _Image) {
@@ -225,6 +226,25 @@ public class SMTexture: SMFloat4 {
         }) })
     }
     
+    public func copyTexture() throws -> MTLTexture {
+        guard let texture: MTLTexture = texture else {
+            throw TextureError.noTexture
+        }
+        guard let textureCopy = SMTexture.emptyTexture(at: size, as: texture.pixelFormat) else {
+            throw TextureError.copyTextureFailed("Empty Texture Failed")
+        }
+        guard let commandBuffer = SMRenderer.commandQueue.makeCommandBuffer() else {
+            throw TextureError.copyTextureFailed("Make Command Buffer Failed")
+        }
+        guard let blitEncoder = commandBuffer.makeBlitCommandEncoder() else {
+            throw TextureError.copyTextureFailed("Make Blit Command Encoder Failed")
+        }
+        blitEncoder.copy(from: texture, sourceSlice: 0, sourceLevel: 0, sourceOrigin: MTLOrigin(x: 0, y: 0, z: 0), sourceSize: MTLSize(width: texture.width, height: texture.height, depth: 1), to: textureCopy, destinationSlice: 0, destinationLevel: 0, destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
+        blitEncoder.endEncoding()
+        commandBuffer.commit()
+        return textureCopy
+    }
+    
     // MARK: - Formats
     
     static func convertFrom(pixelBuffer: CVPixelBuffer) -> MTLTexture? {
@@ -253,7 +273,7 @@ public class SMTexture: SMFloat4 {
         return texture
     }
     
-    static func emptyTexture(at size: CGSize, as pixelFormat: MTLPixelFormat) -> MTLTexture? {
+    public static func emptyTexture(at size: CGSize, as pixelFormat: MTLPixelFormat) -> MTLTexture? {
         guard size.width > 0 && size.height > 0 else { return nil }
         let descriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat, width: Int(size.width), height: Int(size.height), mipmapped: true)
         descriptor.usage = MTLTextureUsage(rawValue: MTLTextureUsage.shaderWrite.rawValue | MTLTextureUsage.shaderRead.rawValue)

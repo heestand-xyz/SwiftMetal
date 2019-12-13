@@ -34,7 +34,7 @@ public struct SMRenderer {
         return textureCache
     }()
     
-    static var commandEncoder: MTLComputeCommandEncoder!
+//    static var commandEncoders: [UUID: MTLComputeCommandEncoder] = [:]
     
     public static var defaultPixelFormat: MTLPixelFormat = .rgba8Unorm
     
@@ -48,14 +48,14 @@ public struct SMRenderer {
         case someTextureIsNil
     }
     
-    public static func render(_ shader: SMShader, at size: CGSize, as pixelFormat: MTLPixelFormat = defaultPixelFormat) throws -> SMTexture {
+    public static func render(_ shader: SMShader, at size: CGSize, on texture: MTLTexture? = nil, as pixelFormat: MTLPixelFormat = defaultPixelFormat) throws -> SMTexture {
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
         let textures: [MTLTexture] = shader.textures.compactMap({ $0.texture })
         guard textures.count == shader.textures.count else {
             throw RenderError.someTextureIsNil
         }
         let rawUniforms: [SMRaw] = shader.rawUniforms
-        guard let drawableTexture: MTLTexture = SMTexture.emptyTexture(at: size, as: pixelFormat) else {
+        guard let drawableTexture: MTLTexture =  texture ?? SMTexture.emptyTexture(at: size, as: pixelFormat) else {
             throw RenderError.emptyTextureFailed
         }
         return try render(function: function,
@@ -111,25 +111,25 @@ public struct SMRenderer {
     }
     
     public static func renderView(_ shader: SMShader, in view: SMUIView) throws {
-        print("SwiftMetal - Render View")
+//        print("SwiftMetal - Render View")
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
         let preTextures: [MTLTexture?] = shader.textures.map({ !$0.isFuture ? $0.texture! : nil })
         var rendering: Bool = false
         shader.render = {
             guard let size = view.res else {
-                print("SwiftMetal - Render View - No Res.")
+//                print("SwiftMetal - Render View - No Res.")
                 return
             }
             guard let drawable: CAMetalDrawable = view.currentDrawable else {
-                print("SwiftMetal - Render View - No Drawable Texture.")
+//                print("SwiftMetal - Render View - No Drawable Texture.")
                 return
             }
             guard !rendering else {
-                print("SwiftMetal - Render View - Render In Progress...")
+//                print("SwiftMetal - Render View - Render In Progress...")
                 return
             }
             rendering = true
-            print("SwiftMetal - Render View - Render...")
+//            print("SwiftMetal - Render View - Render...")
             DispatchQueue.global(qos: .background).async {
                 let rawUniforms: [SMRaw] = shader.rawUniforms
                 let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
@@ -137,7 +137,7 @@ public struct SMRenderer {
                     textureAB.0 ?? textureAB.1
                 }
                 guard textures.count == shader.textures.count else {
-                    print("SwiftMetal - Render View - Render Error:", RenderError.someTextureIsNil)
+//                    print("SwiftMetal - Render View - Render Error:", RenderError.someTextureIsNil)
                     rendering = false
                     return
                 }
@@ -148,9 +148,9 @@ public struct SMRenderer {
                                         drawable: drawable,
                                         textures: textures,
                                         pixelFormat: view.colorPixelFormat)
-                    print("SwiftMetal - Render View - Rendered!")
+//                    print("SwiftMetal - Render View - Rendered!")
                 } catch {
-                    print("SwiftMetal - Render View - Render Error:", error)
+//                    print("SwiftMetal - Render View - Render Error:", error)
                 }
                 rendering = false
             }
@@ -167,7 +167,7 @@ public struct SMRenderer {
             throw RenderError.commandBuffer
         }
         
-        commandEncoder = commandBuffer.makeComputeCommandEncoder()
+        let commandEncoder: MTLComputeCommandEncoder! = commandBuffer.makeComputeCommandEncoder()
         guard commandEncoder != nil else {
             throw RenderError.commandEncoder
         }
@@ -187,7 +187,7 @@ public struct SMRenderer {
             }
             guard let uniformBuffer = SMRenderer.metalDevice.makeBuffer(length: size, options: []) else {
                 commandEncoder.endEncoding()
-                commandEncoder = nil
+//                commandEncoder = nil
                 throw RenderError.uniformBuffer
             }
             let bufferPointer = uniformBuffer.contents()
@@ -234,7 +234,7 @@ public struct SMRenderer {
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
 
-        commandEncoder = nil
+//        commandEncoder = nil
         
         return SMTexture(texture: drawableTexture)
     }
