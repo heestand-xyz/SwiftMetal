@@ -54,7 +54,7 @@ public struct SMRenderer {
         guard textures.count == shader.textures.count else {
             throw RenderError.someTextureIsNil
         }
-        let rawUniforms: [SMRaw] = try shader.rawUniforms()
+        let rawUniforms: [SMRawType] = try shader.rawUniforms()
         guard let drawableTexture: MTLTexture =  texture ?? SMTexture.emptyTexture(at: size, as: pixelFormat) else {
             throw RenderError.emptyTextureFailed
         }
@@ -80,7 +80,7 @@ public struct SMRenderer {
             }
             rendering = true
             do {
-                let rawUniforms: [SMRaw] = try shader.rawUniforms()
+                let rawUniforms: [SMRawType] = try shader.rawUniforms()
                 let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
                 let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
                     textureAB.0 ?? textureAB.1
@@ -138,7 +138,7 @@ public struct SMRenderer {
             rendering = true
             print("SwiftMetal - Render View - Render...")
             do {
-                let rawUniforms: [SMRaw] = try shader.rawUniforms()
+                let rawUniforms: [SMRawType] = try shader.rawUniforms()
                 let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
                 let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
                     textureAB.0 ?? textureAB.1
@@ -173,7 +173,7 @@ public struct SMRenderer {
 //        shader.render!()
     }
 
-    static func render(function: MTLFunction, size: CGSize, rawUniforms: [SMRaw], drawableTexture: MTLTexture, drawable: CAMetalDrawable? = nil, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
+    static func render(function: MTLFunction, size: CGSize, rawUniforms: [SMRawType], drawableTexture: MTLTexture, drawable: CAMetalDrawable? = nil, textures: [MTLTexture], pixelFormat: MTLPixelFormat) throws -> SMTexture {
 
         guard let commandBuffer: MTLCommandBuffer = commandQueue.makeCommandBuffer() else {
             throw RenderError.commandBuffer
@@ -187,7 +187,8 @@ public struct SMRenderer {
         let pipelineState: MTLComputePipelineState = try SMRenderer.metalDevice.makeComputePipelineState(function: function)
         commandEncoder.setComputePipelineState(pipelineState)
         
-        var rawUniforms: [SMRaw] = rawUniforms
+        // FIXME: - Vector's are currently flat mapped...
+        var rawUniforms: [SMRawType] = rawUniforms
         if !rawUniforms.isEmpty {
             var size: Int = 0
             for rawUniform in rawUniforms {
