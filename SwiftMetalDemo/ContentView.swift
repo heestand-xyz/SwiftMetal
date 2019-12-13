@@ -15,7 +15,7 @@ struct ContentView: View {
         SMView {
             SMShader { uv in
                 let uv4: SMFloat4 = float4(uv.x, uv.y, 0.0, 1.0)
-                let c: SMFloat4 = uv4 + float4(0.5)
+                let c: SMFloat4 = max(uv4, float4(0.5))
                 return c
             }
         }

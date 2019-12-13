@@ -187,3 +187,27 @@ public class SMVector<RT: SMRawType, VEC: SMVec>: SMValue<SMTuple<RT>> {
     }
     
 }
+
+public func min<RT: SMRawType, VEC: SMVec>(_ values: SMVector<RT, VEC>...) -> SMVector<RT, VEC> {
+    let float = SMVector<RT, VEC>(fromEntities: values)
+    float.snippet = { Snippet.functionSnippet(name: "min", from: values)  }
+    return float
+}
+
+public func max<RT: SMRawType, VEC: SMVec>(_ values: SMVector<RT, VEC>...) -> SMVector<RT, VEC> {
+    let float = SMVector<RT, VEC>(fromEntities: values)
+    float.snippet = { Snippet.functionSnippet(name: "max", from: values) }
+    return float
+}
+
+public func fmod<RT: SMRawType, VEC: SMVec>(_ value0: SMVector<RT, VEC>, _ value1: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+    let float = SMVector<RT, VEC>(fromEntities: [value0, value1])
+    float.snippet = { "fmod(\(value0.snippet()), \(value1.snippet()))" }
+    return float
+}
+
+public func abs<RT: SMRawType, VEC: SMVec>(_ value: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
+    let float = SMVector<RT, VEC>(fromEntities: [value])
+    float.snippet = { "abs(\(value.snippet()))" }
+    return float
+}
