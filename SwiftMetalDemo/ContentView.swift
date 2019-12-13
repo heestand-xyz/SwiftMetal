@@ -10,13 +10,9 @@ import SwiftUI
 import SwiftMetal
 
 struct ContentView: View {
-    @EnvironmentObject var main: Main
+//    @EnvironmentObject var main: Main
     var body: some View {
-        VStack {
-            SMView { SMShader { _ in SMLiveTexture(self.$main.finalTexture) } }
-                .aspectRatio(9 / 16, contentMode: .fit)
-            Slider(value: $main.value)
-        }
+        PhotosView()
     }
 }
 

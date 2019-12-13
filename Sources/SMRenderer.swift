@@ -79,16 +79,16 @@ public struct SMRenderer {
                 return
             }
             rendering = true
+            let rawUniforms: [SMRaw] = shader.rawUniforms
+            let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
+            let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
+                textureAB.0 ?? textureAB.1
+            }
+            guard textures.count == shader.textures.count else {
+                failed(RenderError.someTextureIsNil)
+                return
+            }
             DispatchQueue.global(qos: .background).async {
-                let rawUniforms: [SMRaw] = shader.rawUniforms
-                let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
-                let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
-                    textureAB.0 ?? textureAB.1
-                }
-                guard textures.count == shader.textures.count else {
-                    failed(RenderError.someTextureIsNil)
-                    return
-                }
                 do {
                     let texture = try self.render(function: function,
                                                   size: size, rawUniforms: rawUniforms,
@@ -111,36 +111,36 @@ public struct SMRenderer {
     }
     
     public static func renderView(_ shader: SMShader, in view: SMUIView) throws {
-//        print("SwiftMetal - Render View")
+        print("SwiftMetal - Render View")
         let function: MTLFunction = try shader.make(with: SMRenderer.metalDevice)
         let preTextures: [MTLTexture?] = shader.textures.map({ !$0.isFuture ? $0.texture! : nil })
         var rendering: Bool = false
         shader.render = {
             guard let size = view.res else {
-//                print("SwiftMetal - Render View - No Res.")
+                print("SwiftMetal - Render View - No Res.")
                 return
             }
             guard let drawable: CAMetalDrawable = view.currentDrawable else {
-//                print("SwiftMetal - Render View - No Drawable Texture.")
+                print("SwiftMetal - Render View - No Drawable Texture.")
                 return
             }
             guard !rendering else {
-//                print("SwiftMetal - Render View - Render In Progress...")
+                print("SwiftMetal - Render View - Render In Progress...")
                 return
             }
             rendering = true
-//            print("SwiftMetal - Render View - Render...")
+            print("SwiftMetal - Render View - Render...")
+            let rawUniforms: [SMRaw] = shader.rawUniforms
+            let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
+            let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
+                textureAB.0 ?? textureAB.1
+            }
+            guard textures.count == shader.textures.count else {
+                print("SwiftMetal - Render View - Render Error:", RenderError.someTextureIsNil)
+                rendering = false
+                return
+            }
             DispatchQueue.global(qos: .background).async {
-                let rawUniforms: [SMRaw] = shader.rawUniforms
-                let postTextures: [MTLTexture?] = shader.textures.map({ $0.isFuture ? $0.texture : nil })
-                let textures: [MTLTexture] = zip(preTextures, postTextures).compactMap { textureAB -> MTLTexture? in
-                    textureAB.0 ?? textureAB.1
-                }
-                guard textures.count == shader.textures.count else {
-//                    print("SwiftMetal - Render View - Render Error:", RenderError.someTextureIsNil)
-                    rendering = false
-                    return
-                }
                 do {
                     _ = try self.render(function: function,
                                         size: size, rawUniforms: rawUniforms,
@@ -148,9 +148,9 @@ public struct SMRenderer {
                                         drawable: drawable,
                                         textures: textures,
                                         pixelFormat: view.colorPixelFormat)
-//                    print("SwiftMetal - Render View - Rendered!")
+                    print("SwiftMetal - Render View - Rendered!")
                 } catch {
-//                    print("SwiftMetal - Render View - Render Error:", error)
+                    print("SwiftMetal - Render View - Render Error:", error)
                 }
                 rendering = false
             }
