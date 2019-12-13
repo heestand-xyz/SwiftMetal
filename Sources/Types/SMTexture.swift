@@ -70,13 +70,13 @@ public class SMTexture: SMFloat4 {
     
     public init(texture: MTLTexture) {
         self._texture = texture
-        super.init(tupleCount: 4)
+        super.init()
         self.snippet = { "t\(self.index ?? -1)" }
     }
     
     public init(futureTexture: @escaping () -> (MTLTexture?)) {
         self.futureTexture = futureTexture
-        super.init({ SMTuple4<Float>(SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0)) }, tupleCount: 4)
+        super.init({ SMTuple4<Float>(SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0), SMFloat(-1.0)) })
         hasSink = true
         self.snippet = { "t\(self.index ?? -1)" }
     }
@@ -375,7 +375,7 @@ public class SMLiveTexture: SMTexture {
 extension SMFloat4 {
     
     convenience init(sample texture: SMTexture, at uv: SMFloat2) {
-        self.init(tupleCount: 4)
+        self.init()
         sampleTexture = texture
         sampleUV = uv
         self.snippet = {

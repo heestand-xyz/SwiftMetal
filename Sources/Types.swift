@@ -139,7 +139,7 @@ struct Line {
 
 public class SMUV: SMFloat2 {
     public init() {
-        super.init(tupleCount: 2)
+        super.init()
         snippet = { "uv" }
     }
     required public convenience init(floatLiteral value: Float) {

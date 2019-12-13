@@ -44,11 +44,11 @@ class Main: ObservableObject {
                 return a * (1.0 - f4) + b * f4
             }
             let cam = SMLiveTexture(self.camera.$pixelBuffer)
-                .sample(at: SMFloat2(uv.y, 1.0 - uv.x))
+                .sample(at: float2(uv.y, 1.0 - uv.x))
             let feed = SMTexture(texture: drawableTexture)
             let val: SMFloat = 0.9 + 0.2 * SMLiveFloat($value)
-            let disp = feed.sample(at: SMFloat2((uv.x - 0.5) * val + 0.5,
-                                                (uv.y - 0.5) * val + 0.5))
+            let disp = feed.sample(at: float2((uv.x - 0.5) * val + 0.5,
+                                              (uv.y - 0.5) * val + 0.5))
             return cross.call(cam, disp, float(0.9))
         })
         
