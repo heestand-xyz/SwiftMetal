@@ -54,6 +54,8 @@ struct SMFunction {
         declaration += ") {"
         lines.append(Line(declaration))
         var snippet: String = returnEntity.snippet()
+        let functionTree = SMBuilder.Branch(entity: returnEntity)
+//        let varaiables = SMBuilder.buildVaraibles(tree: functionTree, with: &<#T##String#>)
         for (i, argEntity) in argEntities.enumerated() {
 //            if let snippetIndexRange = snippet.range(of: argEntity.snippet()) {
 //                snippet = snippet.replacingCharacters(in: snippetIndexRange, with: "a\(i)")

@@ -15,10 +15,13 @@ struct SMBuilder {
         let entity: SMEntity
         var variable: SMVariablePack?
         var branches: [Branch] = []
-        init(entity: SMEntity) {
+        init(entity: SMEntity, limit: ((SMEntity) -> (Bool))? = nil) {
             self.entity = entity
-            branches = entity.children.map { child in
-                Branch(entity: child)
+            branches = entity.children.compactMap { child in
+                if limit == nil || !limit!(child) {
+                    return Branch(entity: child, limit: limit)
+                }
+                return nil
             }
         }
         func scanLeafs(_ index: Int) -> Branch? {
@@ -190,7 +193,6 @@ struct SMBuilder {
     }
     
     static func buildFunctions(tree: Branch, with baseSnippet: inout String) -> [SMFunction] {
-        print("FUNCs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         var functions: [SMFunction] = []
         let funcBranchs: [Branch] = tree.funcBranches()
         var uniqueFuncBranchs: [Branch] = []
@@ -207,8 +209,6 @@ struct SMBuilder {
             }
         }
         for uniqueFuncBranch in uniqueFuncBranchs {
-//            let leafs = uniqueFuncBranch.leafs()
-//            let argLeafs = leafs.filter({ $0.entity.isArg })
             let argLeafs: [Branch] = uniqueFuncBranch.argLeafs()
             let argEntities: [SMEntity] = argLeafs.map({ $0.entity })
             var uniqueArgEntities: [SMEntity] = []
@@ -218,7 +218,6 @@ struct SMBuilder {
                 }
             }
             let returnEntity = uniqueFuncBranch.entity
-            print("FUNC", "argEntities", argEntities.count, uniqueArgEntities.count)
             let function = SMFunction(argEntities: uniqueArgEntities, returnEntity: returnEntity, index: functions.count)
             functions.append(function)
         }
@@ -230,8 +229,6 @@ struct SMBuilder {
                     break
                 }
             }
-//            let leafs = funcBranch.leafs()
-//            let argLeafs = leafs.filter({ $0.entity.isArg })
             let argLeafs = funcBranch.argLeafs()
             let argEntities = argLeafs.map({ $0.entity })
             var uniqueArgEntities: [SMEntity] = []
@@ -243,7 +240,6 @@ struct SMBuilder {
             let returnEntity = funcBranch.entity
             baseSnippet = baseSnippet.replacingOccurrences(of: returnEntity.snippet(), with: function.snippet(with: uniqueArgEntities))
         }
-        print("FUNCs <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
         return functions
     }
     
