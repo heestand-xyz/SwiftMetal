@@ -12,7 +12,7 @@ import SwiftMetal
 struct ContentView: View {
 //    @EnvironmentObject var main: Main
     var body: some View {
-        PhotosView()
+        CirclesView()
     }
 }
 

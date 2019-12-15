@@ -21,7 +21,7 @@ struct SMBuilder {
                 Branch(entity: child)
             }
         }
-        func scanLeafs(_ index: Int = 0) -> Branch? {
+        func scanLeafs(_ index: Int) -> Branch? {
             guard hitCount < index + 1 else { return nil }
             for branch in branches {
                 if let hitEntity = branch.scanLeafs(index) {
@@ -160,12 +160,22 @@ struct SMBuilder {
         
     }
     
+    // MARK: - Build
+    
     static func build(for baseEntity: SMEntity) -> SMCode {
         
         let tree: Branch = Branch(entity: baseEntity)
-        
-        // Uniforms
+        var baseSnippet: String = baseEntity.snippet()
 
+        let uniforms: [SMUniformPack] = buildUniforms(tree: tree)
+        let functions: [SMFunction] = buildFunctions(tree: tree, with: &baseSnippet)
+        let variables: [SMVariablePack] = buildVaraibles(tree: tree, with: &baseSnippet)
+        
+        return SMCode(baseSnippet, uniforms: uniforms, variables: variables, functions: functions)
+        
+    }
+    
+    static func buildUniforms(tree: Branch) -> [SMUniformPack] {
         var uniforms: [SMUniformPack] = []
         while let leafEntity = tree.leafEntity(0) {
             if leafEntity.isFuture && !(leafEntity is SMTexture) {
@@ -176,11 +186,11 @@ struct SMBuilder {
                 }
             }
         }
-        
-        var lastSnippet: String = baseEntity.snippet()
-        
-        /// Functions
-
+        return uniforms
+    }
+    
+    static func buildFunctions(tree: Branch, with baseSnippet: inout String) -> [SMFunction] {
+        print("FUNCs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         var functions: [SMFunction] = []
         let funcBranchs: [Branch] = tree.funcBranches()
         var uniqueFuncBranchs: [Branch] = []
@@ -199,10 +209,17 @@ struct SMBuilder {
         for uniqueFuncBranch in uniqueFuncBranchs {
 //            let leafs = uniqueFuncBranch.leafs()
 //            let argLeafs = leafs.filter({ $0.entity.isArg })
-            let argLeafs = uniqueFuncBranch.argLeafs()
-            let argEntities = argLeafs.map({ $0.entity })
+            let argLeafs: [Branch] = uniqueFuncBranch.argLeafs()
+            let argEntities: [SMEntity] = argLeafs.map({ $0.entity })
+            var uniqueArgEntities: [SMEntity] = []
+            for argEntity in argEntities {
+                if !uniqueArgEntities.contains(argEntity) {
+                    uniqueArgEntities.append(argEntity)
+                }
+            }
             let returnEntity = uniqueFuncBranch.entity
-            let function = SMFunction(argEntities: argEntities, returnEntity: returnEntity, index: functions.count)
+            print("FUNC", "argEntities", argEntities.count, uniqueArgEntities.count)
+            let function = SMFunction(argEntities: uniqueArgEntities, returnEntity: returnEntity, index: functions.count)
             functions.append(function)
         }
         for funcBranch in funcBranchs {
@@ -217,12 +234,20 @@ struct SMBuilder {
 //            let argLeafs = leafs.filter({ $0.entity.isArg })
             let argLeafs = funcBranch.argLeafs()
             let argEntities = argLeafs.map({ $0.entity })
+            var uniqueArgEntities: [SMEntity] = []
+            for argEntity in argEntities {
+                if !uniqueArgEntities.contains(argEntity) {
+                    uniqueArgEntities.append(argEntity)
+                }
+            }
             let returnEntity = funcBranch.entity
-            lastSnippet = lastSnippet.replacingOccurrences(of: returnEntity.snippet(), with: function.snippet(with: argEntities))
+            baseSnippet = baseSnippet.replacingOccurrences(of: returnEntity.snippet(), with: function.snippet(with: uniqueArgEntities))
         }
-        
-        // Variables
-        
+        print("FUNCs <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        return functions
+    }
+    
+    static func buildVaraibles(tree: Branch, with baseSnippet: inout String) -> [SMVariablePack] {
         var variableBranchCopies: [Branch] = []
         var variables: [SMVariablePack] = []
         while let leaf = tree.scanLeafs(1) {
@@ -241,7 +266,7 @@ struct SMBuilder {
                     }())
                     leaf.variable = variable
                     variables.append(variable)
-                    lastSnippet = lastSnippet.replacingOccurrences(of: leaf.entity.snippet(), with: variable.name)
+                    baseSnippet = baseSnippet.replacingOccurrences(of: leaf.entity.snippet(), with: variable.name)
                 }
             } else {
                 variableBranchCopies.append(leaf)
@@ -250,7 +275,7 @@ struct SMBuilder {
         while let leaf = tree.scanLeafs(2) {
             if let variable = leaf.variable {
                 guard !variable.snippet.starts(with: "v") else { continue }
-                lastSnippet = lastSnippet.replacingOccurrences(of: variable.snippet, with: variable.name)
+                baseSnippet = baseSnippet.replacingOccurrences(of: variable.snippet, with: variable.name)
             }
         }
         /// Clean
@@ -267,13 +292,11 @@ struct SMBuilder {
                     break
                 }
             }
-            if !used && !lastSnippet.contains(variable.name) {
+            if !used && !baseSnippet.contains(variable.name) {
                 variables.remove(at: ir)
             }
         }
-        
-        return SMCode(lastSnippet, uniforms: uniforms, variables: variables, functions: functions)
-        
+        return variables
     }
     
 }

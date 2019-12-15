@@ -55,9 +55,10 @@ struct SMFunction {
         lines.append(Line(declaration))
         var snippet: String = returnEntity.snippet()
         for (i, argEntity) in argEntities.enumerated() {
-            if let snippetIndexRange = snippet.range(of: argEntity.snippet()) {
-                snippet = snippet.replacingCharacters(in: snippetIndexRange, with: "a\(i)")
-            }
+//            if let snippetIndexRange = snippet.range(of: argEntity.snippet()) {
+//                snippet = snippet.replacingCharacters(in: snippetIndexRange, with: "a\(i)")
+//            }
+            snippet = snippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
         }
         lines.append(Line(in: 1, "return \(snippet);"))
         lines.append(Line("}"))
