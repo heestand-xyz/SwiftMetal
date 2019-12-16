@@ -182,9 +182,11 @@ struct SMBuilder {
     static func build(for baseEntity: SMEntity) -> SMCode {
         
         let tree: Branch = Branch(entity: baseEntity)
-        var baseSnippet: String = baseEntity.snippet()
-
+        
         let uniforms: [SMUniformPack] = buildUniforms(tree: tree)
+        
+        var baseSnippet: String = baseEntity.snippet()
+        
         let functions: [SMFunction] = buildFunctions(tree: tree, with: &baseSnippet)
         let variables: [SMVariablePack] = buildVaraibles(tree: tree, with: &baseSnippet)
         let regexVariables: [SMVariablePack] = buildRegexVaraibles(tree: tree, from: variables, with: &baseSnippet)

@@ -72,7 +72,7 @@ public protocol SMRawType: SMRaw {
 public class SMTuple<RT: SMRawType>: SMRaw {
     let values: [SMValue<RT>]
     var count: Int { values.count }
-    init(_ values: [SMValue<RT>]) {
+    public init(_ values: [SMValue<RT>]) {
         self.values = values
     }
 }
