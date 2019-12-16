@@ -83,15 +83,15 @@ public class SMVector<RT: SMRawType, VEC: SMVec>: SMValue<SMTuple<RT>> {
     
     
     public static func + (lhs: SMVector<RT, VEC>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
-        SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) - \(rhs.snippet()))" })
+        SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: rhs), snippet: { "(\(lhs.snippet()) + \(rhs.snippet()))" })
     }
     public static func + (lhs: SMVector<RT, VEC>, rhs: SMValue<RT>) -> SMVector<RT, VEC> {
         let vector = SMVector<RT, VEC>(rhs)
-        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) - \(vector.snippet()))" })
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: lhs, rhs: vector), snippet: { "(\(lhs.snippet()) + \(vector.snippet()))" })
     }
     public static func + (lhs: SMValue<RT>, rhs: SMVector<RT, VEC>) -> SMVector<RT, VEC> {
         let vector = SMVector<RT, VEC>(lhs)
-        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) - \(rhs.snippet()))" })
+        return SMVector<RT, VEC>(operation: SMOperation(lhs: vector, rhs: rhs), snippet: { "(\(vector.snippet()) + \(rhs.snippet()))" })
     }
 //    public static func + (lhs: SMVector<RT, VEC>, rhs: RT) -> SMVector<RT, VEC> {
 //        let vector = SMVector<RT, VEC>(SMValue<RT>(rhs))

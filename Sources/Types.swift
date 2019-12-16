@@ -27,16 +27,15 @@ class SMVariablePack {
     let entity: SMEntity
     let index: Int
     let snippet: String
+    let shortCode: String
     var name: String {
-        return "v\(index)"
+        return "\(shortCode)\(index)"
     }
     var code: String {
         code(with: snippet)
     }
-//    var rawCode: String {
-//        code(with: entity.snippet())
-//    }
-    init(for entity: SMEntity, at index: Int, with snippet: String) {
+    init(shortCode: String = "v", for entity: SMEntity, at index: Int, with snippet: String) {
+        self.shortCode = shortCode
         self.entity = entity
         self.index = index
         self.snippet = snippet

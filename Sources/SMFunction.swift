@@ -60,16 +60,7 @@ struct SMFunction {
         let functionTree = SMBuilder.Branch(entity: returnEntity, limit: { $0.isArg })
         
         let variables = SMBuilder.buildVaraibles(tree: functionTree, with: &snippet)
-        variables.forEach { variable in
-            
-        }
-        
-        for (i, argEntity) in argEntities.enumerated() {
-//            if let snippetIndexRange = snippet.range(of: argEntity.snippet()) {
-//                snippet = snippet.replacingCharacters(in: snippetIndexRange, with: "a\(i)")
-//            }
-            snippet = snippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
-        }
+        let regexVariables: [SMVariablePack] = SMBuilder.buildRegexVaraibles(tree: functionTree, from: variables, with: &snippet)
         
         variables.forEach { variable in
             var variableSnippet = variable.code
@@ -77,6 +68,22 @@ struct SMFunction {
                 variableSnippet = variableSnippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
             }
             lines.append(Line(in: 1, variableSnippet))
+        }
+        
+        regexVariables.forEach { variable in
+            var variableSnippet = variable.code
+            for (i, argEntity) in argEntities.enumerated() {
+                variableSnippet = variableSnippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
+            }
+            lines.append(Line(in: 1, variableSnippet))
+        }
+       
+        for (i, argEntity) in argEntities.enumerated() {
+            // FIXME: - Only replace first instance.
+//            if let snippetIndexRange = snippet.range(of: argEntity.snippet()) {
+//                snippet = snippet.replacingCharacters(in: snippetIndexRange, with: "a\(i)")
+//            }
+            snippet = snippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
         }
         
         lines.append(Line(in: 1, "return \(snippet);"))

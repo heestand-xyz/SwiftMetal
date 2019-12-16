@@ -13,27 +13,7 @@ struct SMCode {
     var snippet: String
     var uniforms: [SMUniformPack]
     var variables: [SMVariablePack]
+    var regexVariables: [SMVariablePack]
     var functions: [SMFunction]
-    
-    init(_ snippet: String, uniforms: [SMUniformPack], variables: [SMVariablePack], functions: [SMFunction]) {
-        self.snippet = snippet
-        self.uniforms = uniforms
-        self.variables = variables
-        self.functions = functions
-    }
-    
-//    init(_ snippet: String) {
-//        self.snippet = snippet
-//        uniforms = []
-//        variables = []
-//        functions = []
-//    }
-    
-//    init() {
-//        snippet = ""
-//        uniforms = []
-//        variables = []
-//        functions = []
-//    }
     
 }

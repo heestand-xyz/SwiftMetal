@@ -118,6 +118,13 @@ public class SMShader: Identifiable, Equatable {
             lines.append(Line(in: 1))
         }
         
+        if !code.regexVariables.isEmpty {
+            code.regexVariables.forEach { variable in
+                lines.append(Line(in: 1, variable.code))
+            }
+            lines.append(Line(in: 1))
+        }
+        
         lines.append(Line(in: 1, "\(baseEntity.type) out = \(code.snippet);"))
         lines.append(Line(in: 1))
         

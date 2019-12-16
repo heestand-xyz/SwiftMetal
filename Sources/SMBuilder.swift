@@ -187,8 +187,9 @@ struct SMBuilder {
         let uniforms: [SMUniformPack] = buildUniforms(tree: tree)
         let functions: [SMFunction] = buildFunctions(tree: tree, with: &baseSnippet)
         let variables: [SMVariablePack] = buildVaraibles(tree: tree, with: &baseSnippet)
+        let regexVariables: [SMVariablePack] = buildRegexVaraibles(tree: tree, from: variables, with: &baseSnippet)
         
-        return SMCode(baseSnippet, uniforms: uniforms, variables: variables, functions: functions)
+        return SMCode(snippet: baseSnippet, uniforms: uniforms, variables: variables, regexVariables: regexVariables, functions: functions)
         
     }
     
@@ -304,6 +305,66 @@ struct SMBuilder {
             }
             if !used && !baseSnippet.contains(variable.name) {
                 variables.remove(at: ir)
+            }
+        }
+        return variables
+    }
+    
+    static func buildRegexVaraibles(tree: Branch, from previusVariables: [SMVariablePack], with baseSnippet: inout String) -> [SMVariablePack] {
+        var variables: [SMVariablePack] = []
+        while true {
+            let range = NSRange(location: 0, length: baseSnippet.utf16.count)
+            let regex = try! NSRegularExpression(pattern: "(\\((?:\\1??[^\\(]*?\\)))+")
+            let results: [NSTextCheckingResult] = regex.matches(in: baseSnippet, options: [], range: range)
+            let rawResults: [String] = results.map { result -> String in
+                baseSnippet[result.range.lowerBound..<result.range.upperBound]
+            }
+            var duplicateResults: [String] = []
+            var checkedResults: [String] = []
+            for rawResult in rawResults {
+                guard !rawResult.contains(",") else { continue }
+                if checkedResults.contains(rawResult) {
+                    if !duplicateResults.contains(rawResult) {
+                        var exists = false
+                        for pastVariable in variables {
+                            if pastVariable.code.contains(rawResult) {
+                                exists = true
+                                break
+                            }
+                        }
+                        if !exists {
+                            duplicateResults.append(rawResult)
+                        }
+                    }
+                    continue
+                }
+                checkedResults.append(rawResult)
+            }
+            guard !duplicateResults.isEmpty else { break }
+            for duplicateResult in duplicateResults {
+                // FIXME: - Find the real entity.
+                var firstEntity: SMEntity!
+                let vn0 = duplicateResult.dropFirst()
+                let vn1 = vn0.split(separator: " ").first!
+                let vn2 = vn1.split(separator: ",").first!
+                let variableName: String = String(vn2)
+                for previusVariable in previusVariables {
+                    if variableName == previusVariable.name {
+                        firstEntity = previusVariable.entity
+                        break
+                    }
+                }
+                if firstEntity == nil {
+                    for pastVariable in variables {
+                        if variableName == pastVariable.name {
+                            firstEntity = pastVariable.entity
+                            break
+                        }
+                    }
+                }
+                let variable = SMVariablePack(shortCode: "r", for: firstEntity, at: variables.count, with: duplicateResult)
+                variables.append(variable)
+                baseSnippet = baseSnippet.replacingOccurrences(of: duplicateResult, with: variable.name)
             }
         }
         return variables
