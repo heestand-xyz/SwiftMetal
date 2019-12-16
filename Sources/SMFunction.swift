@@ -42,7 +42,9 @@ struct SMFunction {
         return "f\(index)"
     }
     var code: String {
+        
         var lines: [Line] = []
+        
         var declaration = ""
         declaration += "\(returnEntity.type) \(name)("
         for (i, argEntity) in argEntities.enumerated() {
@@ -53,17 +55,33 @@ struct SMFunction {
         }
         declaration += ") {"
         lines.append(Line(declaration))
+        
         var snippet: String = returnEntity.snippet()
-        let functionTree = SMBuilder.Branch(entity: returnEntity)
-//        let varaiables = SMBuilder.buildVaraibles(tree: functionTree, with: &<#T##String#>)
+        let functionTree = SMBuilder.Branch(entity: returnEntity, limit: { $0.isArg })
+        
+        let variables = SMBuilder.buildVaraibles(tree: functionTree, with: &snippet)
+        variables.forEach { variable in
+            
+        }
+        
         for (i, argEntity) in argEntities.enumerated() {
 //            if let snippetIndexRange = snippet.range(of: argEntity.snippet()) {
 //                snippet = snippet.replacingCharacters(in: snippetIndexRange, with: "a\(i)")
 //            }
             snippet = snippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
         }
+        
+        variables.forEach { variable in
+            var variableSnippet = variable.code
+            for (i, argEntity) in argEntities.enumerated() {
+                variableSnippet = variableSnippet.replacingOccurrences(of: argEntity.snippet(), with: "a\(i)")
+            }
+            lines.append(Line(in: 1, variableSnippet))
+        }
+        
         lines.append(Line(in: 1, "return \(snippet);"))
         lines.append(Line("}"))
+        
         return Line.merge(lines)
     }
     func snippet(with args: [SMEntity]) -> String {

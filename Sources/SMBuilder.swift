@@ -122,6 +122,20 @@ struct SMBuilder {
 //            }).count == lhsLeafs.count else { return false }
             return true
         }
+        func log() -> String {
+            return log(indent: 0)
+        }
+        func log(indent: Int) -> String {
+            var log = "\n"
+            for _ in 0..<indent {
+                log += "    "
+            }
+            log += "\(variable?.name ?? "<\(entity.isArg ? "a" : "-")>")"
+            for branch in branches {
+                log += branch.log(indent: indent + 1)
+            }
+            return log
+        }
         static func == (lhs: Branch, rhs: Branch) -> Bool {
             lhs.entity == rhs.entity
         }
