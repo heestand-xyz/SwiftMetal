@@ -42,8 +42,8 @@ struct CirclesView: View {
                         let x: SMFloat = (v0 + v1 - v2) / (2 * (bSlope - aSlope))
                         
                         let v3: SMFloat = x - (a.x + b.x) / 2
-                        let v4: SMFloat = aSlope + (a.y + b.y) / 2
-                        let y: SMFloat = -1 * v3 / v4
+                        let v4: SMFloat = (a.y + b.y) / 2
+                        let y: SMFloat = -1 * v3 / aSlope + v4
                         
                         return float2(x, y)
                     }
